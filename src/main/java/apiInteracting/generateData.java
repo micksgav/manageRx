@@ -16,13 +16,13 @@ public class generateData {
 
     public static void main(String[] args) throws IOException {
         getDrugs();
-        filterDrugs();
-        getATCs();
 
 
     }
 
-    public static void getDrugs() {
+    public static void getDrugs() throws IOException {
+        //get drugs JSON
+        String result = "";
         try {
             URL url = new URL("https://health-products.canada.ca/api/drug/drugproduct/?lang=en&type=json");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -31,46 +31,37 @@ public class generateData {
 
             InputStream is = conn.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\rawDrugs.json"));
             String line;
 
             while ((line = br.readLine()) != null) {
-                bw.write(line);
+                result = result + line;
             }
 
-            bw.close();
             br.close();
         } catch (Exception e) {
             System.out.println("There was an error in getting the data from Health Canada. Error Code: " + e.getMessage());
         }
-    }
 
-    public static void filterDrugs() throws IOException {
-        List<JSONObject> filteredRecords = new ArrayList<>();
-
+        BufferedWriter writer = new BufferedWriter(new FileWriter("data\\drugs\\drugData.txt"));
         try {
-            String content = new String(Files.readAllBytes(Paths.get("data\\drugs\\rawDrugs.json")));
-            JSONArray jsonArray = new JSONArray(content);
+            JSONArray jsonArray = new JSONArray(result);
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject record = jsonArray.getJSONObject(i);
                 String className = record.optString("class_name");
+                String drugCode = record.optString("drug_code");
+                String DIN = record.optString("drug_identification_number");
+                String name = record.optString("brand_name");
+                String company = record.optString("company_name");
                 if ("Human".equals(className)) {
-                    filteredRecords.add(record);
+                    String RXCUI = CODEtoRXCUI(drugCode);
+                    writer.write(name + "," + DIN + "," + RXCUI + "," + drugCode + "," + company + "\n");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\allDrugs.json"));
-        filteredRecords.forEach(record -> {
-            try {
-                bw.write(record.toString());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    writer.close();
     }
 
     public static void getATCs() {
@@ -98,8 +89,54 @@ public class generateData {
     }
     }
 
-    public static void DINtoATC(String DIN) {
+    public static String CODEtoRXCUI(String drugCode) {
+        try {
+            URL url = new URL("https://health-products.canada.ca/api/drug/therapeuticclass/?lang=en&type=json&id=" + drugCode);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
 
+            InputStream is = conn.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String result = "";
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                result = result+line;
+            }
+
+
+            br.close();
+
+            JSONObject record = new JSONObject(result);
+            String atc = record.optString("tc_atc_number");
+            System.out.println(atc);
+            Thread.sleep(50);
+            URL url2 = new URL("https://rxnav.nlm.nih.gov/REST/rxcui.json?idtype=ATC&id=" + atc);
+            HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
+            conn2.setRequestMethod("GET");
+            conn2.setRequestProperty("Accept", "application/json");
+
+            InputStream is2 = conn2.getInputStream();
+            BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
+            String result2 = "";
+            String line2;
+
+            while ((line2 = br2.readLine()) != null) {
+                result2 = result2+line2;
+            }
+
+            br2.close();
+
+            JSONObject record2 = new JSONObject(result);
+            String RXCUI = record.optString("rxnormId");
+            System.out.print(RXCUI);
+
+        } catch (Exception e) {
+            System.out.println("There was an error in getting the ATCs from Health Canada. Error Code: " + e.getMessage());
+        }
+
+        return "A";
     }
 
     private static void scraper() throws InterruptedException, IOException {
