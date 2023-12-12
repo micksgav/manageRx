@@ -1,3 +1,5 @@
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -529,7 +531,7 @@ public class ListGen {
 	
 	private static void listCleanup() throws IOException {
 		// TODO Auto-generated method stub
-				BufferedWriter writer = new BufferedWriter(new FileWriter("clean-drugIDs.txt"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter("drugRCXUIs.txt"));
 				BufferedReader reader = new BufferedReader(new FileReader("drugIDs.txt"));
 				String imported = " ";
 				
@@ -547,7 +549,7 @@ public class ListGen {
 	
 	private static void scraper() throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
-				BufferedReader reader = new BufferedReader(new FileReader("clean-drugIDs.txt"));
+				BufferedReader reader = new BufferedReader(new FileReader("drugRCXUIs.txt"));
 				BufferedReader br;
 				BufferedWriter writer;
 

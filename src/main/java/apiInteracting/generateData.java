@@ -2,6 +2,7 @@ package apiInteracting;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import org.json.*;
 import java.io.FileReader;
@@ -13,12 +14,12 @@ import java.util.List;
 
 public class generateData {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         getDrugs();
-        String filePath = "data\\drugs\\allDrugs.json";
-        List<JSONObject> records = importAndFilterJson(filePath);
-        // Print the filtered records or process them as needed
-        records.forEach(record -> System.out.println(record.toString(4)));
+        filterDrugs();
+        getATCs();
+
+
     }
 
     public static void getDrugs() {
@@ -30,7 +31,7 @@ public class generateData {
 
             InputStream is = conn.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\allDrugs.json"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\rawDrugs.json"));
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -44,11 +45,11 @@ public class generateData {
         }
     }
 
-    public static List<JSONObject> importAndFilterJson(String filePath) {
+    public static void filterDrugs() throws IOException {
         List<JSONObject> filteredRecords = new ArrayList<>();
 
         try {
-            String content = new String(Files.readAllBytes(Paths.get(filePath)));
+            String content = new String(Files.readAllBytes(Paths.get("data\\drugs\\rawDrugs.json")));
             JSONArray jsonArray = new JSONArray(content);
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -62,7 +63,43 @@ public class generateData {
             e.printStackTrace();
         }
 
-        return filteredRecords;
+        BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\allDrugs.json"));
+        filteredRecords.forEach(record -> {
+            try {
+                bw.write(record.toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public static void getATCs() {
+        try {
+        URL url = new URL("https://health-products.canada.ca/api/drug/therapeuticclass/?lang=en&type=json");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+
+        InputStream is = conn.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("data\\drugs\\ATCs.json"));
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            bw.write(line);
+        }
+
+        bw.close();
+        br.close();
+
+
+    } catch (Exception e) {
+        System.out.println("There was an error in getting the ATCs from Health Canada. Error Code: " + e.getMessage());
+    }
+    }
+
+    public static void DINtoATC(String DIN) {
+
     }
 
     private static void scraper() throws InterruptedException, IOException {
@@ -107,4 +144,6 @@ public class generateData {
         }
         reader.close();
     }
+
+
 }
