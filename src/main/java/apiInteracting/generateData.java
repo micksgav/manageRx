@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class generateData {
 
-    public static ArrayList<String> prescriptionDrugs = new ArrayList<String>();
+    public static ArrayList<String> prescriptionDrugs = new ArrayList<>();
 
 
     static int n = 0;
     static String[][] drugs;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
 
         generatePrescriptionList();
         getDrugs();
@@ -25,7 +25,7 @@ public class generateData {
     public static void getDrugs() throws IOException {
 
         //get drugs JSON
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
             Thread.sleep(50);
             URL url = new URL("https://health-products.canada.ca/api/drug/drugproduct/?lang=en&type=json");
@@ -38,7 +38,7 @@ public class generateData {
             String line;
 
             while ((line = br.readLine()) != null) {
-                result = result + line;
+                result.append(line);
             }
 
             br.close();
@@ -49,9 +49,8 @@ public class generateData {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter("data\\drugs\\drugData.txt"));
         try {
-            JSONArray jsonArray = new JSONArray(result);
+            JSONArray jsonArray = new JSONArray(result.toString());
 
-            int j = 0;
             drugs = new String[jsonArray.length()][5];
             for (int i = 0; i < jsonArray.length(); i++) {
                 System.out.println(i + " / " + jsonArray.length());
@@ -60,10 +59,8 @@ public class generateData {
                 String drugCode = record.optString("drug_code");
                 String DIN = record.optString("drug_identification_number");
                 String name = record.optString("brand_name");
-                String company = record.optString("company_name");
                 if ("Human".equals(className)) {
                     if (check(drugCode)) {
-                        j++;
                         String RXCUI = CODEtoRXCUI(drugCode);
                         writer.write(DIN + " " + name + "\n" + RXCUI + " " + drugCode + "\n");
                     }
@@ -81,26 +78,7 @@ public class generateData {
         String RXCUI = "";
         BufferedWriter errors = new BufferedWriter(new FileWriter("data\\drugs\\errors.txt"));
         try {
-            URL url = new URL("https://health-products.canada.ca/api/drug/therapeuticclass/?lang=en&type=json&id=" + drugCode);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            InputStream is = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String result = "";
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                result = result + line;
-            }
-
-
-            br.close();
-            result = result.substring(1, result.length() - 1);
-
-            JSONObject record = new JSONObject(result);
-            String atc = record.optString("tc_atc_number");
+            String atc = getAtc(drugCode);
 
             Thread.sleep(50);
             URL url2 = new URL("https://rxnav.nlm.nih.gov/REST/rxcui.json?idtype=ATC&id=" + atc);
@@ -110,11 +88,11 @@ public class generateData {
 
             InputStream is2 = conn2.getInputStream();
             BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
-            String result2 = "";
+            StringBuilder result2 = new StringBuilder();
             String line2;
 
             while ((line2 = br2.readLine()) != null) {
-                result2 = result2 + line2;
+                result2.append(line2);
             }
 
             br2.close();
@@ -143,21 +121,44 @@ public class generateData {
 
     }
 
+    private static String getAtc(String drugCode) throws IOException {
+        URL url = new URL("https://health-products.canada.ca/api/drug/therapeuticclass/?lang=en&type=json&id=" + drugCode);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+
+        InputStream is = conn.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder result = new StringBuilder();
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            result.append(line);
+        }
+
+
+        br.close();
+        result = new StringBuilder(result.substring(1, result.length() - 1));
+
+        JSONObject record = new JSONObject(result.toString());
+        return record.optString("tc_atc_number");
+    }
+
     private static void scraper() throws InterruptedException, IOException {
         // TODO Auto-generated method stub
         BufferedWriter writer;
-        String drugID = "";
-        String DIN = "";
+        String drugID;
+        String DIN;
         URL url;
         BufferedReader br;
         String result;
 
-        for (int i = 0; i < drugs.length; i++) {
+        for (String[] drug : drugs) {
             Thread.sleep(50);
-            drugID = drugs[i][2];
-            DIN = drugs[i][0];
+            drugID = drug[2];
+            DIN = drug[0];
 
-            if (drugs[i][2].compareTo("") != 0) {
+            if (drug[2].compareTo("") != 0) {
 
                 writer = new BufferedWriter(new FileWriter("data\\drugs\\drugInteractions\\" + DIN + ".xml"));
 
@@ -172,14 +173,14 @@ public class generateData {
                     writer.write(result + "\n");
                 }
                 writer.close();
-                System.out.println("Data for " + drugs[i][1] + " has been scraped.");
+                System.out.println("Data for " + drug[1] + " has been scraped.");
             }
         }
 
     }
 
 
-    public static boolean check(String drugCode) throws IOException {
+    public static boolean check(String drugCode) {
         for (String prescriptionDrug : prescriptionDrugs) {
             if (drugCode.equals(prescriptionDrug)) {
                 return true;
@@ -189,7 +190,7 @@ public class generateData {
         return false;
     }
     public static void generatePrescriptionList() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         try {
             Thread.sleep(50);
             URL url = new URL("https://health-products.canada.ca/api/drug/schedule/?lang=en&type=json");
@@ -202,7 +203,7 @@ public class generateData {
             String line;
 
             while ((line = br.readLine()) != null) {
-                result = result + line;
+                result.append(line);
             }
 
             br.close();
@@ -212,7 +213,7 @@ public class generateData {
         }
 
         try {
-            JSONArray jsonArray = new JSONArray(result);
+            JSONArray jsonArray = new JSONArray(result.toString());
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 System.out.println(i + " / " + jsonArray.length());
