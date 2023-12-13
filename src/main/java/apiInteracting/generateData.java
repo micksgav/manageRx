@@ -65,8 +65,7 @@ public class generateData {
                     if (check(drugCode)) {
                         j++;
                         String RXCUI = CODEtoRXCUI(drugCode);
-                        writer.write(DIN + "," + name + "," + RXCUI + "," + drugCode + "," + company + "\n");
-                        drugs[j] = new String[]{DIN, name, RXCUI, drugCode, company};
+                        writer.write(DIN + " " + name + "\n" + RXCUI + " " + drugCode + "\n");
                     }
 
                 }
