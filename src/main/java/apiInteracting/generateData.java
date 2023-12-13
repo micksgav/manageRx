@@ -53,7 +53,7 @@ public class generateData {
 
             int j = 0;
             drugs = new String[jsonArray.length()][5];
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 System.out.println(i + " / " + jsonArray.length());
                 JSONObject record = jsonArray.getJSONObject(i);
                 String className = record.optString("class_name");
