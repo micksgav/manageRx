@@ -3,27 +3,19 @@ package apiInteracting;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import org.json.*;
-
 import java.util.ArrayList;
 
 public class generateData {
-
-    public static ArrayList<String> prescriptionDrugs = new ArrayList<>();
-
-
+    static ArrayList<String> prescriptionDrugs = new ArrayList<>();
     static int n = 0;
-    static String[][] drugs;
 
     public static void main(String[] args) throws IOException {
-
         generatePrescriptionList();
         getDrugs();
     }
 
     public static void getDrugs() throws IOException {
-
         //get drugs JSON
         StringBuilder result = new StringBuilder();
         try {
@@ -44,14 +36,12 @@ public class generateData {
             br.close();
         } catch (Exception e) {
             System.out.println("There was an error in getting the data from Health Canada. Error Code: " + e.getMessage());
-
         }
 
         BufferedWriter writer = new BufferedWriter(new FileWriter("data\\drugs\\drugData.txt"));
         try {
             JSONArray jsonArray = new JSONArray(result.toString());
 
-            drugs = new String[jsonArray.length()][5];
             for (int i = 0; i < jsonArray.length(); i++) {
                 System.out.println(i + " / " + jsonArray.length());
                 JSONObject record = jsonArray.getJSONObject(i);
@@ -118,7 +108,6 @@ public class generateData {
         }
         errors.close();
         return RXCUI;
-
     }
 
     private static String getAtc(String drugCode) throws IOException {
@@ -143,42 +132,6 @@ public class generateData {
         JSONObject record = new JSONObject(result.toString());
         return record.optString("tc_atc_number");
     }
-
-    private static void scraper() throws InterruptedException, IOException {
-        // TODO Auto-generated method stub
-        BufferedWriter writer;
-        String drugID;
-        String DIN;
-        URL url;
-        BufferedReader br;
-        String result;
-
-        for (String[] drug : drugs) {
-            Thread.sleep(50);
-            drugID = drug[2];
-            DIN = drug[0];
-
-            if (drug[2].compareTo("") != 0) {
-
-                writer = new BufferedWriter(new FileWriter("data\\drugs\\drugInteractions\\" + DIN + ".xml"));
-
-                url = new URL("https://rxnav.nlm.nih.gov/REST/interaction/interaction?rxcui=" + drugID);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setRequestProperty("Accept", "application/xml");
-
-                br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-                while ((result = br.readLine()) != null) {
-                    writer.write(result + "\n");
-                }
-                writer.close();
-                System.out.println("Data for " + drug[1] + " has been scraped.");
-            }
-        }
-
-    }
-
 
     public static boolean check(String drugCode) {
         for (String prescriptionDrug : prescriptionDrugs) {
