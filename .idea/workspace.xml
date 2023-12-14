@@ -7,10 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="476dbee4-1c6d-4528-b6d7-ceb2854d6246" name="Changes" comment="Drug Interactions Update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/apiInteracting/generateData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/apiInteracting/generateData.java" afterDir="false" />
-    </list>
+    <list default="true" id="476dbee4-1c6d-4528-b6d7-ceb2854d6246" name="Changes" comment="Created Structure" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -203,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702495031816</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Created Structure">
+      <created>1702525397720</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702525397720</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -230,8 +234,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Created Structure" />
     <MESSAGE value="Drug Interactions Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Drug Interactions Update" />
+    <MESSAGE value="Created Structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created Structure" />
   </component>
 </project>
