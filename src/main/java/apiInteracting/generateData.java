@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class generateData {
     static ArrayList<String> prescriptionDrugs = new ArrayList<>();
     static int n = 0;
-
     public static void main(String[] args) throws IOException {
         generatePrescriptionList();
         getDrugs();
@@ -64,11 +63,11 @@ public class generateData {
     }
 
     public static String CODEtoRXCUI(String drugCode) throws IOException {
-
+        String atc = "";
         String RXCUI = "";
-        BufferedWriter errors = new BufferedWriter(new FileWriter("data\\drugs\\errors.txt"));
+        BufferedWriter errors = new BufferedWriter(new FileWriter("data\\drugs\\errors.txt", true));
         try {
-            String atc = getAtc(drugCode);
+            atc = getAtc(drugCode);
 
             Thread.sleep(50);
             URL url2 = new URL("https://rxnav.nlm.nih.gov/REST/rxcui.json?idtype=ATC&id=" + atc);
@@ -99,12 +98,8 @@ public class generateData {
             System.out.println(RXCUI + " Added");
         } catch (Exception e) {
             System.out.println("There was an error. Error Code: " + e.getMessage());
-            errors.write("DC" + drugCode + " " + e.getMessage() + "\n");
-            n++;
-            if (n % 10 == 0) {
-                errors.close();
-                errors = new BufferedWriter(new FileWriter("data\\drugs\\errors.txt"));
-            }
+            errors.write("DC " + drugCode + " " + atc + "\n");
+
         }
         errors.close();
         return RXCUI;
