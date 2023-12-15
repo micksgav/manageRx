@@ -1,5 +1,8 @@
 package PatientManagement;
-import java.util.LinkedList;
+
+import inventory.*;
+import apiInteracting.*;
+import java.util.*;
 
 public class Patient {
 	private String name;
@@ -10,7 +13,7 @@ public class Patient {
 	PrescriptionList pastPrescriptions;
 	private int phoneNumber;
 	private String email;
-	private LinkedList<Integer> creditNum;
+	private LinkedList<Long> creditNum;
 	private LinkedList<Integer> cardExpDate;
 	private LinkedList<String> allergiesAndDietary;
 	private LinkedList<String> medicalConditions;
@@ -18,26 +21,49 @@ public class Patient {
 	private FamilyDoctor familyDoctor;
 	private LinkedList<Insurance> insuranceInformation;
 
-	public Patient(String name, int age, String address, String dateOfBirth,
-			PrescriptionList activePrescriptions, PrescriptionList pastPrescriptions, int phoneNumber,
-			String email, int creditNum, int cardExp, LinkedList<String> allergiesAndDietary,
-			LinkedList<String> medicalConditions, LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor,
-			LinkedList<Insurance> insuranceInformation) {
-		 this.name = name;
-	        this.age = age;
-	        this.address = address;
-	        this.dateOfBirth = dateOfBirth;
-	        this.activePrescriptions = activePrescriptions;
-	        this.pastPrescriptions = pastPrescriptions;
-	        this.phoneNumber = phoneNumber;
-	        this.email = email;
-	        this.creditNum.addFirst(creditNum);
-	        cardExpDate.addFirst(cardExp);
-	        this.allergiesAndDietary = allergiesAndDietary;
-	        this.medicalConditions = medicalConditions;
-	        this.lifestyleHabits = lifestyleHabits;
-	        this.familyDoctor = familyDoctor;
-	        this.insuranceInformation = insuranceInformation;
+	public Patient(String name, int age, String address, String dateOfBirth, PrescriptionList activePrescriptions,
+			PrescriptionList pastPrescriptions, int phoneNumber, String email, long creditNum, int cardExp,
+			LinkedList<String> allergiesAndDietary, LinkedList<String> medicalConditions,
+			LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor, LinkedList<Insurance> insuranceInformation) {
+		this.creditNum = new LinkedList<Long>();
+		this.cardExpDate = new LinkedList<Integer>();
+		this.allergiesAndDietary = new LinkedList<String>();
+		this.medicalConditions = new LinkedList<String>();
+		this.lifestyleHabits = new LinkedList<String>();
+		this.insuranceInformation = new LinkedList<Insurance>();
+		
+		
+		this.name = name;
+		this.age = age;
+		this.address = address;
+		this.dateOfBirth = dateOfBirth;
+		this.activePrescriptions = activePrescriptions;
+		this.pastPrescriptions = pastPrescriptions;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.creditNum.addFirst(creditNum);
+		cardExpDate.addFirst(cardExp);
+		this.allergiesAndDietary = allergiesAndDietary;
+		this.medicalConditions = medicalConditions;
+		this.lifestyleHabits = lifestyleHabits;
+		this.familyDoctor = familyDoctor;
+		this.insuranceInformation = insuranceInformation;
+	}
+	
+	public void printPatientInfo() {
+		System.out.println(name + "\n" + age + "\n" + creditNum);
+	}
+
+	public ArrayList<String[]> drugInteractions(Drug newDrug) {
+
+		ArrayList<String[]> allInteractions = new ArrayList<String[]>(); // list containing all interaction data for the two drugs
+		String[] interactions; // list containing interactions between the current drug in the list and the new drug
+		for (int i = 0; i < activePrescriptions.length(); i++) {
+			String currentDIN = activePrescriptions.atIndex(i).getDrug().getDIN();
+			interactions = getInteractions.search(currentDIN, newDrug.getDIN());
+			allInteractions.add(interactions);
+		} 
+		return allInteractions;
 	}
 
 	public String getName() {
@@ -72,20 +98,20 @@ public class Patient {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public LinkedList<Prescription> getActivePrescriptions() {
+	public PrescriptionList getActivePrescriptions() {
 		return activePrescriptions;
 	}
 
 	public void addActivePrescription(Prescription prescription) {
-		activePrescriptions.add(prescription);
+		activePrescriptions.insert(prescription);
 	}
 
 	public void removeActivePrescription(Prescription prescription) {
-		activePrescriptions.remove(prescription);
-		pastPrescriptions.add(prescription);
+		activePrescriptions.delete(prescription.getGenName());
+		pastPrescriptions.insert(prescription);
 	}
 
-	public LinkedList<Prescription> getAllPrescriptions() {
+	public PrescriptionList getAllPrescriptions() {
 		return activePrescriptions;
 	}
 
@@ -105,11 +131,11 @@ public class Patient {
 		this.email = email;
 	}
 
-	public LinkedList<Integer> getCreditNum() {
+	public LinkedList<Long> getCreditNum() {
 		return creditNum;
 	}
 
-	public void setCreditNum(int creditNum) {
+	public void setCreditNum(long creditNum) {
 		this.creditNum.add(creditNum);
 	}
 
@@ -125,7 +151,7 @@ public class Patient {
 		this.creditNum.remove(cardNum);
 	}
 
-	public void addNewCard(int cardNum, int cardExp) {
+	public void addNewCard(long cardNum, int cardExp) {
 		this.creditNum.add(cardNum);
 		this.cardExpDate.add(cardExp);
 	}

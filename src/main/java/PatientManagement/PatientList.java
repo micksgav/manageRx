@@ -53,6 +53,10 @@ public class PatientList {
 		head = newHead;
 	} // end setHead
 
+	public Node returnHead() {
+		return head;
+	}
+	
 	/*
 	 * Method Name: isEmpty Author: John Brown Creation Date: November 28, 2023
 	 * Modified Date: November 28, 2023 Description: returns true if the list is

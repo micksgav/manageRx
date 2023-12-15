@@ -4,19 +4,19 @@ import java.util.*;
 
 public class MainForPatientManagement {
 	
-	public static LinkedList<Patient> createPatient(String name, int age, String address, String dateOfBirth,
-			LinkedList<Prescription> activePrescriptions, LinkedList<Prescription> pastPrescriptions, int phoneNumber,
-			String email, int creditNum, int cardExp, LinkedList<String> allergiesAndDietary,
+	public static PatientList createPatient(String name, int age, String address, String dateOfBirth,
+			PrescriptionList activePrescriptions, PrescriptionList pastPrescriptions, int phoneNumber,
+			String email, long creditNum, int cardExp, LinkedList<String> allergiesAndDietary,
 			LinkedList<String> medicalConditions, LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor,
-			LinkedList<Insurance> insuranceInformation, int numInsurancePlans, LinkedList<Patient> patientList){
+			LinkedList<Insurance> insuranceInformation, PatientList patientList){
 		
 		
-		patientList.add(new Patient(name, age, address, dateOfBirth, activePrescriptions, pastPrescriptions, phoneNumber, email, creditNum, cardExp, allergiesAndDietary, medicalConditions, lifestyleHabits, familyDoctor, insuranceInformation, numInsurancePlans));
+		patientList.insert(new Patient(name, age, address, dateOfBirth, activePrescriptions, pastPrescriptions, phoneNumber, email, creditNum, cardExp, allergiesAndDietary, medicalConditions, lifestyleHabits, familyDoctor, insuranceInformation));
 		
 		return patientList;
 	}
 	
-	public static LinkedList<Patient> searchPatientByName(String name, LinkedList<Patient> patientList){
+	public static PatientList searchPatientByName(String name, PatientList patientList){
 		
 		
 		
@@ -24,6 +24,12 @@ public class MainForPatientManagement {
 	}
 
 	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		
+		PatientList patients = new PatientList();
+		
+		createPatient("John", 17, "413 McMahen Street", "March 3, 2006", null, null, 1234567890, "jbbbb@gmail.com", 1234567890123456L, 1224, null, null, null, null, null, patients);
+		patients.returnData(0).printPatientInfo();
 		
 	}
 

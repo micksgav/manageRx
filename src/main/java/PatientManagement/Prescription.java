@@ -1,4 +1,6 @@
 package PatientManagement;
+import inventory.*;
+import apiInteracting.*;
 
 public class Prescription {
 	private Drug drug;
@@ -13,6 +15,11 @@ public class Prescription {
 	public Prescription() {
 		
 	}
+	
+	public Drug getDrug() {
+		return drug;
+	}
+
 
 	public String getGenName() {
 		return drug.getDrugNameGen();
@@ -23,11 +30,11 @@ public class Prescription {
 	}
 
 	public String getBrandName() {
-		return drug.getBrandName();
+		return drug.getDrugNameBrand();
 	}
 
 	public void setBrandName(String brandName) {
-		drug.setBrandName(brandName);
+		drug.setDrugNameBrand(brandName);
 	}
 
 	public String getDate() {

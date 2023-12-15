@@ -48,6 +48,22 @@ public class PrescriptionList {
 
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
+	
+	public Prescription atIndex(int i) {
+		Node runner = head;
+		for (int k = 0; k < i; runner = runner.link, k++) {
+			
+		}
+		return runner.info;
+	}
+	
+	public int length() {
+		int counter = 0;
+		for (Node runner = head; runner != null; runner = runner.link) {
+			counter ++;
+		}
+		return counter;
+	}
 
 	// set the head to a new value
 	public void setHead(Node newHead) {
@@ -103,7 +119,7 @@ public class PrescriptionList {
 		for (int i = 0; i < halfPoint; i++, runner = runner.link) {
 		} // end for
 		Prescription info = runner.info;
-		this.delete(runner.info());
+		this.delete(runner.info.getGenName());
 		this.addToFront(info);
 	} // end midToFront
 
@@ -160,7 +176,7 @@ public class PrescriptionList {
 			// The list is empty, so it certainly doesn't contain deleteString.
 			return;
 		} // end if
-		else if (head.info.equals(deleteItem)) {
+		else if (head.info.getGenName().equals(deleteItem)) {
 			// The string is the first info of the list. Remove it.
 			head = head.link;
 			return;
