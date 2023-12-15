@@ -4,14 +4,60 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class generateData {
     static ArrayList<String> prescriptionDrugs = new ArrayList<>();
     static int n = 0;
-    public static void main(String[] args) throws IOException {
-        generatePrescriptionList();
-        getDrugs();
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+        //generatePrescriptionList();
+        //getDrugs();
+        //scrapeInteractions();
+        BufferedWriter bw;
+        File path = new File("data\\drugs\\drugInteractions\\");
+        String fn;
+        File [] files = path.listFiles();
+
+        int resume = 0;
+        for (int j = 0; j < files.length; j++) {
+            if (files[j].toString().substring(files[j].toString().indexOf("drugInteractions") + 17, files[j].toString().indexOf(".")).compareTo("02427516") == 0) {
+                resume = j;
+                break;
+            }
+        }
+
+        System.out.println(resume);
+        for (int i = resume; i < files.length; i++){
+            fn = files[i].toString();
+            fn = fn.substring(fn.indexOf("drugInteractions") + 17, fn.indexOf("."));
+            String[][] result = getInteractions(fn);
+            bw = new BufferedWriter(new FileWriter("data\\drugs\\cleanDrugInteractions\\" + fn + ".txt"));
+            for (String[] row : result) {
+                bw.write(Arrays.toString(row) + "\n");
+            }
+            bw.close();
+            System.out.println(fn + " Added");
+        }
+
+
+//        String[][] result = getInteractions("02248808");
+//        for (String[] row : result) {
+//
+//
+//
+//            System.out.println(Arrays.toString(row));
+//        }
     }
 
     public static void getDrugs() throws IOException {
@@ -99,7 +145,6 @@ public class generateData {
         } catch (Exception e) {
             System.out.println("There was an error. Error Code: " + e.getMessage());
             errors.write("DC " + drugCode + " " + atc + "\n");
-
         }
         errors.close();
         return RXCUI;
@@ -177,6 +222,127 @@ public class generateData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void scrapeInteractions() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
+            BufferedReader br;
+            BufferedWriter writer;
+
+            String line;
+            String line2;
+            String DIN;
+            String RXCUI;
+            URL url;
+            String result;
+
+            while ((line = reader.readLine()) != null) {
+                Thread.sleep(50);
+                DIN = line.substring(0, line.indexOf(" "));
+                line2 = reader.readLine();
+                RXCUI = line2.substring(0, line2.indexOf(" "));
+                if (RXCUI.compareTo("0") != 0) {
+                    if (RXCUI.compareTo("") != 0) {
+                        writer = new BufferedWriter(new FileWriter("data\\drugs\\drugInteractions\\" + DIN + ".xml"));
+
+                        url = new URL("https://rxnav.nlm.nih.gov/REST/interaction/interaction?rxcui=" + RXCUI);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("GET");
+                        conn.setRequestProperty("Accept", "application/xml");
+
+                        br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+                        while ((result = br.readLine()) != null) {
+                            writer.write(result + "\n");
+                        }
+                        writer.close();
+                        System.out.println("Data for " + line.substring(line.indexOf(" "), line.length()) + " has been scraped.");
+                        br.close();
+                    }
+                }
+            }
+            reader.close();
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public static String[][] getInteractions(String DIN) throws SAXException, IOException, ParserConfigurationException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new File("data\\drugs\\drugInteractions\\" + DIN + ".xml"));
+
+        NodeList commentNodes = doc.getElementsByTagName("comment");
+        List<String> components = new ArrayList<>();
+        for (int i = 0; i < commentNodes.getLength(); i++) {
+            String comment = commentNodes.item(i).getTextContent();
+            int start = comment.indexOf("to ")+3;
+            String search = comment.substring(start);
+            int end = search.indexOf(" (");
+            String name = search.substring(0, end);
+            components.add(name);
+        }
+
+        NodeList interactionPairNodes = doc.getElementsByTagName("interactionPair");
+        List<String[]> interactions = new ArrayList<>();
+        for (int i = 0; i < interactionPairNodes.getLength(); i++) {
+            Node interactionPairNode = interactionPairNodes.item(i);
+            NodeList interactionConceptNodes = ((Element) interactionPairNode).getElementsByTagName("interactionConcept");
+            String drug1 = ((Element) interactionConceptNodes.item(0)).getElementsByTagName("name").item(0).getTextContent();
+            String drug2 = ((Element) interactionConceptNodes.item(1)).getElementsByTagName("name").item(0).getTextContent();
+            String description = ((Element) interactionPairNode).getElementsByTagName("description").item(0).getTextContent();
+            String RXCUI;
+            String RXCUI1 = ((Element) interactionPairNode).getElementsByTagName("rxcui").item(0).getTextContent();
+            String RXCUI2 = ((Element) interactionPairNode).getElementsByTagName("rxcui").item(1).getTextContent();
+
+
+            boolean firstDrug = true;
+            for (int j = 0; j < components.size(); j++) {
+                if (drug1.compareTo(components.get(j)) == 0) {
+                    firstDrug = false;
+                }
+            }
+
+            String interactingDrug = "";
+
+            if (firstDrug == true) {
+                interactingDrug = drug1;
+                RXCUI = RXCUI1;
+            } else {
+                interactingDrug = drug2;
+                RXCUI = RXCUI2;
+            }
+
+            String interactDIN = getDIN(RXCUI);
+            if (interactDIN != "") interactions.add(new String[]{interactDIN, interactingDrug, description});
+        }
+
+        String[][] result = new String[interactions.size()][3];
+        for (int i = 0; i < interactions.size(); i++) {
+            result[i] = interactions.get(i);
+        }
+
+        return result;
+    }
+
+    public static String getDIN(String RXCUI) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
+
+
+        String DIN = "";
+        String line;
+        String line2;
+        while ((line = reader.readLine()) != null) {
+            line2 = reader.readLine();
+
+            if (line2.substring(0, line2.indexOf(" ")).compareTo(RXCUI) == 0) {
+                DIN = line.substring(0, line.indexOf(" "));
+            }
+        }
+        return DIN;
     }
 
 }
