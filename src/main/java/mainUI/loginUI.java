@@ -1,0 +1,11 @@
+package mainUI;
+
+public class loginUI {
+
+  private JTextField username;
+  private JTextField password;
+
+  public boolean login(String username, String password) {
+
+  }
+}
