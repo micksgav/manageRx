@@ -6,8 +6,8 @@ public class Patient {
 	private int age;
 	private String address;
 	private String dateOfBirth;
-	private LinkedList<Prescription> activePrescriptions;
-	private LinkedList<Prescription> pastPrescriptions;
+	PrescriptionList activePrescriptions;
+	PrescriptionList pastPrescriptions;
 	private int phoneNumber;
 	private String email;
 	private LinkedList<Integer> creditNum;
@@ -17,13 +17,12 @@ public class Patient {
 	private LinkedList<String> lifestyleHabits;
 	private FamilyDoctor familyDoctor;
 	private LinkedList<Insurance> insuranceInformation;
-	private int numInsurancePlans;
 
 	public Patient(String name, int age, String address, String dateOfBirth,
-			LinkedList<Prescription> activePrescriptions, LinkedList<Prescription> pastPrescriptions, int phoneNumber,
+			PrescriptionList activePrescriptions, PrescriptionList pastPrescriptions, int phoneNumber,
 			String email, int creditNum, int cardExp, LinkedList<String> allergiesAndDietary,
 			LinkedList<String> medicalConditions, LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor,
-			LinkedList<Insurance> insuranceInformation, int numInsurancePlans) {
+			LinkedList<Insurance> insuranceInformation) {
 		 this.name = name;
 	        this.age = age;
 	        this.address = address;
@@ -39,7 +38,6 @@ public class Patient {
 	        this.lifestyleHabits = lifestyleHabits;
 	        this.familyDoctor = familyDoctor;
 	        this.insuranceInformation = insuranceInformation;
-	        this.numInsurancePlans = numInsurancePlans;
 	}
 
 	public String getName() {
