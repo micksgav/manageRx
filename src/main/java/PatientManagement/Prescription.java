@@ -12,8 +12,15 @@ public class Prescription {
 	private String instructions;
 	private String prescribedDuration;
 	
-	public Prescription() {
-		
+	public Prescription(Drug drug, String[] interactions, String datePrescribed, int numRefills, int quantity, int dosage, String instructions, String prescribedDuration) {
+		this.drug = drug;
+		this.interactions = interactions;
+		this.datePrescribed = datePrescribed;
+		this.numRefills = numRefills;
+		this.quantity = quantity;
+		this.dosage = dosage;
+		this.instructions = instructions;
+		this.prescribedDuration = prescribedDuration;
 	}
 	
 	public Drug getDrug() {

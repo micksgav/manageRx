@@ -10,6 +10,8 @@
 */
 package inventory;
 
+import java.math.BigInteger;
+
 // TO DO:
 // comment all variables on all classes
 // finish LinkedList methods
@@ -26,9 +28,9 @@ public class Drug {
 	private String[] sideEffects; // drug side effects // DON'T DO YET
 	
 	DecimalFormat dinFormat = new DecimalFormat("00000000"); // formats DIN to keep it 8 digits long 
-	private int DIN; // drug identification number
+	private String DIN; // drug identification number
 	
-	public Drug(String genName, String brandName, String classDrug, int dosage, String[] drugSideEffects, int drugDIN){
+	public Drug(String genName, String brandName, String classDrug, int dosage, String[] drugSideEffects, String drugDIN){
 		drugNameGen = genName;
 		drugNameBrand = brandName;
 		drugClass = classDrug;
@@ -43,7 +45,7 @@ public class Drug {
 		drugClass = "";
 		drugDosage = 0;
 		sideEffects = null;
-		DIN = 00000000;		
+		DIN = String.valueOf(00000000);		
 	} // end blank constructor
 	
 	public String getDrugNameGen() {
@@ -91,7 +93,7 @@ public class Drug {
 		return dinFormat.format(DIN);
 	} // end getDIN
 
-	public void setDIN(int drugDIN) {
+	public void setDIN(String drugDIN) {
 		DIN = drugDIN;
 	} // end setDIN
 	

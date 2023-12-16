@@ -9,6 +9,8 @@
 
 package PatientManagement;
 
+
+
 /**
  * An object of type StringList represents a list of strings. Methods are
  * provided to insert a string into the list, to delete a string from the list,
@@ -48,6 +50,7 @@ public class PatientList {
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
 
+	
 	// set the head to a new value
 	public void setHead(Node newHead) {
 		head = newHead;
@@ -55,6 +58,17 @@ public class PatientList {
 
 	public Node returnHead() {
 		return head;
+	}
+	
+	public int findPatient(String name, String address) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getAddress().equals(address)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/*
@@ -159,7 +173,7 @@ public class PatientList {
 	 */
 	public void printList() {
 		for (Node temp = head; temp != null; temp = temp.link) {
-			System.out.println(temp.info);
+			System.out.println(temp.info.getName());
 		} // end for
 	} // end printList
 

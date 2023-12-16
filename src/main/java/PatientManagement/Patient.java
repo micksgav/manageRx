@@ -51,7 +51,7 @@ public class Patient {
 	}
 	
 	public void printPatientInfo() {
-		System.out.println(name + "\n" + age + "\n" + creditNum);
+		System.out.println(name + "\n" + age + "\n" + creditNum.toString().replace("[", "").replace("]", "") + "\n" + address + "\n" + activePrescriptions.atIndex(0).getBrandName());
 	}
 
 	public ArrayList<String[]> drugInteractions(Drug newDrug) {
