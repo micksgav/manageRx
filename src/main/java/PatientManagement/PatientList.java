@@ -2,7 +2,7 @@
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
  * @Originally made : Unknown
- * @Last Modified: November 27, 2023
+ * @Last Modified: December 16, 2023
  * @Description: This program is a StringList object with various methods to edit a linked list containing Strings as the payload
  ***********************************************
  */
@@ -60,11 +60,36 @@ public class PatientList {
 		return head;
 	}
 	
-	public int findPatient(String name, String address) {
+	// find a patient in the list by name and address
+	public int findPatientByAddress(String name, String address) {
 		Node runner = head;
 		int i = 0;
 		for (runner = head; runner != null; runner = runner.link, i++) {
 			if (runner.info.getName().equals(name) && runner.info.getAddress().equals(address)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	// find a patient in the list by name and birthday
+	public int findPatientByBirthday(String name, String dateOfBirth) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getDateOfBirth().equals(dateOfBirth)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	// find a patient in the list by name and phone number
+	public int findPatientByPhoneNumber(String name, int phoneNumber) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getPhoneNumber() == phoneNumber) {
 				return i;
 			}
 		}

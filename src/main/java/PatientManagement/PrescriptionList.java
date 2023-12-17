@@ -4,7 +4,7 @@ package PatientManagement;
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
  * @Originally made : Unknown
- * @Last Modified: November 27, 2023
+ * @Last Modified: December 16, 2023
  * @Description: This program is a StringList object with various methods to edit a linked list containing Strings as the payload
  ***********************************************
  */

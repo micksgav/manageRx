@@ -1,3 +1,13 @@
+/**
+ ***********************************************
+ * @Author : John Brown
+ * @Originally made : May 18, 2023
+ * @Last Modified: December 16, 2023
+ * @Description: Patient object containing all relevant information about a patient at a pharmacy
+ ***********************************************
+ */
+
+
 package PatientManagement;
 
 import inventory.*;
@@ -5,21 +15,21 @@ import apiInteracting.*;
 import java.util.*;
 
 public class Patient {
-	private String name;
-	private int age;
-	private String address;
-	private String dateOfBirth;
-	PrescriptionList activePrescriptions;
-	PrescriptionList pastPrescriptions;
-	private int phoneNumber;
-	private String email;
-	private LinkedList<Long> creditNum;
-	private LinkedList<Integer> cardExpDate;
-	private LinkedList<String> allergiesAndDietary;
-	private LinkedList<String> medicalConditions;
-	private LinkedList<String> lifestyleHabits;
-	private FamilyDoctor familyDoctor;
-	private LinkedList<Insurance> insuranceInformation;
+	private String name; // patient name
+	private int age; // patient age
+	private String address; // patient address
+	private String dateOfBirth; // patient birthday
+	PrescriptionList activePrescriptions; // current prescriptions
+	PrescriptionList pastPrescriptions; // inactive prescriptions
+	private int phoneNumber; // patient phone number
+	private String email; // patient email
+	private LinkedList<Long> creditNum; // patient credit card number
+	private LinkedList<Integer> cardExpDate; // patient credit card expiry date
+	private LinkedList<String> allergiesAndDietary; // patient allergies/dietary restrictions
+	private LinkedList<String> medicalConditions; // patient medical conditions
+	private LinkedList<String> lifestyleHabits; // patient lifestyle habits that could have negative health impacts
+	private FamilyDoctor familyDoctor; // patient's family doctor
+	private LinkedList<Insurance> insuranceInformation; // patient's insurance information
 
 	public Patient(String name, int age, String address, String dateOfBirth, PrescriptionList activePrescriptions,
 			PrescriptionList pastPrescriptions, int phoneNumber, String email, long creditNum, int cardExp,
