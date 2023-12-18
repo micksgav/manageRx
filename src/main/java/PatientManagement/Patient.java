@@ -18,7 +18,9 @@ public class Patient {
 	private String name; // patient name
 	private int age; // patient age
 	private String address; // patient address
-	private String dateOfBirth; // patient birthday
+	private String birthMonth; // patient birth month
+	private int birthDay; // patient birth day
+	private int birthYear; // patient birth year
 	PrescriptionList activePrescriptions; // current prescriptions
 	PrescriptionList pastPrescriptions; // inactive prescriptions
 	private int phoneNumber; // patient phone number
@@ -31,7 +33,7 @@ public class Patient {
 	private FamilyDoctor familyDoctor; // patient's family doctor
 	private LinkedList<Insurance> insuranceInformation; // patient's insurance information
 
-	public Patient(String name, int age, String address, String dateOfBirth, PrescriptionList activePrescriptions,
+	public Patient(String name, int age, String address, String dateOfBirthMonth, int dateOfBirthDay, int birthYear, PrescriptionList activePrescriptions,
 			PrescriptionList pastPrescriptions, int phoneNumber, String email, long creditNum, int cardExp,
 			LinkedList<String> allergiesAndDietary, LinkedList<String> medicalConditions,
 			LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor, LinkedList<Insurance> insuranceInformation) {
@@ -46,7 +48,9 @@ public class Patient {
 		this.name = name;
 		this.age = age;
 		this.address = address;
-		this.dateOfBirth = dateOfBirth;
+		this.birthMonth = dateOfBirthMonth;
+		this.birthDay = dateOfBirthDay;
+		this.birthYear = birthYear;
 		this.activePrescriptions = activePrescriptions;
 		this.pastPrescriptions = pastPrescriptions;
 		this.phoneNumber = phoneNumber;
@@ -100,12 +104,28 @@ public class Patient {
 		this.address = address;
 	}
 
-	public String getDateOfBirth() {
-		return dateOfBirth;
+	public String getDateOfBirthMonth() {
+		return birthMonth;
+	}
+	
+	public int getDateOfBirthDay() {
+		return birthDay;
 	}
 
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setDateOfBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+	
+	public void setDateOfBirthDay(int day) {
+		this.birthDay = day;
+	}
+	
+	public int getBirthYear() {
+		return birthYear;
+	}
+	
+	public void setBirthYear(int birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public PrescriptionList getActivePrescriptions() {

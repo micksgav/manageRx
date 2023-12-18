@@ -33,6 +33,8 @@ public class Prescription {
 		this.prescribedDuration = prescribedDuration;
 	}
 	
+	public Prescription(){};
+	
 	public Drug getDrug() {
 		return drug;
 	}
