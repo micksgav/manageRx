@@ -48,7 +48,8 @@ public class DrugStock {
 	} // end getDrugDIN
 	
 	public void setDrugDIN(int drugDIN) {
-		drug.setDIN(numInStock);
+		drug.setDIN(
+		"1");
 	} // end setDrugDIN
 	
 	public int getNumInStock() {
