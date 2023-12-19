@@ -1,4 +1,9 @@
 package mainUI;
+import patientUI.*;
+import stockUI.*;
+import javax.swing.*;
+import java.awt.*;
+
 
 public class mainUI {
 
@@ -6,9 +11,9 @@ public class mainUI {
     private JButton openPatientManager = new JButton();
     private JButton openStock = new JButton();
     private JButton openOrder = new JButton();
-    private LoginUI login = new LoginUI();
-    private SettingsUI settings = new SettingsUI();
-    private PatientManagerUI patientManager = new PatientManagerUI();
+    private loginUI login = new loginUI();
+    private settingsUI settings = new settingsUI();
+    private patientManagerUI patientManager = new patientManagerUI();
     private StockUI stock = new StockUI();
     private OrderUI order = new OrderUI();
 
