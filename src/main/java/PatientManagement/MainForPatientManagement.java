@@ -346,7 +346,6 @@ public class MainForPatientManagement {
 	}
 	
 	// remove a prescription from a patient's active prescriptions
-	public static void archivPrescription(PatientList patients, Scanner scan) {
 		System.out.println("Enter the name and birthday of the patient");
 		String name = scan.nextLine();
 		String birthday = scan.nextLine();
