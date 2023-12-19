@@ -1,4 +1,5 @@
-/**
+
+package inventory; /**
 ***********************************************
  @Name: Drug
  @Author           : Christina Wong
@@ -8,7 +9,6 @@
    
 ***********************************************
 */
-package inventory;
 
 import java.math.BigInteger;
 
@@ -17,7 +17,6 @@ import java.math.BigInteger;
 // finish LinkedList methods
 // check commenting, update dates
 
-import java.text.*;
 // add Gavin's import thing?
 
 public class Drug {
@@ -26,28 +25,50 @@ public class Drug {
 	private String drugClass; // drug class
 	private int drugDosage; // dosage of drug
 	private String[] sideEffects; // drug side effects // DON'T DO YET
-	
-	DecimalFormat dinFormat = new DecimalFormat("00000000"); // formats DIN to keep it 8 digits long 
 	private String DIN; // drug identification number
-	
-	public Drug(String genName, String brandName, String classDrug, int dosage, String[] drugSideEffects, String drugDIN){
-		drugNameGen = genName;
+	private final String schedule; // drug schedule
+	private final String company; // drug company
+
+	private final String description; // drug description
+
+	private final String form; // drug form
+
+	private final String[][] dosage; // dosage of drug
+	private String RXCUI; // drug RXCUI
+	private String DPC; // drug DPC
+	private String ATC; // drug ATC
+
+	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC) {
 		drugNameBrand = brandName;
 		drugClass = classDrug;
-		drugDosage = dosage;
-		sideEffects = drugSideEffects;
 		DIN = drugDIN;
+		this.schedule = schedule;
+		this.company = company;
+		this.description = description;
+		this.form = form;
+		this.dosage = dosage;
+		this.RXCUI = RXCUI;
+		this.DPC = DPC;
+		this.ATC = ATC;
 	} // end Drug constructor
-	
-	public Drug(){
+
+	public Drug() {
 		drugNameGen = "";
 		drugNameBrand = "";
 		drugClass = "";
 		drugDosage = 0;
 		sideEffects = null;
-		DIN = String.valueOf(00000000);		
+		DIN = "";
+		schedule = "";
+		company = "";
+		description = "";
+		form = "";
+		dosage = null;
+		RXCUI = "";
+		DPC = "";
+		ATC = "";
 	} // end blank constructor
-	
+
 	public String getDrugNameGen() {
 		return drugNameGen;
 	} // end getDrugNameGen
@@ -90,19 +111,17 @@ public class Drug {
 
 	// returns formatted drug DIN
 	public String getDIN() {
-		return dinFormat.format(DIN);
+		return DIN;
 	} // end getDIN
 
 	public void setDIN(String drugDIN) {
 		DIN = drugDIN;
 	} // end setDIN
-	
+
 	public String checkInteractions(Drug drug2) {
 		String interactions = "";
-		
-		
-		
+
+
 		return interactions;
 	} // end checkInteractions
-	
-} // end Drug
+}
