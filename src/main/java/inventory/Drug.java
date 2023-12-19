@@ -10,6 +10,8 @@ package inventory; /**
 ***********************************************
 */
 
+import java.math.BigInteger;
+
 // TO DO:
 // comment all variables on all classes
 // finish LinkedList methods
@@ -23,6 +25,7 @@ public class Drug {
 	private String drugClass; // drug class
 	private int drugDosage; // dosage of drug
 	private String[] sideEffects; // drug side effects // DON'T DO YET
+	private String DIN; // drug identification number
 	private final String schedule; // drug schedule
 	private final String company; // drug company
 
@@ -31,7 +34,6 @@ public class Drug {
 	private final String form; // drug form
 
 	private final String[][] dosage; // dosage of drug
-	private String DIN; // drug identification number
 	private String RXCUI; // drug RXCUI
 	private String DPC; // drug DPC
 	private String ATC; // drug ATC
