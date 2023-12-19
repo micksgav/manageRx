@@ -14,7 +14,7 @@ public class drugFinder {
     //Drug drugName = drugFinder.getDrug(*put DIN here*);
 
     public static Drug getDrug(String inDIN) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("data\\drugData.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
 
         String line;
         String line2;
