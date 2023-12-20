@@ -68,6 +68,12 @@ public class Patient {
 		System.out.println(name + "\n" + age + "\n" + creditNum.toString().replace("[", "").replace("]", "") + "\n" + address + "\n" + activePrescriptions.atIndex(0).getBrandName());
 	}
 
+	public void newFamilyDoctor(String newName, String newAddress, int phoneNumber) {
+		familyDoctor.setName(newName);
+		familyDoctor.setAddress(newAddress);
+		familyDoctor.setPhoneNumber(phoneNumber);
+	}
+	
 	public ArrayList<String[]> drugInteractions(Drug newDrug) {
 
 		ArrayList<String[]> allInteractions = new ArrayList<String[]>(); // list containing all interaction data for the two drugs
@@ -136,9 +142,9 @@ public class Patient {
 		activePrescriptions.insert(prescription);
 	}
 
-	public void removeActivePrescription(Prescription prescription) {
-		activePrescriptions.delete(prescription.getGenName());
-		pastPrescriptions.insert(prescription);
+	public void removeActivePrescription(String brandName) {
+		pastPrescriptions.insert(activePrescriptions.returnPrescription(brandName));
+		activePrescriptions.delete(brandName);
 	}
 
 	public PrescriptionList getAllPrescriptions() {
@@ -177,7 +183,8 @@ public class Patient {
 		this.cardExpDate.add(cardExpDate); // make so works with multiple cards
 	}
 
-	public void removeCard(int cardNum) {
+	public void removeCard(long cardNum, int creditExp) {
+		this.cardExpDate.remove(creditExp);
 		this.creditNum.remove(cardNum);
 	}
 
@@ -242,8 +249,14 @@ public class Patient {
 		return insuranceInformation;
 	}
 
-	public void addNewInsuranceInfo(int numOfInsurance, Insurance newInsurance) {
-		insuranceInformation.add(newInsurance);
+	public void addNewInsuranceInfo(String company, int num) {
+		insuranceInformation.add(new Insurance(company, num));
+	}
+	
+	// may not work right now
+	public void removeInsurance(String company, int num) {
+		Insurance remove = new Insurance(company, num);
+		insuranceInformation.remove(remove);
 	}
 
 }

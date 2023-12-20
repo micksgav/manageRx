@@ -60,6 +60,16 @@ public class PatientList {
 		return head;
 	}
 	
+	public int findPrescription(String drugName, int patient) {
+		Node runner = head;
+		for (int i = 0; runner != null; i++, runner = runner.link) {
+			if (runner.info.getActivePrescriptions().atIndex(i).getBrandName().equals(drugName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	// find a patient in the list by name and address
 	public int findPatientByAddress(String name, String address) {
 		Node runner = head;
@@ -73,11 +83,11 @@ public class PatientList {
 	}
 	
 	// find a patient in the list by name and birthday
-	public int findPatientByBirthday(String name, String dateOfBirth) {
+	public int findPatientByBirthday(String name, String birthMonth, int birthDay, int birthYear) {
 		Node runner = head;
 		int i = 0;
 		for (runner = head; runner != null; runner = runner.link, i++) {
-			if (runner.info.getName().equals(name) && runner.info.getDateOfBirth().equals(dateOfBirth)) {
+			if (runner.info.getName().equals(name) && runner.info.getBirthYear() == birthYear && runner.info.getDateOfBirthDay() == birthDay && runner.info.getDateOfBirthMonth() == birthMonth) {
 				return i;
 			}
 		}
