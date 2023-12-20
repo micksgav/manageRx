@@ -34,3 +34,9 @@ bin/
 /.idea/
 =======
 >>>>>>> John
+.idea/workspace.xml
+data/drugs/errors.txt
+manageRx.iml
+target/classes/META-INF/maven/FiNAL/manageRx/pom.properties
+data/drugs/errors.txt
+.idea/workspace.xml
