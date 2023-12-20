@@ -40,3 +40,6 @@ manageRx.iml
 target/classes/META-INF/maven/FiNAL/manageRx/pom.properties
 data/drugs/errors.txt
 .idea/workspace.xml
+.idea/workspace.xml
+data/drugs/errors.txt
+target/classes/META-INF/maven/FiNAL/manageRx/pom.properties
