@@ -17,8 +17,7 @@ public class DrugStockLinkedList {
 	} // end Node
 	
 	private Node head;
-	
-	
+
 	/** Method Name: find
 	* @Author Kyle McKay
 	* @Date Unknown
@@ -123,8 +122,6 @@ public class DrugStockLinkedList {
 		} // end while
 	} // end printDrugInfo
 	
-	
-	
 	/** Method Name: insert
 	* @Author Kyle McKay
 	* @Date Unknown
@@ -174,7 +171,7 @@ public class DrugStockLinkedList {
 				runner.drugStock.addToStock(newStock);
 			} // end if
 		} // end while
-	}
+	} // end newShipment
 	
 	// not sure if we will need this
     public DrugStock[] getElements() {
