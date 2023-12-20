@@ -1,5 +1,7 @@
 package PatientManagement;
 
+
+
 /**
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
@@ -48,6 +50,16 @@ public class PrescriptionList {
 
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
+	
+	public Prescription returnPrescription(String drugName) {
+		Node runner = head;
+		for (int i = 0; runner != null; runner = runner.link, i++) {
+			if (runner.info.getBrandName().equals(drugName)) {
+				return runner.info;
+			}
+		}
+		return null;
+	}
 	
 	public Prescription atIndex(int i) {
 		Node runner = head;
