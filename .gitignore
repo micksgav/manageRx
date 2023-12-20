@@ -30,10 +30,7 @@ bin/
 ### Mac OS ###
 .DS_Store
 /target/
-<<<<<<< HEAD
 /.idea/
-=======
->>>>>>> John
 .idea/workspace.xml
 data/drugs/errors.txt
 manageRx.iml
@@ -43,3 +40,4 @@ data/drugs/errors.txt
 .idea/workspace.xml
 data/drugs/errors.txt
 target/classes/META-INF/maven/FiNAL/manageRx/pom.properties
+pom.xml
