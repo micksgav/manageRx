@@ -2,12 +2,14 @@
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
  * @Originally made : Unknown
- * @Last Modified: November 27, 2023
+ * @Last Modified: December 16, 2023
  * @Description: This program is a StringList object with various methods to edit a linked list containing Strings as the payload
  ***********************************************
  */
 
 package PatientManagement;
+
+
 
 /**
  * An object of type StringList represents a list of strings. Methods are
@@ -48,11 +50,52 @@ public class PatientList {
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
 
+	
 	// set the head to a new value
 	public void setHead(Node newHead) {
 		head = newHead;
 	} // end setHead
 
+	public Node returnHead() {
+		return head;
+	}
+	
+	// find a patient in the list by name and address
+	public int findPatientByAddress(String name, String address) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getAddress().equals(address)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	// find a patient in the list by name and birthday
+	public int findPatientByBirthday(String name, String dateOfBirth) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getDateOfBirth().equals(dateOfBirth)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	// find a patient in the list by name and phone number
+	public int findPatientByPhoneNumber(String name, int phoneNumber) {
+		Node runner = head;
+		int i = 0;
+		for (runner = head; runner != null; runner = runner.link, i++) {
+			if (runner.info.getName().equals(name) && runner.info.getPhoneNumber() == phoneNumber) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	/*
 	 * Method Name: isEmpty Author: John Brown Creation Date: November 28, 2023
 	 * Modified Date: November 28, 2023 Description: returns true if the list is
@@ -155,7 +198,7 @@ public class PatientList {
 	 */
 	public void printList() {
 		for (Node temp = head; temp != null; temp = temp.link) {
-			System.out.println(temp.info);
+			System.out.println(temp.info.getName());
 		} // end for
 	} // end printList
 
