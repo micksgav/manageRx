@@ -3,7 +3,7 @@
  @Name: DrugStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 13, 2023
+ @Modified Date	   : December 19, 2023
    @Description    : 
    
 ***********************************************
@@ -11,9 +11,10 @@
 package inventory;
 
 public class DrugStock {
-	private Drug drug;
+	private Drug drug; // drug
 	private int numInStock; // current stock of drug
 	private int stockThreshold; // when the drug's threshold is reached, alert is sent
+	private int[][] stockChanges = new int[31][3];
 	
 	public DrugStock(int inStock, int threshold) {
 		this.drug = new Drug();
@@ -26,6 +27,10 @@ public class DrugStock {
 		numInStock = 0;
 		stockThreshold = 0;
 	} // end DrugStock blank constructor
+	
+	public Drug getDrug() {
+		return drug;
+	} // end getDrug
 	
 	public String getDrugNameGen() {
 		return drug.getDrugNameGen();
@@ -47,14 +52,16 @@ public class DrugStock {
 		return drug.getDIN();
 	} // end getDrugDIN
 	
-	public void setDrugDIN(int drugDIN) {
-		drug.setDIN(numInStock);
+	public void setDrugDIN(String drugDIN) {
+		drug.setDIN(drugDIN);
 	} // end setDrugDIN
 	
 	public int getNumInStock() {
 		return numInStock;
 	} // end getNumInStock
 	
+	
+	// will need to interact with Prescription class
 	/** Method Name: removeFromStock
 	* @Author Christina Wong 
 	* @Date December 12, 2023
@@ -90,5 +97,27 @@ public class DrugStock {
 	public void setStockThreshold(int threshold) {
 		this.stockThreshold = threshold;
 	} // end setStockThreshold
+	
+	// somewhere in StockUI, I don't think there's anything for it now
+	public void changeInStock(String change) {
+		int date = -1;
+		for(int i = 0; i < stockChanges.length; i++) {
+			if(stockChanges[i][0] == 0) {
+				date = i;
+				break;
+			}
+		}
+		if(date == -1) {
+			
+		}
+		else {
+			
+		}
+	}
+	
+	// will show record of the last month (last 31 days) of usage
+	public void viewUsage() {
+		
+	}
 	
 } // end DrugStock

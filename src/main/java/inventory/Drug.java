@@ -3,7 +3,7 @@ package inventory; /**
  @Name: Drug
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 13, 2023
+ @Modified Date	   : December 19, 2023
    @Description    : 
    
 ***********************************************
@@ -20,7 +20,6 @@ public class Drug {
 	private String drugNameGen; // generic name of drug
 	private String drugNameBrand; // brand name of drug
 	private String drugClass; // drug class
-	private int drugDosage; // dosage of drug
 	private String[] sideEffects; // drug side effects // DON'T DO YET
 	private final String schedule; // drug schedule
     private final String company; // drug company
@@ -53,7 +52,6 @@ public class Drug {
 		drugNameGen = "";
 		drugNameBrand = "";
 		drugClass = "";
-		drugDosage = 0;
 		sideEffects = null;
 		DIN = "";
 		schedule = "";
@@ -90,13 +88,9 @@ public class Drug {
 		this.drugClass = classDrug;
 	} // end setDrugClass
 
-	public int getDrugDosage() {
-		return drugDosage;
+	public String[][] getDosage() {
+		return dosage;
 	} // end getDrugDosage
-
-	public void setDrugDosage(int dosage) {
-		this.drugDosage = dosage;
-	} // end setDrugDosage
 
 	public String[] getSideEffects() {
 		return sideEffects;
@@ -117,7 +111,7 @@ public class Drug {
 	
 	public String checkInteractions(Drug drug2) {
 		String interactions = "";
-		
+		String din2 = drug2.getDIN();
 		
 		
 		return interactions;

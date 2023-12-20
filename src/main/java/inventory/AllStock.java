@@ -3,7 +3,7 @@
  @Name: AllStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 13, 2023
+ @Modified Date	   : December 18, 2023
    @Description    : 
    
 ***********************************************
@@ -50,7 +50,10 @@ public class AllStock {
 	* Throws/Exceptions: N/A
     */
 	public void orderMore(String drug) {
-		// code here
+		// hopefully this works with the OrderUI? may need adjustments
+		// drugToOrder, containerToorder, dosage, nuofdrug, num of container, order drug or order container 
+				
+				
 	} // end orderMore
 	
 	public int getTotal() {
@@ -93,8 +96,78 @@ public class AllStock {
 		this.numBags = bags;
 	} // end setNumBags
 	
-	public void searchStock() {
-		
-	}
+	// current UML for StockUI has an option to viewStock
+	// adjust UI to have radio buttons or dropbox for user to choose how to search stock to view
+	/** Method Name: searchByDIN
+	* @Author Christina Wong 
+	* @Date December 15, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters String drugDIN, DIN of drug to find
+	* @Returns void
+	* Dependencies: DrugStockLinkedList
+	* Throws/Exceptions: N/A
+    */
+	public void searchByDIN(String drugDIN) {
+		boolean stockFound;
+		stockFound = drugsList.checkStockDIN(drugDIN);
+		if(stockFound) {
+			drugSearch(drugDIN);			
+		} // end if
+		else {
+			System.out.println("Drug is not found in inventory.");
+		} // end else
+	} // end searchByDIN
+	
+	/** Method Name: searchByName
+	* @Author Christina Wong 
+	* @Date December 15, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters String drugName, the name of the drug to find
+	* @Returns void
+	* Dependencies: DrugStockLinkedList
+	* Throws/Exceptions: N/A
+    */
+	public void searchByName(String drugName) {
+		String searchDIN = "";
+		searchDIN = drugsList.checkStockName(drugName);		
+		if(searchDIN.equals("")) {
+			System.out.println("Drug is not found in inventory.");
+		} // end if
+		else {
+			drugSearch(searchDIN);
+		} // end else
+	} // end searchByName
+	
+	/** Method Name: drugSearch
+	* @Author Christina Wong 
+	* @Date December 16, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters String printDrug, the name of the drug to print info for
+	* @Returns void
+	* Dependencies: DrugStockLinkedList
+	* Throws/Exceptions: N/A
+    */
+	public void drugSearch(String printDrug) {
+		System.out.println("Inventory Information:");
+		drugsList.printDrugInfo(printDrug);		
+	} // end drugSearch
+	
+	// needs to interact with stock ui
+	/** Method Name: shipmentArrival
+	* @Author Christina Wong 
+	* @Date December 16, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters int newStock, the quantity of the shipment; String arrivalDIN, the DIN of the drug arriving; String nameGen, the generic name of the drug; String nameBrand, the brand name of the drug (could be ""); String classDrug, class of the drug; int dosage, dosage of drug
+	* @Returns void
+	* Dependencies: DrugStockLinkedList
+	* Throws/Exceptions: N/A
+    */
+	public void shipmentArrival(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) {
+		drugsList.updateStock(newStock, arrivalDIN, nameGen, nameBrand, classDrug, dosage);
+	} // end shipmentArrival	
 	
 } // end AllStock
