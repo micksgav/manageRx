@@ -1,6 +1,6 @@
 /**
 ***********************************************
- @Name: LinkedList
+ @Name: DrugStockLinkedList
  @Author           : Christina Wong
  @Creation Date    : December 13, 2023
  @Modified Date	   : December 17, 2023
@@ -9,11 +9,10 @@
 ***********************************************
 */
 package inventory;
-
 public class DrugStockLinkedList {
 
 	private static class Node {
-		DrugStock drugStock;
+		DrugStock drugStock;		
 		Node next;
 	} // end Node
 	
@@ -124,44 +123,7 @@ public class DrugStockLinkedList {
 		} // end while
 	} // end printDrugInfo
 	
-	/** Method Name: updateStock
-	* @Author Christina Wong 
-	* @Date December 16, 2023
-	* @Modified December 17, 2023
-	* @Description This .
-	* @Parameters int newStock, the quantity of the shipment; String arrivalDIN, the DIN of the drug arriving; String nameGen, the generic name of the drug; String nameBrand, the brand name of the drug (could be ""); String classDrug, class of the drug; int dosage, dosage of drug
-	* @Returns void
-	* Dependencies: DrugStock, Drug
-	* Throws/Exceptions: N/A
-    */
-	public void updateStock(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage){
-		boolean isStocked = checkStockDIN(arrivalDIN);
-		
-		// if inventory already has some of the drug in stock
-		if(isStocked) {
-			Node runner = head;
-			while(runner != null) {
-				if(runner.drugStock.getDrugDIN().equals(arrivalDIN)) {
-					runner.drugStock.addToStock(newStock);
-				} // end if
-			} // end while
-		} // end if
-		
-		// if this is the inventory's first shipment of the drug
-		else {
-			DrugStock newDrugStock = new DrugStock();
-			Drug newDrug = newDrugStock.getDrug();
-			newDrugStock.setDrugDIN(arrivalDIN);
-			newDrugStock.setDrugNameGen(nameGen);
-			newDrugStock.setDrugNameBrand(nameBrand);
-			newDrug.setDrugClass(classDrug);
-			
-			// update to interact with setThresholdButton in StockUI
-			int newThreshold = Integer.parseInt(""); // "" should be the input in the setThresholdNum JTextField
-			newDrugStock.setStockThreshold(newThreshold);	
-		} // end else
-		
-	} // end updateStock
+	
 	
 	/** Method Name: insert
 	* @Author Kyle McKay
@@ -182,7 +144,7 @@ public class DrugStockLinkedList {
 			head = newNode;
 		} // end if
 
-		if (head.drugStock.getDrugNameGen().compareTo(insertDrugStock.getDrugNameGen()) >= 0) {
+		if (Integer.parseInt(head.drugStock.getDrugDIN()) > Integer.parseInt(newNode.drugStock.getDrugDIN())) {
 			newNode.next = head;
 			head = newNode;
 		} // end if
@@ -192,9 +154,7 @@ public class DrugStockLinkedList {
 			Node previous; // Always points to the node preceding runner.
 			runner = head.next; // Start by looking at the SECOND position.
 			previous = head;
-			while (runner != null
-					&& runner.drugStock.getDrugNameGen().compareTo(insertDrugStock.getDrugNameGen()) < 0) {
-
+			while (runner != null && Integer.parseInt(runner.drugStock.getDrugDIN()) < Integer.parseInt(insertDrugStock.getDrugDIN())) {
 				previous = runner;
 				runner = runner.next;
 			} // end while
@@ -204,6 +164,17 @@ public class DrugStockLinkedList {
 		} // end else
 
 	} // end insert()
+	
+	public void newShipment(String arrivalDIN, int newStock) {
+		// if inventory already has some of the drug in stock
+
+		Node runner = head;
+		while(runner != null) {
+			if(runner.drugStock.getDrugDIN().equals(arrivalDIN)) {
+				runner.drugStock.addToStock(newStock);
+			} // end if
+		} // end while
+	}
 	
 	// not sure if we will need this
     public DrugStock[] getElements() {

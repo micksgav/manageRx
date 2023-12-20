@@ -10,23 +10,29 @@
 */
 package inventory;
 
+import java.io.IOException;
+import java.util.*; // just for testing purposes, will need to be replaced with UI stuff later
+
 public class DrugStock {
 	private Drug drug; // drug
 	private int numInStock; // current stock of drug
 	private int stockThreshold; // when the drug's threshold is reached, alert is sent
-	private int[][] stockChanges = new int[31][3];
+	private String[][] stockChanges = new String[31][3];
+	Scanner ui = new Scanner(System.in);
 	
-	public DrugStock(int inStock, int threshold) {
+	public DrugStock(String DIN, int inStock, int threshold) throws IOException {
 		this.drug = new Drug();
+		this.drug = drugFinder.getDrug(DIN);
 		numInStock = inStock;
 		stockThreshold = threshold;
-	} // end DrugStock constructor
+	} // end DrugStock constructor with stock info
 	
-	public DrugStock() {
+	public DrugStock(String DIN) throws IOException {
 		this.drug = new Drug();
+		this.drug = drugFinder.getDrug(DIN);
 		numInStock = 0;
 		stockThreshold = 0;
-	} // end DrugStock blank constructor
+	} // end DrugStock constructor without stock info
 	
 	public Drug getDrug() {
 		return drug;
@@ -82,7 +88,7 @@ public class DrugStock {
 	* @Modified December 12, 2023
 	* @Description This .
 	* @Parameters  int added, the amount of this drug added to the current stock
-	* @Returns N/A
+	* @Returns void
 	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
@@ -98,26 +104,48 @@ public class DrugStock {
 		this.stockThreshold = threshold;
 	} // end setStockThreshold
 	
-	// somewhere in StockUI, I don't think there's anything for it now
+	// connects to somewhere in StockUI, I don't think there's anything for it now
+	/** Method Name: changeInStock
+	* @Author Christina Wong 
+	* @Date December 18, 2023
+	* @Modified December 19, 2023
+	* @Description This .
+	* @Parameters  int added, the amount of this drug added to the current stock
+	* @Returns void
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
 	public void changeInStock(String change) {
 		int date = -1;
 		for(int i = 0; i < stockChanges.length; i++) {
-			if(stockChanges[i][0] == 0) {
+			if(stockChanges[i][0] == null) {
 				date = i;
 				break;
-			}
-		}
+			} // end if
+		} // end for
 		if(date == -1) {
+			for(int row = 0; row < stockChanges.length - 1; row++) {
+				for(int col = 0; col < stockChanges[row].length; col++) {
+					stockChanges[row][col] = stockChanges[row + 1][col];
+				} // end for
+			} // end for
+			// needs a text field for user to input info
+			String changeDate = ui.nextLine();
+			stockChanges[stockChanges.length - 1][0] = changeDate;
+			stockChanges[stockChanges.length - 1][1] = change; 
 			
-		}
+		} // end if
 		else {
+			// needs a text field for user to input info
+			String changeDate = ui.nextLine();
+			stockChanges[date][0] = changeDate;
+			stockChanges[date][1] = change;
 			
-		}
-	}
+		} // end else
+	} // end changeInStock
 	
 	// will show record of the last month (last 31 days) of usage
 	public void viewUsage() {
 		
 	}
-	
 } // end DrugStock

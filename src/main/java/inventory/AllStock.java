@@ -3,12 +3,14 @@
  @Name: AllStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 18, 2023
+ @Modified Date	   : December 19, 2023
    @Description    : 
    
 ***********************************************
 */
 package inventory;
+
+import java.io.IOException;
 
 public class AllStock {
 
@@ -166,8 +168,32 @@ public class AllStock {
 	* Dependencies: DrugStockLinkedList
 	* Throws/Exceptions: N/A
     */
-	public void shipmentArrival(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) {
-		drugsList.updateStock(newStock, arrivalDIN, nameGen, nameBrand, classDrug, dosage);
+	public void shipmentArrival(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) throws IOException {
+		updateStock(newStock, arrivalDIN, nameGen, nameBrand, classDrug, dosage);
 	} // end shipmentArrival	
+	
+	/** Method Name: updateStock
+	* @Author Christina Wong 
+	* @Date December 16, 2023
+	* @Modified December 17, 2023
+	* @Description This .
+	* @Parameters int newStock, the quantity of the shipment; String arrivalDIN, the DIN of the drug arriving; String nameGen, the generic name of the drug; String nameBrand, the brand name of the drug (could be ""); String classDrug, class of the drug; int dosage, dosage of drug
+	* @Returns void
+	* Dependencies: DrugStock, Drug
+	* Throws/Exceptions: N/A
+    */
+	public void updateStock(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) throws IOException{
+		boolean isStocked = drugsList.checkStockDIN(arrivalDIN);
+		if(isStocked == false) { 		// if this is the inventory's first shipment of the drug
+			// update to interact with setThresholdButton in StockUI
+			int newThreshold = Integer.parseInt(""); // "" should be the input in the setThresholdNum JTextField
+			DrugStock newDrugStock = new DrugStock(arrivalDIN, newThreshold, newStock);	
+			
+			drugsList.insert(newDrugStock);
+		}
+		
+		drugsList.newShipment(arrivalDIN, newStock);
+		
+	} // end updateStock
 	
 } // end AllStock
