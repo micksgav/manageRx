@@ -20,8 +20,8 @@ public class drugFinder {
         String line2;
 
         while ((line = br.readLine()) != null) {
+            line2 = br.readLine();
             if (line.substring(0, line.indexOf(" ")).equals(inDIN)) {
-                line2 = br.readLine();
                 String DIN = line.substring(0, line.indexOf(" "));
                 System.out.println(DIN + " is being parsed.");
                 String drugNameBrand = line.substring(line.indexOf(" ") + 1); //Brand Name - from drugData.txt;
