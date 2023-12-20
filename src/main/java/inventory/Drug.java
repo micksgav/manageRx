@@ -1,3 +1,4 @@
+
 package inventory; /**
 ***********************************************
  @Name: Drug
@@ -8,6 +9,8 @@ package inventory; /**
    
 ***********************************************
 */
+
+import java.math.BigInteger;
 
 // TO DO:
 // comment all variables on all classes
@@ -21,20 +24,20 @@ public class Drug {
 	private String drugNameBrand; // brand name of drug
 	private String drugClass; // drug class
 	private String[] sideEffects; // drug side effects // DON'T DO YET
+	private String DIN; // drug identification number
 	private final String schedule; // drug schedule
-    private final String company; // drug company
+	private final String company; // drug company
 
 	private final String description; // drug description
 
-    private final String form; // drug form
+	private final String form; // drug form
 
-    private final String[][] dosage; // dosage of drug
-	private String DIN; // drug identification number
+	private final String[][] dosage; // dosage of drug
 	private String RXCUI; // drug RXCUI
 	private String DPC; // drug DPC
 	private String ATC; // drug ATC
-	
-	public Drug (String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC) {
+
+	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC) {
 		drugNameBrand = brandName;
 		drugClass = classDrug;
 		DIN = drugDIN;
@@ -47,8 +50,8 @@ public class Drug {
 		this.DPC = DPC;
 		this.ATC = ATC;
 	} // end Drug constructor
-	
-	public Drug(){
+
+	public Drug() {
 		drugNameGen = "";
 		drugNameBrand = "";
 		drugClass = "";
@@ -63,7 +66,7 @@ public class Drug {
 		DPC = "";
 		ATC = "";
 	} // end blank constructor
-	
+
 	public String getDrugNameGen() {
 		return drugNameGen;
 	} // end getDrugNameGen
@@ -108,13 +111,15 @@ public class Drug {
 	public void setDIN(String drugDIN) {
 		DIN = drugDIN;
 	} // end setDIN
-	
+
 	public String checkInteractions(Drug drug2) {
 		String interactions = "";
+
+
+
+
 		String din2 = drug2.getDIN();
-		
-		
+
 		return interactions;
 	} // end checkInteractions
-	
-} // end Drug
+}
