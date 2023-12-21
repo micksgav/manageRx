@@ -10,9 +10,8 @@
 */
 package inventory;
 
-import java.io.IOException;
 import java.util.*; // just for testing purposes, will need to be replaced with UI stuff later
-
+import java.io.IOException;
 public class DrugStock {
 	private Drug drug; // drug
 	private int numInStock; // current stock of drug
@@ -108,14 +107,14 @@ public class DrugStock {
 	/** Method Name: changeInStock
 	* @Author Christina Wong 
 	* @Date December 18, 2023
-	* @Modified December 19, 2023
+	* @Modified December 20, 2023
 	* @Description This .
 	* @Parameters  int added, the amount of this drug added to the current stock
 	* @Returns void
 	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
-	public void changeInStock(String change) {
+	public void changeInStock(String change, int amount) {
 		int date = -1;
 		for(int i = 0; i < stockChanges.length; i++) {
 			if(stockChanges[i][0] == null) {
@@ -133,6 +132,7 @@ public class DrugStock {
 			String changeDate = ui.nextLine();
 			stockChanges[stockChanges.length - 1][0] = changeDate;
 			stockChanges[stockChanges.length - 1][1] = change; 
+			stockChanges[stockChanges.length - 1][2] = String.valueOf(amount);
 			
 		} // end if
 		else {
@@ -140,12 +140,32 @@ public class DrugStock {
 			String changeDate = ui.nextLine();
 			stockChanges[date][0] = changeDate;
 			stockChanges[date][1] = change;
+			stockChanges[date][2] = String.valueOf(amount);
 			
 		} // end else
 	} // end changeInStock
 	
-	// will show record of the last month (last 31 days) of usage
+	// will show record of the last month (last 31 days) of usage, this will have to be adjusted for ui
+	/** Method Name: viewUsage
+	* @Author Christina Wong 
+	* @Date December 18, 2023
+	* @Modified December 20, 2023
+	* @Description This .
+	* @Parameters  N/A
+	* @Returns void
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
 	public void viewUsage() {
-		
-	}
+		System.out.println("\nDATE:\t\tINVENTORY:\t\tAMOUNT");
+		for (int row = 0; row < stockChanges.length; row++) {
+			System.out.print(stockChanges[row][0] + ":\t\t");
+			System.out.print(stockChanges[row][1] + "\t");
+			if(stockChanges[row][1].length() > 8)
+				System.out.print("\t");
+			System.out.print(stockChanges[row][2]);
+			System.out.println();
+		} // end for
+
+	} // end viewUsage
 } // end DrugStock

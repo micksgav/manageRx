@@ -1,5 +1,4 @@
-
-package inventory; /**
+/**
 ***********************************************
  @Name: Drug
  @Author           : Christina Wong
@@ -9,15 +8,11 @@ package inventory; /**
    
 ***********************************************
 */
+package inventory;
+import java.io.IOException;
 
-import java.math.BigInteger;
+import apiInteracting.*;
 
-// TO DO:
-// comment all variables on all classes
-// finish LinkedList methods
-// check commenting, update dates
-
-// add Gavin's import thing?
 
 public class Drug {
 	private String drugNameGen; // generic name of drug
@@ -112,14 +107,12 @@ public class Drug {
 		DIN = drugDIN;
 	} // end setDIN
 
-	public String checkInteractions(Drug drug2) {
-		String interactions = "";
-
-
-
-
+	public void checkInteractions(Drug drug2) throws IOException {
 		String din2 = drug2.getDIN();
+		String[] interactions = getInteractions.search(this.DIN, din2);
+		for(int i = 0; i < interactions.length; i++) {
+			System.out.println(interactions[i]);
+		}
 
-		return interactions;
 	} // end checkInteractions
 }
