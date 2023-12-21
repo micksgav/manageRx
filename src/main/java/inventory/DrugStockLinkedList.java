@@ -1,33 +1,34 @@
 /**
 ***********************************************
- @Name: LinkedList
+ @Name: DrugStockLinkedList
  @Author           : Christina Wong
- @Creation Date    : December 12, 2023
- @Modified Date	   : December 13, 2023
+ @Creation Date    : December 13, 2023
+ @Modified Date	   : December 17, 2023
    @Description    : 
    
 ***********************************************
 */
 package inventory;
-
 public class DrugStockLinkedList {
 
 	private static class Node {
-		DrugStock drugStock;
+		DrugStock drugStock;		
 		Node next;
 	} // end Node
 	
 	private Node head;
 	
 	
-    /**
-     * Searches the list for a specified item.  (Note: for demonstration
-     * purposes, this method does not use the fact that the items in the
-     * list are ordered.)
-     * @param searchItem the item that is to be searched for
-     * @return true if searchItem is one of the items in the list or false if
-     *    searchItem does not occur in the list.
-     */
+	/** Method Name: find
+	* @Author Kyle McKay
+	* @Date Unknown
+	* @Modified December 15, 2023
+	* @Description This .
+	* @Parameters  DrugStock searchDrug, the item that is being searched for
+	* @Returns boolean true if found, false if not found
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
 	public boolean find(DrugStock searchDrug) {
 		Node runner; // A pointer for traversing the list.
 		runner = head; // Start by looking at the head of the list.
@@ -42,6 +43,98 @@ public class DrugStockLinkedList {
 		return false;
 	} // end find()
 	
+	/** Method Name: checkStockDIN
+	* @Author Christina Wong 
+	* @Date December 15, 2023
+	* @Modified December 15, 2023
+	* @Description This .
+	* @Parameters  String searchDIN, the DIN of the drug to search for 
+	* @Returns boolean true if found, false if not found
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
+	public boolean checkStockDIN(String searchDIN) {
+		Node runner;
+		runner = head;
+		
+		while(runner != null) {
+			if(runner.drugStock.getDrugDIN().equals(searchDIN)) {
+				return true;
+			} // end if
+			runner = runner.next;
+		} // end while	
+		
+		return false;
+	} // end checkStock
+	
+	/** Method Name: checkStockName
+	* @Author Christina Wong 
+	* @Date December 15, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters  String searchName, the brand or generic name of the drug to search for 
+	* @Returns boolean true if found, false if not found
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
+	public String checkStockName(String searchName) {
+		Node runner;
+		runner = head;
+		
+		while(runner != null) {
+			if(runner.drugStock.getDrugNameGen().equals(searchName) || runner.drugStock.getDrugNameBrand().equals(searchName)) {
+				return runner.drugStock.getDrugDIN();
+			} // end if
+		} // end while
+		
+		return "";
+	} // end checkStockName
+	
+	// will have to rewrite print statements to be displayed on UI
+	// how will notification be set up for threshold reached?  email, pop-up box?
+	/** Method Name: printDrugInfo
+	* @Author Christina Wong 
+	* @Date December 16, 2023
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters  String DINString, DIN of drug being printed
+	* @Returns void
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
+	public void printDrugInfo(String DINString) {
+		Node runner = head;
+		
+		while(runner != null) {
+			if(runner.drugStock.getDrugDIN().equals(DINString)) {
+				System.out.print("Drug: " + runner.drugStock.getDrugNameGen());
+				if(runner.drugStock.getDrugNameBrand() != "") {
+					System.out.print(" (" + runner.drugStock.getDrugNameBrand() + ")");
+				} // end if
+				System.out.println();
+				
+				System.out.println("\nDIN: " + runner.drugStock.getDrugDIN());
+				System.out.println("\nDrug Class: " + runner.drugStock.getClass());
+				System.out.println("Current stock: " + runner.drugStock.getNumInStock());
+				System.out.println("Current threshold: " + runner.drugStock.getStockThreshold());
+				System.out.println("\nStock is " + (runner.drugStock.getNumInStock() - runner.drugStock.getStockThreshold()) + " away from threshold.  You will receive a notification when stock hits the minimum threshold");
+				
+			} // end if
+		} // end while
+	} // end printDrugInfo
+	
+	
+	
+	/** Method Name: insert
+	* @Author Kyle McKay
+	* @Date Unknown
+	* @Modified December 16, 2023
+	* @Description This .
+	* @Parameters  DrugStock insertDrugStock, drug added to linked list
+	* @Returns void
+	* Dependencies: N/A
+	* Throws/Exceptions: N/A
+    */
 	public void insert(DrugStock insertDrugStock) {
 		Node newNode; // A Node to contain the new item.
 		newNode = new Node();
@@ -51,7 +144,7 @@ public class DrugStockLinkedList {
 			head = newNode;
 		} // end if
 
-		if (head.drugStock.getDrugNameGen().compareTo(insertDrugStock.getDrugNameGen()) >= 0) {
+		if (Integer.parseInt(head.drugStock.getDrugDIN()) > Integer.parseInt(newNode.drugStock.getDrugDIN())) {
 			newNode.next = head;
 			head = newNode;
 		} // end if
@@ -61,9 +154,7 @@ public class DrugStockLinkedList {
 			Node previous; // Always points to the node preceding runner.
 			runner = head.next; // Start by looking at the SECOND position.
 			previous = head;
-			while (runner != null
-					&& runner.drugStock.getDrugNameGen().compareTo(insertDrugStock.getDrugNameGen()) < 0) {
-
+			while (runner != null && Integer.parseInt(runner.drugStock.getDrugDIN()) < Integer.parseInt(insertDrugStock.getDrugDIN())) {
 				previous = runner;
 				runner = runner.next;
 			} // end while
@@ -74,6 +165,18 @@ public class DrugStockLinkedList {
 
 	} // end insert()
 	
+	public void newShipment(String arrivalDIN, int newStock) {
+		// if inventory already has some of the drug in stock
+
+		Node runner = head;
+		while(runner != null) {
+			if(runner.drugStock.getDrugDIN().equals(arrivalDIN)) {
+				runner.drugStock.addToStock(newStock);
+			} // end if
+		} // end while
+	}
+	
+	// not sure if we will need this
     public DrugStock[] getElements() {
 
         int count;          // For counting elements in the list.
@@ -88,7 +191,7 @@ public class DrugStockLinkedList {
         while (runner != null) {
             count++;
             runner = runner.next;
-        }
+        } // end while
 
         // Create an array just large enough to hold all the
         // list elements.  Go through the list again and
@@ -101,7 +204,7 @@ public class DrugStockLinkedList {
             drugs[count] = runner.drugStock;
             count++;
             runner = runner.next;
-        }
+        } // end while
 
         // Return the array that has been filled with the list elements.
 
