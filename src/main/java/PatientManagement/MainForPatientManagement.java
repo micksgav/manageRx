@@ -61,9 +61,10 @@ public class MainForPatientManagement {
 	}
 
 	// search for a patient in the list by name and birthday
-	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthday) {
-		if (name != null && birthday != null) {
-			int index = patients.findPatientByBirthday(name, birthday);
+	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthMonth, int birthDay, int birthYear) {
+		LocalDateTime date = LocalDateTime.now();
+		if (name != null && birthMonth != null && birthDay > 0 && birthYear > 0 && birthYear < date.getYear()) {
+			int index = patients.findPatientByBirthday(name, birthMonth, birthDay, birthYear);
 			return index;
 		}
 		return -1;
@@ -272,10 +273,15 @@ public class MainForPatientManagement {
 
 	// update the address of an existing patient
 	public static void updatePatientAddress(Scanner scan, PatientList patients) {
-		System.out.println("Enter the name and birthday of the patient whose address you would like to change");
+		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
-		String birthday = scan.nextLine();
-		int index = searchPatientByNameAndBirthday(name, patients, birthday);
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
 		if (index >= 0) {
 			System.out.println("Enter new address of patient");
 			patients.returnData(index).setAddress(scan.nextLine());
@@ -286,10 +292,15 @@ public class MainForPatientManagement {
 
 	// update the phone number of an existing patient
 	public static void updatePatientNumber(Scanner scan, PatientList patients) {
-		System.out.println("Enter the name and birthday of the patient whose phone number you would like to change");
+		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
-		String birthday = scan.nextLine();
-		int index = searchPatientByNameAndBirthday(name, patients, birthday);
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
 		if (index >= 0) {
 			System.out.println("Enter new phone number of patient");
 			patients.returnData(index).setPhoneNumber(Integer.parseInt(scan.nextLine()));
@@ -300,10 +311,15 @@ public class MainForPatientManagement {
 
 	// update the email of an existing patient
 	public static void updatePatientEmail(Scanner scan, PatientList patients) {
-		System.out.println("Enter the name and birthday of the patient whose email you would like to change");
+		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
-		String birthday = scan.nextLine();
-		int index = searchPatientByNameAndBirthday(name, patients, birthday);
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
 		if (index >= 0) {
 			System.out.println("Enter new email of patient");
 			patients.returnData(index).setEmail(scan.nextLine());
@@ -315,10 +331,15 @@ public class MainForPatientManagement {
 	// add a prescription to the patient
 	public static void addActivePrescription(PatientList patients, Scanner scan) {
 		LocalDateTime date = LocalDateTime.now();
-		System.out.println("Enter the name and birthday of the patient");
+		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
-		String birthday = scan.nextLine();
-		int index = searchPatientByNameAndBirthday(name, patients, birthday);
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
 		// add a new prescription to the patient
 		if (index >= 0) {
 			Prescription newRx = new Prescription();
@@ -345,19 +366,266 @@ public class MainForPatientManagement {
 		}
 	}
 	
+
+
 	// remove a prescription from a patient's active prescriptions
-		System.out.println("Enter the name and birthday of the patient");
+	public static void ArchivePrescription(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
-		String birthday = scan.nextLine();
-		int index = searchPatientByNameAndBirthday(name, patients, birthday);
-		// add a new prescription to the patient
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		String drugName = "";
+		// archive prescription
 		if (index >= 0) {
 			System.out.println("Enter the name of the drug for the prescription you would like to remove");
-			
+			drugName = scan.nextLine();
+			patients.returnData(index).removeActivePrescription(drugName);
 		} else {
 			System.out.println("Unable to find patient");
 		}
 	}
+	
+	// add a new credit card to patient file
+	public static void addCreditCard(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		long creditNum = 0L;
+		int creditExp = 0;
+		if (index >= 0) {
+			System.out.println("Enter the new credit card number");
+			creditNum = Long.parseLong(scan.nextLine());
+			System.out.println("Enter the expiry date of the credit card");
+			creditExp = Integer.parseInt(scan.nextLine());
+			patients.returnData(index).addNewCard(creditNum, creditExp);
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// remove a credit card from patient file
+	public static void removeCreditCard(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		long creditNum = 0L;
+		int creditExp = 0;
+		if (index >= 0) {
+		System.out.println("Enter the credit card number of the card you would like to remove");
+		creditNum = Long.parseLong(scan.nextLine());
+		System.out.println("Enter the expiry date");
+		creditExp = Integer.parseInt(scan.nextLine());
+		patients.returnData(index).removeCard(creditNum, creditExp);
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// add a new allergy or dietary restriction
+	public static void addAllergy(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the dietary restriction or allergy");
+			patients.returnData(index).addAllergyOrDietary(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// remove an allergy or dietary restriction -- will probably be clicking a button so putting the exact string in isn't important
+	public static void removeAllergy(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the dietary restriction or allergy");
+			patients.returnData(index).removeAllergyOrDietary(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// add a medical condition
+	public static void addCondition(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the medical condition");
+			patients.returnData(index).addMedicalCondition(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// remove a medical condition
+	public static void removeCondition(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the dietary restriction or allergy");
+			patients.returnData(index).removeMedicalCondition(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// add a lifestyle habit
+	public static void addLifestyleHabit(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the lifestyle habit");
+			patients.returnData(index).addLifestyleHabit(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// remove a lifestyle habit
+	public static void removeLifestyleHabit(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("Enter the lifestyle habit");
+			patients.returnData(index).removeLifestyleHabit(scan.nextLine());
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// change family doctor
+	public static void updateFamilyDoctor(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		String newName = "";
+		String newAddress = "";
+		int phoneNumber = 0;
+		if (index >= 0) {
+			System.out.println("Enter the name of the new doctor");
+			newName = scan.nextLine();
+			System.out.println("Enter the address of the new doctor");
+			newAddress = scan.nextLine();
+			System.out.println("Enter the phone number of the new doctor");
+			phoneNumber = Integer.parseInt(scan.nextLine());
+			patients.returnData(index).newFamilyDoctor(newName, newAddress, phoneNumber);
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// add new insurance info
+	public static void newInsurance(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		String newComp = "";
+		int newNum = 0;
+		if (index >= 0) {
+			System.out.println("Enter the company for the new insurance");
+			newComp = scan.nextLine();
+			System.out.println("Enter the new insurance number");
+			newNum = Integer.parseInt(scan.nextLine());
+			patients.returnData(index).addNewInsuranceInfo(newComp, newNum);
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	// remove insurance info
+	public static void removeInsurance(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		String remComp = "";
+		int remNum = 0;
+		if (index >= 0) {
+			System.out.println("Enter the insurance number for the plan you would like to remove");
+			patients.returnData(index).removeInsurance(remComp, remNum);
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+	
+	
+	
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
