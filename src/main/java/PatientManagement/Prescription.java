@@ -10,7 +10,6 @@
 
 package PatientManagement;
 import inventory.*;
-import apiInteracting.*;
 
 public class Prescription {
 	private Drug drug; // prescribed drug
