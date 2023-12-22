@@ -11,7 +11,8 @@
 package PatientManagement;
 
 import inventory.*;
-import apiInteracting.*;
+import utilities.getInteractions;
+
 import java.util.*;
 
 public class Patient {

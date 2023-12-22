@@ -43,3 +43,5 @@ data/drugs/errors.txt
 data/drugs/errors.txt
 target/classes/META-INF/maven/FiNAL/manageRx/pom.properties
 pom.xml
+/.idea/
+/target/
