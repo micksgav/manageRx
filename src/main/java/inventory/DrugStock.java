@@ -38,21 +38,21 @@ public class DrugStock {
 		return drug;
 	} // end getDrug
 	
-	public String getDrugNameGen() {
-		return drug.getDrugNameGen();
+	public String[] getAlternatives() {
+		return drug.getAlternatives();
 	} // end getDrugNameGen
 	
-	public void setDrugNameGen(String genName) {
-		drug.setDrugNameGen(genName);
-	} // end setDrugNameGen
+	public void setAlternatives(String[] alts) {
+		drug.setAlternatives(alts);
+	} // end setAlternatives
 	
-	public String getDrugNameBrand() {
-		return drug.getDrugNameBrand();
-	} // end getDrugNameBrand
+	public String getDrugName() {
+		return drug.getDrugName();
+	} // end getDrugName
 	
-	public void setDrugNameBrand(String brandName) {
-		drug.setDrugNameBrand(brandName);
-	} // end setDrugNameBrand
+	public void setDrugName(String drugName) {
+		drug.setDrugName(drugName);
+	} // end setDrugName
 	
 	public String getDrugDIN() {
 		return drug.getDIN();

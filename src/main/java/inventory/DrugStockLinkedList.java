@@ -82,7 +82,7 @@ public class DrugStockLinkedList {
 		runner = head;
 		
 		while(runner != null) {
-			if(runner.drugStock.getDrugNameGen().equals(searchName) || runner.drugStock.getDrugNameBrand().equals(searchName)) {
+			if(runner.drugStock.getDrugName().equals(searchName)) {
 				return runner.drugStock.getDrugDIN();
 			} // end if
 		} // end while
@@ -107,10 +107,7 @@ public class DrugStockLinkedList {
 		
 		while(runner != null) {
 			if(runner.drugStock.getDrugDIN().equals(DINString)) {
-				System.out.print("Drug: " + runner.drugStock.getDrugNameGen());
-				if(runner.drugStock.getDrugNameBrand() != "") {
-					System.out.print(" (" + runner.drugStock.getDrugNameBrand() + ")");
-				} // end if
+				System.out.print("Drug: " + runner.drugStock.getDrugName());
 				System.out.println();
 				
 				System.out.println("\nDIN: " + runner.drugStock.getDrugDIN());

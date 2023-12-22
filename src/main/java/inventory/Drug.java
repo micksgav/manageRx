@@ -20,8 +20,8 @@ import java.math.BigInteger;
 // add Gavin's import thing?
 
 public class Drug {
-	private String drugNameGen; // generic name of drug
-	private String drugNameBrand; // brand name of drug
+	private String[] drugAlternatives; // DIN possible alternatives
+	private String drugName; // brand name of drug
 	private String drugClass; // drug class
 	private String[] sideEffects; // drug side effects // DON'T DO YET
 	private String DIN; // drug identification number
@@ -37,8 +37,8 @@ public class Drug {
 	private String DPC; // drug DPC
 	private String ATC; // drug ATC
 
-	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC) {
-		drugNameBrand = brandName;
+	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC, String[] alts) {
+		drugName = brandName;
 		drugClass = classDrug;
 		DIN = drugDIN;
 		this.schedule = schedule;
@@ -49,11 +49,12 @@ public class Drug {
 		this.RXCUI = RXCUI;
 		this.DPC = DPC;
 		this.ATC = ATC;
+		drugAlternatives = alts;
 	} // end Drug constructor
 
 	public Drug() {
-		drugNameGen = "";
-		drugNameBrand = "";
+		drugAlternatives = null;
+		drugName = "";
 		drugClass = "";
 		sideEffects = null;
 		DIN = "";
@@ -67,20 +68,20 @@ public class Drug {
 		ATC = "";
 	} // end blank constructor
 
-	public String getDrugNameGen() {
-		return drugNameGen;
-	} // end getDrugNameGen
+	public String[] getAlternatives() {
+		return drugAlternatives;
+	} // end getAlternatives
 
-	public void setDrugNameGen(String genName) {
-		this.drugNameGen = genName;
-	} // end setDrugNameGen
+	public void setAlternatives(String[] alts) {
+		this.drugAlternatives = alts;
+	} // end setAlternatives
 
-	public String getDrugNameBrand() {
-		return drugNameBrand;
-	} // end getDrugNameBrand
+	public String getDrugName() {
+		return drugName;
+	} // end getDrugName
 
-	public void setDrugNameBrand(String brandName) {
-		this.drugNameBrand = brandName;
+	public void setDrugName(String brandName) {
+		this.drugName = brandName;
 	} // end setDrugNameBrand
 
 	public String getDrugClass() {
