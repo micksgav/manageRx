@@ -13,16 +13,15 @@ public class drugFinder {
     //call this method to get the drug information
     //Drug drugName = drugFinder.getDrug(*put DIN here*);
 
-    public static Drug getDrug(String inDIN) throws IOException {
+    public static Drug getDrug(String DIN) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
 
         String line;
         String line2;
 
         while ((line = br.readLine()) != null) {
-            line2 = br.readLine();
-            if (line.substring(0, line.indexOf(" ")).equals(inDIN)) {
-                String DIN = line.substring(0, line.indexOf(" "));
+            if (line.substring(0, line.indexOf(" ")).equals(DIN)) {
+                line2 = br.readLine();
                 System.out.println(DIN + " is being parsed.");
                 String drugNameBrand = line.substring(line.indexOf(" ") + 1); //Brand Name - from drugData.txt;
                 String RXCUI = line2.substring(0, line2.indexOf(" ")); //used in backend - from drugData.txt
@@ -42,8 +41,9 @@ public class drugFinder {
                 String drugForm = getForm(DPC); //Drug Form (pill, cream, etc)
 
                 String[][] dosage = getDosage(DPC); //each column is an active ingredient, dosage, and unit
+                String[] alts = findAlternatives.findAlternative(DIN);
 
-                return new Drug(DIN, drugNameBrand, drugClass, drugSchedule, company, description, drugForm, dosage, RXCUI, DPC, ATC);
+                return new Drug(DIN, drugNameBrand, drugClass, drugSchedule, company, description, drugForm, dosage, RXCUI, DPC, ATC, alts);
             }
         }
         return null;

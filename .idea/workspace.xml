@@ -7,15 +7,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="476dbee4-1c6d-4528-b6d7-ceb2854d6246" name="Changes" comment="Created Structure">
-      <change afterPath="$PROJECT_DIR$/src/main/java/apiInteracting/getInteractions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mainUI/loginUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mainUI/mainUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mainUI/settingsUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/patientUI/CreateNewPatientUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/patientUI/patientManagerUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/apiInteracting/generateData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/apiInteracting/generateData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +77,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.findAlternative.executor": "Run",
     "Application.generateData.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -110,6 +102,35 @@
       <recent name="C:\manageRx\data\drugs" />
     </key>
   </component>
+  <component name="RunManager" selected="Application.findAlternative">
+    <configuration name="atcprocess" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="apiInteracting.atcprocess" />
+      <module name="manageRx" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="apiInteracting.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dinListGen" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="apiInteracting.dinListGen" />
+      <module name="manageRx" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="apiInteracting.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="findAlternative" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="apiInteracting.findAlternative" />
   <component name="RunManager">
     <configuration name="generateData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="apiInteracting.generateData" />
@@ -126,6 +147,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.findAlternative" />
+        <item itemvalue="Application.getInteractions" />
+        <item itemvalue="Application.dinListGen" />
+        <item itemvalue="Application.test" />
+        <item itemvalue="Application.atcprocess" />
         <item itemvalue="Application.generateData" />
       </list>
     </recent_temporary>
