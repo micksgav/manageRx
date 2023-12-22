@@ -8,12 +8,12 @@ public class TestRun {
 		AllStock stock = new AllStock(100, 1000, 10000, 400);
 		Drug drug1 = drugFinder.getDrug("00548359");
 		Drug drug2 = drugFinder.getDrug("02248808");
-		stock.updateStock(100, drug1.getDIN(), drug1.getDrugNameGen(), drug1.getDrugNameBrand(), drug1.getDrugClass());
+		stock.updateStock(100, drug1.getDIN(), drug1.getDrugName(), drug1.getDrugClass());
 		System.out.println("stock 1 update");
-		stock.updateStock(200, drug1.getDIN(), drug1.getDrugNameGen(), drug1.getDrugNameBrand(), drug1.getDrugClass());
+		stock.updateStock(200, drug1.getDIN(), drug1.getDrugName(), drug1.getDrugClass());
 		System.out.println("\nstock 2 update");
 
-		stock.updateStock(100, drug2.getDIN(), drug2.getDrugNameGen(), drug2.getDrugNameBrand(), drug2.getDrugClass());
+		stock.updateStock(100, drug2.getDIN(), drug2.getDrugName(), drug2.getDrugClass());
 		System.out.println("\nstock 3 update");
 
 //		System.out.println("checking interactions");
