@@ -3,13 +3,14 @@
  @Name: AllStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 19, 2023
+ @Modified Date	   : December 23, 2023
    @Description    : 
    
 ***********************************************
 */
 package inventory;
 
+import java.util.*;
 import java.io.IOException;
 
 public class AllStock {
@@ -22,6 +23,7 @@ public class AllStock {
 	private int numMediumContainers;
 	private int numLargeContainers;
 	private int numBags;
+	Scanner ui = new Scanner(System.in); // delete when doing ui
 	
 	public AllStock(int small, int medium, int large, int bags) {
 		// set totalNum
@@ -153,7 +155,7 @@ public class AllStock {
 	* Throws/Exceptions: N/A
     */
 	public void drugSearch(String printDrug) {
-		System.out.println("Inventory Information:");
+		System.out.println("\nInventory Information:");
 		drugsList.printDrugInfo(printDrug);		
 	} // end drugSearch
 	
@@ -168,8 +170,8 @@ public class AllStock {
 	* Dependencies: DrugStockLinkedList
 	* Throws/Exceptions: N/A
     */
-	public void shipmentArrival(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) throws IOException {
-		updateStock(newStock, arrivalDIN, nameGen, nameBrand, classDrug, dosage);
+	public void shipmentArrival(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug) throws IOException {
+		updateStock(newStock, arrivalDIN, nameGen, nameBrand, classDrug);
 	} // end shipmentArrival	
 	
 	/** Method Name: updateStock
@@ -182,18 +184,23 @@ public class AllStock {
 	* Dependencies: DrugStock, Drug
 	* Throws/Exceptions: N/A
     */
-	public void updateStock(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug, int dosage) throws IOException{
+	public void updateStock(int newStock, String arrivalDIN, String nameGen, String nameBrand, String classDrug) throws IOException{
 		boolean isStocked = drugsList.checkStockDIN(arrivalDIN);
 		if(isStocked == false) { 		// if this is the inventory's first shipment of the drug
 			// update to interact with setThresholdButton in StockUI
-			int newThreshold = Integer.parseInt(""); // "" should be the input in the setThresholdNum JTextField
-			DrugStock newDrugStock = new DrugStock(arrivalDIN, newThreshold, newStock);	
+			System.out.println("Enter threshold:");
+			int newThreshold = Integer.parseInt(ui.nextLine()); // "" should be the input in the setThresholdNum JTextField
+			DrugStock newDrugStock = new DrugStock(arrivalDIN, 0, newThreshold);	
 			
 			drugsList.insert(newDrugStock);
-		}
+		} // end if
 		
 		drugsList.newShipment(arrivalDIN, newStock);
 		
 	} // end updateStock
+	
+	public void viewUsage(String DIN) {
+		drugsList.viewStockUsage(DIN);
+	} // end viewUsage
 	
 } // end AllStock

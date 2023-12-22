@@ -7,13 +7,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="476dbee4-1c6d-4528-b6d7-ceb2854d6246" name="Changes" comment="Drug Data Grabber Thing">
-      <change afterPath="$PROJECT_DIR$/src/main/java/apiInteracting/findAlternative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/manageRx.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/manageRx.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_12_2023_5_25_PM_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_12_2023_5_25_PM__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_13_2023_5_39_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_13_2023_5_39_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +40,7 @@
     }
   ],
   &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;micksgav&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">
@@ -58,10 +52,13 @@
     </option>
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="902c5b55-025a-4b73-8f1a-346a8332c172" />
+        <option name="accountId" value="4acef385-7aed-487f-a82c-317540560ef5" />
         <option name="url" value="https://github.com/micksgav/manageRx.git" />
       </UrlAndAccount>
     </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/apiInteracting/generateData.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -87,7 +84,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "Gavin",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gavin/IdeaProjects/manageRx/data",
+    "last_opened_file_path": "C:/manageRx",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -96,13 +93,7 @@
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="apiInteracting" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\gavin\IdeaProjects\manageRx\data" />
-      <recent name="C:\Users\gavin\IdeaProjects\manageRx\src\main\java\inventory" />
-      <recent name="C:\Users\gavin\IdeaProjects\manageRx\data\drugs" />
       <recent name="C:\manageRx" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -140,36 +131,13 @@
     </configuration>
     <configuration name="findAlternative" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="apiInteracting.findAlternative" />
+  <component name="RunManager">
+    <configuration name="generateData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="apiInteracting.generateData" />
       <module name="manageRx" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="apiInteracting.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="getInteractions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="apiInteracting.getInteractions" />
-      <module name="manageRx" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="apiInteracting.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="inventory.test" />
-      <module name="manageRx" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="inventory.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -184,6 +152,7 @@
         <item itemvalue="Application.dinListGen" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.atcprocess" />
+        <item itemvalue="Application.generateData" />
       </list>
     </recent_temporary>
   </component>
@@ -279,21 +248,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702528533148</updated>
     </task>
-    <task id="LOCAL-00011" summary="Created Structure">
-      <created>1702615825399</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1702615825399</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Drug Data Grabber Thing">
-      <created>1702924246079</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1702924246079</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,18 +277,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Drug Interactions Update" />
     <MESSAGE value="Created Structure" />
-    <MESSAGE value="Drug Data Grabber Thing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Drug Data Grabber Thing" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="2" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="Created Structure" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
