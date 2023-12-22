@@ -3,7 +3,7 @@
  @Name: Drug
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 19, 2023
+ @Modified Date	   : December 22, 2023
    @Description    : 
    
 ***********************************************
@@ -112,7 +112,7 @@ public class Drug {
 		String[] interactions = getInteractions.search(this.DIN, din2);
 		for(int i = 0; i < interactions.length; i++) {
 			System.out.println(interactions[i]);
-		}
+		} // end for
 
 	} // end checkInteractions
-}
+} // end Drug
