@@ -170,6 +170,7 @@ public class AllStock {
 	* Dependencies: DrugStockLinkedList
 	* Throws/Exceptions: N/A
     */
+
 	public void shipmentArrival(int newStock, String arrivalDIN, String classDrug) throws IOException {
 		updateStock(newStock, arrivalDIN, classDrug);
 
