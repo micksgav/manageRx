@@ -13,7 +13,17 @@ package PatientManagement;
 public class FamilyDoctor {
 	private String name; // family doctor name
 	private String address; // family doctor address
-	private int phoneNumber; // family doctor phone number
+	private long phoneNumber; // family doctor phone number
+	
+	public FamilyDoctor(String name, String address, long phoneNumber) {
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public FamilyDoctor() {
+		
+	}
 
 	public String getName() {
 		return name;
@@ -31,11 +41,11 @@ public class FamilyDoctor {
 		this.address = address;
 	}
 
-	public int getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 }

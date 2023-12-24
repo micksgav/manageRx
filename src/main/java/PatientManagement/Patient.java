@@ -65,6 +65,7 @@ public class Patient {
 		this.insuranceInformation = insuranceInformation;
 	}
 	
+	
 	public void printPatientInfo() {
 		System.out.println(name + "\n" + age + "\n" + creditNum.toString().replace("[", "").replace("]", "") + "\n" + address + "\n" + activePrescriptions.atIndex(0).getBrandName());
 	}
@@ -148,8 +149,8 @@ public class Patient {
 		activePrescriptions.delete(brandName);
 	}
 
-	public PrescriptionList getAllPrescriptions() {
-		return activePrescriptions;
+	public PrescriptionList getArchivedPrescriptions() {
+		return pastPrescriptions;
 	}
 
 	public int getPhoneNumber() {
@@ -213,6 +214,10 @@ public class Patient {
 	public void removeMedicalCondition(String medicalCondition) {
 		medicalConditions.remove(medicalCondition);
 	}
+	
+	public LinkedList<String> getMedicalConditions() {
+		return medicalConditions;
+	}
 
 	public void addLifestyleHabit(String lifestyleHabit) {
 		lifestyleHabits.add(lifestyleHabit);
@@ -220,6 +225,10 @@ public class Patient {
 
 	public void removeLifestyleHabit(String lifestyleHabit) {
 		lifestyleHabits.remove(lifestyleHabit);
+	}
+	
+	public LinkedList<String> getLifestyleHabits(){
+		return lifestyleHabits;
 	}
 
 	public String getFamilyDoctorName() {
@@ -230,11 +239,11 @@ public class Patient {
 		familyDoctor.setName(docName);
 	}
 
-	public int getFamilyDoctorNumber() {
+	public long getFamilyDoctorNumber() {
 		return familyDoctor.getPhoneNumber();
 	}
 
-	public void setFamilyDoctorNumber(int number) {
+	public void setFamilyDoctorNumber(long number) {
 		familyDoctor.setPhoneNumber(number);
 	}
 
@@ -253,6 +262,7 @@ public class Patient {
 	public void addNewInsuranceInfo(String company, int num) {
 		insuranceInformation.add(new Insurance(company, num));
 	}
+	
 	
 	// may not work right now
 	public void removeInsurance(String company, int num) {
