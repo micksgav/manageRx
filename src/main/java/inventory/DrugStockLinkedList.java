@@ -3,7 +3,7 @@
  @Name: DrugStockLinkedList
  @Author           : Christina Wong
  @Creation Date    : December 13, 2023
- @Modified Date	   : December 17, 2023
+ @Modified Date	   : December 23, 2023
    @Description    : 
    
 ***********************************************
@@ -17,8 +17,7 @@ public class DrugStockLinkedList {
 	} // end Node
 	
 	private Node head;
-	
-	
+
 	/** Method Name: find
 	* @Author Kyle McKay
 	* @Date Unknown
@@ -56,14 +55,15 @@ public class DrugStockLinkedList {
 	public boolean checkStockDIN(String searchDIN) {
 		Node runner;
 		runner = head;
-		
+		System.out.println("searching for DIN " + searchDIN);
 		while(runner != null) {
 			if(runner.drugStock.getDrugDIN().equals(searchDIN)) {
+				System.out.println("found");
 				return true;
 			} // end if
 			runner = runner.next;
 		} // end while	
-		
+		System.out.println("not found");
 		return false;
 	} // end checkStock
 	
@@ -82,9 +82,10 @@ public class DrugStockLinkedList {
 		runner = head;
 		
 		while(runner != null) {
-			if(runner.drugStock.getDrugNameGen().equals(searchName) || runner.drugStock.getDrugNameBrand().equals(searchName)) {
+			if(runner.drugStock.getDrugName().equals(searchName)) {
 				return runner.drugStock.getDrugDIN();
 			} // end if
+			runner = runner.next;
 		} // end while
 		
 		return "";
@@ -107,23 +108,19 @@ public class DrugStockLinkedList {
 		
 		while(runner != null) {
 			if(runner.drugStock.getDrugDIN().equals(DINString)) {
-				System.out.print("Drug: " + runner.drugStock.getDrugNameGen());
-				if(runner.drugStock.getDrugNameBrand() != "") {
-					System.out.print(" (" + runner.drugStock.getDrugNameBrand() + ")");
-				} // end if
+				System.out.print("Drug: " + runner.drugStock.getDrugName());
 				System.out.println();
 				
 				System.out.println("\nDIN: " + runner.drugStock.getDrugDIN());
-				System.out.println("\nDrug Class: " + runner.drugStock.getClass());
+				System.out.println("\nDrug Class: " + runner.drugStock.getDrug().getDrugClass());
 				System.out.println("Current stock: " + runner.drugStock.getNumInStock());
 				System.out.println("Current threshold: " + runner.drugStock.getStockThreshold());
 				System.out.println("\nStock is " + (runner.drugStock.getNumInStock() - runner.drugStock.getStockThreshold()) + " away from threshold.  You will receive a notification when stock hits the minimum threshold");
 				
 			} // end if
+			runner = runner.next;
 		} // end while
 	} // end printDrugInfo
-	
-	
 	
 	/** Method Name: insert
 	* @Author Kyle McKay
@@ -144,7 +141,7 @@ public class DrugStockLinkedList {
 			head = newNode;
 		} // end if
 
-		if (Integer.parseInt(head.drugStock.getDrugDIN()) > Integer.parseInt(newNode.drugStock.getDrugDIN())) {
+		else if (Integer.parseInt(head.drugStock.getDrugDIN()) > Integer.parseInt(newNode.drugStock.getDrugDIN())) {
 			newNode.next = head;
 			head = newNode;
 		} // end if
@@ -162,19 +159,53 @@ public class DrugStockLinkedList {
 			previous.next = newNode;
 
 		} // end else
+		
+		System.out.println("new node inserted");
+		printDINs();
 
 	} // end insert()
 	
 	public void newShipment(String arrivalDIN, int newStock) {
 		// if inventory already has some of the drug in stock
-
-		Node runner = head;
+		System.out.println("adding new shipment");
+		Node runner;
+		runner = head;
 		while(runner != null) {
 			if(runner.drugStock.getDrugDIN().equals(arrivalDIN)) {
 				runner.drugStock.addToStock(newStock);
+				System.out.println("shipment added");
+				break;
 			} // end if
+			runner = runner.next;
 		} // end while
-	}
+	} // end newShipment
+	
+	public void printDINs() {
+		Node runner;
+		runner = head;
+		while(runner != null) {
+			System.out.println(runner.drugStock.getDrugDIN());
+			runner = runner.next;
+		} // end while
+	} // end printDINS
+	
+	public void viewStockUsage(String DIN) {
+		System.out.println("Viewing stock usage");
+		Node runner;
+		runner = head;
+		boolean found = false;
+		while(runner != null) {
+			if(runner.drugStock.getDrugDIN().equals(DIN)) {
+				runner.drugStock.viewUsage();
+				found = true;
+				break;
+			} // end if
+			runner = runner.next;
+		} // end while
+		if(found == false) {
+			System.out.println("Drug not found in inventory");
+		} // end if
+	} // end viewStockUsage
 	
 	// not sure if we will need this
     public DrugStock[] getElements() {

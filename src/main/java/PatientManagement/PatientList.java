@@ -9,8 +9,6 @@
 
 package PatientManagement;
 
-
-
 /**
  * An object of type StringList represents a list of strings. Methods are
  * provided to insert a string into the list, to delete a string from the list,
@@ -50,7 +48,6 @@ public class PatientList {
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
 
-	
 	// set the head to a new value
 	public void setHead(Node newHead) {
 		head = newHead;
@@ -60,6 +57,7 @@ public class PatientList {
 		return head;
 	}
 	
+
 	public int findPrescription(String drugName, int patient) {
 		Node runner = head;
 		for (int i = 0; runner != null; i++, runner = runner.link) {
@@ -69,7 +67,7 @@ public class PatientList {
 		}
 		return -1;
 	}
-	
+
 	// find a patient in the list by name and address
 	public int findPatientByAddress(String name, String address) {
 		Node runner = head;
@@ -81,19 +79,21 @@ public class PatientList {
 		}
 		return -1;
 	}
-	
+
 	// find a patient in the list by name and birthday
 	public int findPatientByBirthday(String name, String birthMonth, int birthDay, int birthYear) {
 		Node runner = head;
 		int i = 0;
 		for (runner = head; runner != null; runner = runner.link, i++) {
-			if (runner.info.getName().equals(name) && runner.info.getBirthYear() == birthYear && runner.info.getDateOfBirthDay() == birthDay && runner.info.getDateOfBirthMonth() == birthMonth) {
+			if (runner.info.getName().equals(name) && runner.info.getBirthYear() == birthYear
+					&& runner.info.getDateOfBirthDay() == birthDay
+					&& runner.info.getDateOfBirthMonth().toLowerCase().equals(birthMonth.toLowerCase())) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	// find a patient in the list by name and phone number
 	public int findPatientByPhoneNumber(String name, int phoneNumber) {
 		Node runner = head;
@@ -105,7 +105,7 @@ public class PatientList {
 		}
 		return -1;
 	}
-	
+
 	/*
 	 * Method Name: isEmpty Author: John Brown Creation Date: November 28, 2023
 	 * Modified Date: November 28, 2023 Description: returns true if the list is
@@ -250,7 +250,8 @@ public class PatientList {
 				previous = runner;
 				runner = runner.link;
 			} // end while
-			if (runner != null && runner.info.getName().equals(deleteItem) && runner.info.getPhoneNumber() == deleteNum) {
+			if (runner != null && runner.info.getName().equals(deleteItem)
+					&& runner.info.getPhoneNumber() == deleteNum) {
 				// Runner points to the node that is to be deleted.
 				// Remove it by changing the pointer in the previous node.
 				previous.link = runner.link;

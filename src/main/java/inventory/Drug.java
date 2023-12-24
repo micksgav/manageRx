@@ -1,27 +1,22 @@
-
-package inventory; /**
+/**
 ***********************************************
  @Name: Drug
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 19, 2023
+ @Modified Date	   : December 22, 2023
    @Description    : 
    
 ***********************************************
 */
+package inventory;
+import java.io.IOException;
 
-import java.math.BigInteger;
+import utilities.getInteractions;
 
-// TO DO:
-// comment all variables on all classes
-// finish LinkedList methods
-// check commenting, update dates
-
-// add Gavin's import thing?
 
 public class Drug {
-	private String drugNameGen; // generic name of drug
-	private String drugNameBrand; // brand name of drug
+	private String[] drugAlternatives; // DIN possible alternatives
+	private String drugName; // brand name of drug
 	private String drugClass; // drug class
 	private String[] sideEffects; // drug side effects // DON'T DO YET
 	private String DIN; // drug identification number
@@ -37,8 +32,8 @@ public class Drug {
 	private String DPC; // drug DPC
 	private String ATC; // drug ATC
 
-	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC) {
-		drugNameBrand = brandName;
+	public Drug(String drugDIN, String brandName, String classDrug, String schedule, String company, String description, String form, String[][] dosage, String RXCUI, String DPC, String ATC, String[] alts) {
+		drugName = brandName;
 		drugClass = classDrug;
 		DIN = drugDIN;
 		this.schedule = schedule;
@@ -49,11 +44,12 @@ public class Drug {
 		this.RXCUI = RXCUI;
 		this.DPC = DPC;
 		this.ATC = ATC;
+		drugAlternatives = alts;
 	} // end Drug constructor
 
 	public Drug() {
-		drugNameGen = "";
-		drugNameBrand = "";
+		drugAlternatives = null;
+		drugName = "";
 		drugClass = "";
 		sideEffects = null;
 		DIN = "";
@@ -67,20 +63,20 @@ public class Drug {
 		ATC = "";
 	} // end blank constructor
 
-	public String getDrugNameGen() {
-		return drugNameGen;
-	} // end getDrugNameGen
+	public String[] getAlternatives() {
+		return drugAlternatives;
+	} // end getAlternatives
 
-	public void setDrugNameGen(String genName) {
-		this.drugNameGen = genName;
-	} // end setDrugNameGen
+	public void setAlternatives(String[] alts) {
+		this.drugAlternatives = alts;
+	} // end setAlternatives
 
-	public String getDrugNameBrand() {
-		return drugNameBrand;
-	} // end getDrugNameBrand
+	public String getDrugName() {
+		return drugName;
+	} // end getDrugName
 
-	public void setDrugNameBrand(String brandName) {
-		this.drugNameBrand = brandName;
+	public void setDrugName(String brandName) {
+		this.drugName = brandName;
 	} // end setDrugNameBrand
 
 	public String getDrugClass() {
@@ -112,14 +108,12 @@ public class Drug {
 		DIN = drugDIN;
 	} // end setDIN
 
-	public String checkInteractions(Drug drug2) {
-		String interactions = "";
-
-
-
-
+	public void checkInteractions(Drug drug2) throws IOException {
 		String din2 = drug2.getDIN();
+		String[] interactions = getInteractions.search(this.DIN, din2);
+		for(int i = 0; i < interactions.length; i++) {
+			System.out.println(interactions[i]);
+		} // end for
 
-		return interactions;
 	} // end checkInteractions
-}
+} // end Drug
