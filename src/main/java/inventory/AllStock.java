@@ -172,6 +172,7 @@ public class AllStock {
     */
 	public void shipmentArrival(int newStock, String arrivalDIN, String classDrug) throws IOException {
 		updateStock(newStock, arrivalDIN, classDrug);
+
 	} // end shipmentArrival	
 	
 	/** Method Name: updateStock
@@ -184,6 +185,7 @@ public class AllStock {
 	* Dependencies: DrugStock, Drug
 	* Throws/Exceptions: N/A
     */
+
 	public void updateStock(int newStock, String arrivalDIN, String classDrug) throws IOException{
 		boolean isStocked = drugsList.checkStockDIN(arrivalDIN);
 		if(isStocked == false) { 		// if this is the inventory's first shipment of the drug
