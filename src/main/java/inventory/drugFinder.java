@@ -2,6 +2,7 @@ package inventory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utilities.findAlternatives;
 
 import java.io.*;
 import java.net.HttpURLConnection;

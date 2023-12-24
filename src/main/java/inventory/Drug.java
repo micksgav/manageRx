@@ -11,7 +11,7 @@
 package inventory;
 import java.io.IOException;
 
-import apiInteracting.*;
+import utilities.getInteractions;
 
 
 public class Drug {

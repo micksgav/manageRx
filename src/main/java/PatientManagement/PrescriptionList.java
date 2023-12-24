@@ -1,7 +1,5 @@
 package PatientManagement;
 
-
-
 /**
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
@@ -10,7 +8,6 @@ package PatientManagement;
  * @Description: This program is a StringList object with various methods to edit a linked list containing Strings as the payload
  ***********************************************
  */
-
 
 /**
  * An object of type StringList represents a list of strings. Methods are
@@ -50,7 +47,16 @@ public class PrescriptionList {
 
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
-	
+
+	public String[] returnInfo() {
+		String[] all = new String[this.length()];
+		Node runner = head;
+		for (int i = 0; runner != null; runner = runner.link, i++) {
+			all[i] = "Brand name: " + runner.info.getBrandName() + "\nGeneric name: " + runner.info.getGenName() + "\nDate prescribed: " + runner.info.getDate() + "\nNumber of refills: " + runner.info.getRefills() + "\nQuantity: " + runner.info.getQuantity() + " pills\nDosage: " + runner.info.getDosage() + "mg\nInstructions: " + runner.info.getInstructions() + "\nPrescribed duration: " + runner.info.getDuration();
+		}
+		return all;
+	}
+
 	public Prescription returnPrescription(String drugName) {
 		Node runner = head;
 		for (int i = 0; runner != null; runner = runner.link, i++) {
@@ -60,19 +66,19 @@ public class PrescriptionList {
 		}
 		return null;
 	}
-	
+
 	public Prescription atIndex(int i) {
 		Node runner = head;
 		for (int k = 0; k < i; runner = runner.link, k++) {
-			
+
 		}
 		return runner.info;
 	}
-	
+
 	public int length() {
 		int counter = 0;
 		for (Node runner = head; runner != null; runner = runner.link) {
-			counter ++;
+			counter++;
 		}
 		return counter;
 	}
@@ -271,4 +277,3 @@ public class PrescriptionList {
 	} // end insert()
 
 } // end StringList
-
