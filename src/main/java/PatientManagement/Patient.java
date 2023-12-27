@@ -26,6 +26,7 @@ public class Patient {
 	PrescriptionList pastPrescriptions; // inactive prescriptions
 	private int phoneNumber; // patient phone number
 	private String email; // patient email
+	private String healthCardNum;
 	private LinkedList<Long> creditNum; // patient credit card number
 	private LinkedList<Integer> cardExpDate; // patient credit card expiry date
 	private LinkedList<String> allergiesAndDietary; // patient allergies/dietary restrictions
@@ -65,6 +66,14 @@ public class Patient {
 		this.insuranceInformation = insuranceInformation;
 	}
 	
+	
+	public String getHealthCardNumber() {
+		return healthCardNum;
+	}
+	
+	public void setHealthCardNumber(String healthCardNum) {
+		this.healthCardNum = healthCardNum;
+	}
 	
 	public void printPatientInfo() {
 		System.out.println(name + "\n" + age + "\n" + creditNum.toString().replace("[", "").replace("]", "") + "\n" + address + "\n" + activePrescriptions.atIndex(0).getBrandName());
