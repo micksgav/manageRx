@@ -52,7 +52,7 @@ public class PrescriptionList {
 		String[] all = new String[this.length()];
 		Node runner = head;
 		for (int i = 0; runner != null; runner = runner.link, i++) {
-			all[i] = "Brand name: " + runner.info.getBrandName() + "\nGeneric name: " + runner.info.getGenName() + "\nDate prescribed: " + runner.info.getDate() + "\nNumber of refills: " + runner.info.getRefills() + "\nQuantity: " + runner.info.getQuantity() + " pills\nDosage: " + runner.info.getDosage() + "mg\nInstructions: " + runner.info.getInstructions() + "\nPrescribed duration: " + runner.info.getDuration();
+			all[i] = "Brand name: " + runner.info.getBrandName() + "\nBranderic name: " + runner.info.getBrandName() + "\nDate prescribed: " + runner.info.getDate() + "\nNumber of refills: " + runner.info.getRefills() + "\nQuantity: " + runner.info.getQuantity() + " pills\nDosage: " + runner.info.getDosage() + "mg\nInstructions: " + runner.info.getInstructions() + "\nPrescribed duration: " + runner.info.getDuration();
 		}
 		return all;
 	}
@@ -137,7 +137,7 @@ public class PrescriptionList {
 		for (int i = 0; i < halfPoint; i++, runner = runner.link) {
 		} // end for
 		Prescription info = runner.info;
-		this.delete(runner.info.getGenName());
+		this.delete(runner.info.getBrandName());
 		this.addToFront(info);
 	} // end midToFront
 
@@ -194,7 +194,7 @@ public class PrescriptionList {
 			// The list is empty, so it certainly doesn't contain deleteString.
 			return;
 		} // end if
-		else if (head.info.getGenName().equals(deleteItem)) {
+		else if (head.info.getBrandName().equals(deleteItem)) {
 			// The string is the first info of the list. Remove it.
 			head = head.link;
 			return;
@@ -206,7 +206,7 @@ public class PrescriptionList {
 			Node previous; // Always points to the node preceding runner.
 			runner = head.link; // Start by looking at the SECOND list node.
 			previous = head;
-			while (runner != null && runner.info.getGenName().compareTo(deleteItem) < 0) {
+			while (runner != null && runner.info.getBrandName().compareTo(deleteItem) < 0) {
 				// Move previous and runner along the list until runner
 				// falls off the end or hits a list element that is
 				// greater than or equal to deleteItem. When this
@@ -215,7 +215,7 @@ public class PrescriptionList {
 				previous = runner;
 				runner = runner.link;
 			} // end while
-			if (runner != null && runner.info.getGenName().equals(deleteItem)) {
+			if (runner != null && runner.info.getBrandName().equals(deleteItem)) {
 				// Runner points to the node that is to be deleted.
 				// Remove it by changing the pointer in the previous node.
 				previous.link = runner.link;
@@ -248,7 +248,7 @@ public class PrescriptionList {
 			// Set head to point to it.
 			head = newNode;
 		} // end if
-		else if (head.info.getGenName().compareTo(insertItem.getGenName()) >= 0) {
+		else if (head.info.getBrandName().compareTo(insertItem.getBrandName()) >= 0) {
 			// The new info is less than the first info in the list,
 			// so it has to be inserted at the head of the list.
 			newNode.link = head;
@@ -261,7 +261,7 @@ public class PrescriptionList {
 			Node previous; // Always points to the node preceding runner.
 			runner = head.link; // Start by looking at the SECOND position.
 			previous = head;
-			while (runner != null && runner.info.getGenName().compareTo(insertItem.getGenName()) < 0) {
+			while (runner != null && runner.info.getBrandName().compareTo(insertItem.getBrandName()) < 0) {
 				// Move previous and runner along the list until runner
 				// falls off the end or hits a list element that is
 				// greater than or equal to insertItem. When this

@@ -1,21 +1,41 @@
 package patientUI;
 
-import swingHelper.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import PatientManagement.Patient;
 import mainUI.loginUI;
 import mainUI.settingsUI;
-import PatientManagement.*;
+import swingHelper.AppIcon;
 
-
-import java.awt.*;
-import java.awt.event.*;
-
-public class ManagePatientInfoUI extends JFrame implements ActionListener {
+public class EditPatientInfoUI extends JFrame implements ActionListener {
 	private JButton openSettings = new JButton();
 	private JButton openPatientManager = new JButton();
 	private JButton openStock = new JButton();
@@ -37,6 +57,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	private JPanel bottomMain;
 	private JPanel additionalInfoButtons;
 	private JPanel bottomButtonsMain;
+	private JPanel insuranceGrid;
 
 	// header buttons
 	private JButton btnOpenStock;
@@ -46,13 +67,16 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 
 	// main buttons
 	private JButton cancel;
-	private JButton editRecord;
+	private JButton saveRecord;
 	private JButton allMedicalConditions;
 	private JButton allLifestyleHabits;
 	private JButton allAllergies;
 
 	// text elements
 	private JLabel familyDoc = new JLabel("Family Doctor");
+	private JLabel personalInfo = new JLabel("Personal Information");
+	private JLabel contactInfo = new JLabel("Contact Information");
+	private JLabel insuranceInfo = new JLabel("Insurance");
 	private JLabel dateOfBirthLabel = new JLabel("Date of Birth");
 	private JTextField dateOfBirthField = new JTextField("0000-00-00");
 	private JLabel healthCardNumLabel = new JLabel("Health Card Number");
@@ -63,10 +87,8 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	private JTextField phoneField = new JTextField("(000) 000-0000");
 	private JLabel addressLabel = new JLabel("Address");
 	private JTextField addressField = new JTextField("123 ABC St.");
-	private JLabel insuranceCompanyLabel = new JLabel("Insurance Company");
-	private JComboBox insuranceCompanyField;
-	private JLabel insuranceNumberLabel = new JLabel("Insurance Number");
-	private JTextField insuranceNumberField = new JTextField("Patient's insurance number");
+	private JButton addInsurance;
+	private JButton removeInsurance;
 	private JLabel additionalNotesLabel = new JLabel("Additional Notes");
 	private JTextArea additionalNotesArea = new JTextArea();
 	private JScrollPane additionalNotes;
@@ -76,7 +98,8 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	private JTextField docPhoneNumberField;
 	private JLabel docAddressLabel = new JLabel("Address");
 	private JTextField docAddressField = new JTextField("123 ABC Rd.");
-	private JLabel patientName;
+	private JLabel patientNameLabel = new JLabel("Name");
+	private JTextField patientNameField;
 	private Insets textFieldPadding;
 
 	// icons
@@ -85,7 +108,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public ManagePatientInfoUI(String title, Patient patient) {
+	public EditPatientInfoUI(String title, Patient patient) {
 		FlatLightLaf.setup();
 		setTitle(title);
 		Rectangle screenDims = GraphicsEnvironment.getLocalGraphicsEnvironment().getLocalGraphicsEnvironment()
@@ -148,99 +171,144 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 				(int) (screenDims.height * 0.01), (int) (screenDims.width * 0.01));
 		CompoundBorder textBoxBorder = new CompoundBorder(textBoxBorderLine, textFieldPadding);
 
-		GridBagConstraints nameConstraints = new GridBagConstraints();
+		GridBagConstraints personalInfoConstraints = new GridBagConstraints();
 
-		nameConstraints.fill = GridBagConstraints.HORIZONTAL;
-		nameConstraints.gridx = 0;
-		nameConstraints.gridy = 0;
-		nameConstraints.gridwidth = 2;
-		nameConstraints.anchor = GridBagConstraints.NORTH;
-		patientName = new JLabel(patient.getName());
-		patientName.setFont(nameFont);
-		patientName.setHorizontalAlignment(JLabel.CENTER);
-		mainPanel.add(patientName, nameConstraints);
+		personalInfoConstraints.fill = GridBagConstraints.HORIZONTAL;
+		personalInfoConstraints.gridx = 0;
+		personalInfoConstraints.gridy = 0;
+		personalInfoConstraints.gridwidth = 1;
+		personalInfoConstraints.anchor = GridBagConstraints.NORTH;
+		personalInfo.setFont(nameFont);
+		personalInfo.setHorizontalAlignment(JLabel.CENTER);
+		mainPanel.add(personalInfo, personalInfoConstraints);
+		
+		GridBagConstraints contactInfoConstraints = new GridBagConstraints();
+		contactInfoConstraints.fill = GridBagConstraints.HORIZONTAL;
+		contactInfoConstraints.gridx = 1;
+		contactInfoConstraints.gridy = 0;
+		contactInfoConstraints.gridwidth = 1;
+		contactInfoConstraints.anchor = GridBagConstraints.NORTH;
+		contactInfo.setFont(nameFont);
+		contactInfo.setHorizontalAlignment(JLabel.CENTER);
+		mainPanel.add(contactInfo, contactInfoConstraints);
+		
+		GridBagConstraints familyDocTitleConstraints = new GridBagConstraints();
+		familyDocTitleConstraints.fill = GridBagConstraints.HORIZONTAL;
+		familyDocTitleConstraints.gridx = 2;
+		familyDocTitleConstraints.gridy = 0;
+		familyDocTitleConstraints.anchor = GridBagConstraints.NORTH;
+		familyDoc.setHorizontalAlignment(JLabel.CENTER);
+		familyDoc.setFont(nameFont);
+		mainPanel.add(familyDoc, familyDocTitleConstraints);
 
-		leftMain = new JPanel(new GridLayout(8, 1));
-
+		leftMain = new JPanel(new GridLayout(6, 1));
+		
+		
+		patientNameField = new JTextField(patient.getName());
+		patientNameField.setBorder(textBoxBorder);
+		patientNameLabel.setFont(genFont);
+		patientNameField.setFont(genFont);
+		leftMain.add(patientNameLabel);
+		leftMain.add(patientNameField);
+		
 		dateOfBirthField = new JTextField(
 				patient.getDateOfBirthMonth() + " " + patient.getDateOfBirthDay() + ", " + patient.getBirthYear());
-		dateOfBirthField.setEditable(false);
 		dateOfBirthField.setBorder(textBoxBorder);
 		dateOfBirthLabel.setFont(genFont);
 		dateOfBirthField.setFont(genFont);
-		dateOfBirthField.setBackground(textBoxFill);
 		leftMain.add(dateOfBirthLabel);
 		leftMain.add(dateOfBirthField);
 
 		healthCardNumField = new JTextField("0000-000-000-AB");
-		healthCardNumField.setEditable(false);
 		healthCardNumField.setBorder(textBoxBorder);
 		healthCardNumLabel.setFont(genFont);
 		healthCardNumField.setFont(genFont);
-		healthCardNumField.setBackground(textBoxFill);
 		leftMain.add(healthCardNumLabel);
 		leftMain.add(healthCardNumField);
 
-		emailField = new JTextField(patient.getEmail());
-		emailField.setEditable(false);
-		emailField.setBorder(textBoxBorder);
-		emailLabel.setFont(genFont);
-		emailField.setFont(genFont);
-		emailField.setBackground(textBoxFill);
-		leftMain.add(emailLabel);
-		leftMain.add(emailField);
+		
 
-		phoneField = new JTextField(String.valueOf(patient.getPhoneNumber()));
-		phoneField.setEditable(false);
-		phoneField.setBorder(textBoxBorder);
-		phoneLabel.setFont(genFont);
-		phoneField.setFont(genFont);
-		phoneField.setBackground(textBoxFill);
-		leftMain.add(phoneLabel);
-		leftMain.add(phoneField);
 
 		GridBagConstraints lConstraints = new GridBagConstraints();
 
 		lConstraints.fill = GridBagConstraints.HORIZONTAL;
 		lConstraints.gridx = 0;
 		lConstraints.gridy = 1;
-		lConstraints.gridheight = 2;
+		lConstraints.gridheight = 1;
 		lConstraints.anchor = GridBagConstraints.NORTH;
 		lConstraints.insets = new Insets(0, 0, 0, (int) (screenDims.width * 0.01));
 		lConstraints.ipadx = screenDims.width / 5;
 		mainPanel.add(leftMain, lConstraints);
+		
+		insuranceInfo.setFont(nameFont);
+		addInsurance = new JButton("Add New Insurance");
+		addInsurance.setBorder(textBoxBorder);
+		removeInsurance = new JButton("Remove Existing Insurance");
+		removeInsurance.setBorder(textBoxBorder);
+		addInsurance.setFont(genFont);
+		removeInsurance.setFont(genFont);
+		addInsurance.setFocusPainted(false);
+		removeInsurance.setFocusPainted(false);
+
+		insuranceGrid = new JPanel(new GridLayout (3, 1, 0, (int) (screenDims.height * 0.01)));
+		
+		insuranceInfo.setHorizontalAlignment(JLabel.CENTER);
+		insuranceGrid.add(insuranceInfo);
+		insuranceGrid.add(addInsurance);
+		insuranceGrid.add(removeInsurance);
+		
+		GridBagConstraints insuranceConstraints = new GridBagConstraints();
+		
+		insuranceConstraints.fill = GridBagConstraints.HORIZONTAL;
+		insuranceConstraints.gridx = 0;
+		insuranceConstraints.gridy = 2;
+		insuranceConstraints.gridheight = 1;
+		insuranceConstraints.anchor = GridBagConstraints.NORTH;
+		insuranceConstraints.insets = new Insets(0, 0, 0, (int) (screenDims.width * 0.01));
+		insuranceConstraints.ipadx = screenDims.width / 5;
+		insuranceConstraints.ipady = screenDims.height / 10;
+		mainPanel.add(insuranceGrid, insuranceConstraints);
+		
 
 		midMain = new JPanel(new GridLayout(6, 1));
+		
+		emailField = new JTextField(patient.getEmail());
+		emailField.setBorder(textBoxBorder);
+		emailLabel.setFont(genFont);
+		emailField.setFont(genFont);
+		midMain.add(emailLabel);
+		midMain.add(emailField);
+
+		phoneField = new JTextField(String.valueOf(patient.getPhoneNumber()));
+		phoneField.setBorder(textBoxBorder);
+		phoneLabel.setFont(genFont);
+		phoneField.setFont(genFont);
+		midMain.add(phoneLabel);
+		midMain.add(phoneField);
 
 		addressField = new JTextField(patient.getAddress());
-		addressField.setEditable(false);
 		addressField.setBorder(textBoxBorder);
 		addressLabel.setFont(genFont);
 		addressField.setFont(genFont);
-		addressField.setBackground(textBoxFill);
 		midMain.add(addressLabel);
 		midMain.add(addressField);
 
-		String[] tempArray = { "123 ABC CORP", "DEF Industries" };
-		insuranceCompanyField = new JComboBox(tempArray);
 		// when connecting to backend, use a hashmap to connect company with insurance
 		// number
 
-		insuranceCompanyField.setEditable(false);
-		insuranceCompanyField.setBorder(textBoxBorder);
-		insuranceCompanyLabel.setFont(genFont);
-		insuranceCompanyField.setFont(genFont);
-		insuranceCompanyField.setBackground(textBoxFill);
-		midMain.add(insuranceCompanyLabel);
-		midMain.add(insuranceCompanyField);
-
-		insuranceNumberField.setEditable(false);
-		insuranceNumberField.setBorder(textBoxBorder);
-		insuranceNumberLabel.setFont(genFont);
-		insuranceNumberField.setFont(genFont);
-		insuranceNumberField.setBackground(textBoxFill);
-		midMain.add(insuranceNumberLabel);
-		midMain.add(insuranceNumberField);
+//		insuranceCompanyField.setEditable(false);
+//		insuranceCompanyField.setBorder(textBoxBorder);
+//		insuranceCompanyLabel.setFont(genFont);
+//		insuranceCompanyField.setFont(genFont);
+//		midMain.add(insuranceCompanyLabel);
+//		midMain.add(insuranceCompanyField);
+//
+//		insuranceNumberField.setEditable(false);
+//		insuranceNumberField.setBorder(textBoxBorder);
+//		insuranceNumberLabel.setFont(genFont);
+//		insuranceNumberField.setFont(genFont);
+//		midMain.add(insuranceNumberLabel);
+//		midMain.add(insuranceNumberField);
 
 		GridBagConstraints mConstraints = new GridBagConstraints();
 
@@ -255,40 +323,24 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 
 		rightMain = new JPanel(new GridLayout(6, 1));
 
-		GridBagConstraints familyDocTitleConstraints = new GridBagConstraints();
-		familyDocTitleConstraints.fill = GridBagConstraints.HORIZONTAL;
-		familyDocTitleConstraints.gridx = 2;
-		familyDocTitleConstraints.gridy = 0;
-		familyDocTitleConstraints.anchor = GridBagConstraints.NORTH;
-		familyDocTitleConstraints.insets = new Insets(0, (int) (screenDims.width * 0.01), 0, 0);
-		familyDocTitleConstraints.ipadx = screenDims.width / 7;
-		familyDoc.setFont(nameFont);
-		mainPanel.add(familyDoc, familyDocTitleConstraints);
-
 		docNameField = new JTextField(patient.getFamilyDoctorName());
-		docNameField.setEditable(false);
 		docNameField.setBorder(textBoxBorder);
 		docNameLabel.setFont(genFont);
 		docNameField.setFont(genFont);
-		docNameField.setBackground(textBoxFill);
 		rightMain.add(docNameLabel);
 		rightMain.add(docNameField);
 
 		docPhoneNumberField = new JTextField(String.valueOf(patient.getFamilyDoctorNumber()));
-		docPhoneNumberField.setEditable(false);
 		docPhoneNumberField.setBorder(textBoxBorder);
 		docPhoneNumberLabel.setFont(genFont);
 		docPhoneNumberField.setFont(genFont);
-		docPhoneNumberField.setBackground(textBoxFill);
 		rightMain.add(docPhoneNumberLabel);
 		rightMain.add(docPhoneNumberField);
 
 		docAddressField = new JTextField(patient.getFamilyDoctorAddress());
-		docAddressField.setEditable(false);
 		docAddressField.setBorder(textBoxBorder);
 		docAddressLabel.setFont(genFont);
 		docAddressField.setFont(genFont);
-		docAddressField.setBackground(textBoxFill);
 		rightMain.add(docAddressLabel);
 		rightMain.add(docAddressField);
 
@@ -318,10 +370,9 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		additionalInfoButtons.add(allMedicalConditions);
 		additionalInfoButtons.add(allLifestyleHabits);
 		additionalInfoButtons.add(allAllergies);
+		
 
-		additionalNotesArea = new JTextArea("lalalala\nlalalalala\nla");
-		additionalNotesArea.setBackground(getBackground());
-		additionalNotesArea.setEditable(false);
+		additionalNotesArea = new JTextArea("lalalala\nlalalalala\nla\nla\nla\nla");
 		additionalNotesArea.setBorder(textBoxBorder);
 		additionalNotesLabel.setFont(genFont);
 		additionalNotesLabel.setVerticalAlignment(JLabel.BOTTOM);
@@ -348,12 +399,12 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 
 		cancel = new JButton("Cancel");
 		cancel.setBorder(textBoxBorder);
-		editRecord = new JButton("Edit Record");
-		editRecord.setBorder(textBoxBorder);
+		saveRecord = new JButton("Save Record");
+		saveRecord.setBorder(textBoxBorder);
 		cancel.setFont(genFont);
-		editRecord.setFont(genFont);
+		saveRecord.setFont(genFont);
 		bottomButtonsMain.add(cancel);
-		bottomButtonsMain.add(editRecord);
+		bottomButtonsMain.add(saveRecord);
 
 		GridBagConstraints buttonConstraints = new GridBagConstraints();
 

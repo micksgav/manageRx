@@ -21,9 +21,9 @@ public class Prescription {
 	private String instructions; // instructions for taking the prescription
 	private String prescribedDuration; // duration to take prescribed drug for
 	
-	public Prescription(Drug drug, String[] interactions, String datePrescribed, int numRefills, int quantity, int dosage, String instructions, String prescribedDuration) {
+	public Prescription(Drug drug, String datePrescribed, int numRefills, int quantity, int dosage, String instructions, String prescribedDuration) {
 		this.drug = drug;
-		this.interactions = interactions;
+		//this.interactions = interactions;
 		this.datePrescribed = datePrescribed;
 		this.numRefills = numRefills;
 		this.quantity = quantity;
@@ -48,11 +48,11 @@ public class Prescription {
 	}
 
 	public String getBrandName() {
-		return drug.getDrugNameBrand();
+		return drug.getDrugName();
 	}
 
 	public void setBrandName(String brandName) {
-		drug.setDrugNameBrand(brandName);
+		drug.setDrugName(brandName);
 	}
 
 	public String getDate() {

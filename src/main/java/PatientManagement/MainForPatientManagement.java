@@ -670,82 +670,32 @@ public class MainForPatientManagement {
 			}
 			
 			System.out.println("\nCredit Cards on file\n");
-			int i = 0;
-			while (true) {
-				try {
-					patients.returnData(index).getCreditNum().get(i);
-					i ++;
-				}
-				catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
 			
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < patients.returnData(index).getCreditNum().size(); j++) {
 				System.out.println("Card number: " + patients.returnData(index).getCreditNum().get(j) + "\tExpiry date: " + patients.returnData(index).getCardExpDate().get(j));
 			}
 			
 			System.out.println("\nAllergies and dietary restrictions\n");
-			i = 0;
-			while (true) {
-				try {
-					patients.returnData(index).getAllergiesAndDietary().get(i);
-					i ++;
-				}
-				catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
 			
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < patients.returnData(index).getAllergiesAndDietary().size(); j++) {
 				System.out.println(patients.returnData(index).getAllergiesAndDietary().get(j));
 			}
 			
 			System.out.println("\nMedical Conditions\n");
-			i = 0;
-			while (true) {
-				try {
-					patients.returnData(index).getMedicalConditions().get(i);
-					i ++;
-				}
-				catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
 			
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < patients.returnData(index).getMedicalConditions().size(); j++) {
 				System.out.println(patients.returnData(index).getMedicalConditions().get(j));
 			}
 			
 			System.out.println("\nLifestyle Habits\n");
-			i = 0;
-			while (true) {
-				try {
-					patients.returnData(index).getLifestyleHabits().get(i);
-					i ++;
-				}
-				catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
 			
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < patients.returnData(index).getLifestyleHabits().size(); j++) {
 				System.out.println(patients.returnData(index).getLifestyleHabits().get(j));
 			}
 			
 			System.out.println("\nInsurance Information\n");
-			i = 0;
-			while (true) {
-				try {
-					patients.returnData(index).getInsuranceInformation().get(i);
-					i ++;
-				}
-				catch (IndexOutOfBoundsException e) {
-					break;
-				}
-			}
 			
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < patients.returnData(index).getInsuranceInformation().size(); j++) {
 				System.out.println("Company: " + patients.returnData(index).getInsuranceInformation().get(j).getCompany() + "\tInsurance number: " + patients.returnData(index).getInsuranceInformation().get(j).getNumber());
 			}
 			
