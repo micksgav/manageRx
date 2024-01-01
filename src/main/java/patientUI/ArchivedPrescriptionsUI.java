@@ -14,7 +14,7 @@ import PatientManagement.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CurrentPrescriptions extends JFrame implements ActionListener {
+public class ArchivedPrescriptionsUI extends JFrame implements ActionListener {
 	private JButton openSettings = new JButton();
 	private JButton openPatientManager = new JButton();
 	private JButton openStock = new JButton();
@@ -26,7 +26,6 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 	// private OrderUI order = new OrderUI();
 
 	Patient patient; // patient whose prescriptions are being viewed
-	PatientList patients;
 
 	// panels
 	private JPanel buttonPanel; // header panel containing logo and buttons
@@ -43,14 +42,12 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 
 	// main buttons
 	private JButton[] editPrescription; // edit a prescription
-	private JButton[] archivePrescription; // archive a prescription
-	private JButton createNewPrescription; // create a new prescription
-	private JButton viewArchived; // view archived prescriptions
+	private JButton viewActive; // view active prescriptions
 
 	// text elements
 	private JLabel patientName; // patient name
 	private JTextArea[] prescriptionInfo; // prescription information
-	private JLabel currentPrescriptions = new JLabel("Active Prescriptions"); // title label
+	private JLabel archivedPrescriptions = new JLabel("Archived Prescriptions"); // title label
 
 	// icons
 	public AppIcon stockIcon = new AppIcon("icons/box.png");// icon for stock
@@ -58,7 +55,7 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public CurrentPrescriptions(String title, Patient patient, PatientList patients) {
+	public ArchivedPrescriptionsUI(String title, Patient patient) {
 		FlatLightLaf.setup(); // custom look and feel
 		setTitle(title);
 		
@@ -72,7 +69,6 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		
 		// instantiate variables
 		this.patient = patient;
-		this.patients = patients;
 		String[] drugBrandName = new String[patient.getActivePrescriptions().length()];
 		String[] drugGenName = new String[patient.getActivePrescriptions().length()];
 		String[] datePrescribed = new String[patient.getActivePrescriptions().length()];
@@ -172,52 +168,27 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		titleConstraints.gridwidth = 1;
 		titleConstraints.anchor = GridBagConstraints.SOUTH;
 		titleConstraints.weightx = 0.01;
-		currentPrescriptions.setFont(nameFont);
-		currentPrescriptions.setHorizontalAlignment(JLabel.LEFT);
-		mainWithTopBar.add(currentPrescriptions, titleConstraints);
+		archivedPrescriptions.setFont(nameFont);
+		archivedPrescriptions.setHorizontalAlignment(JLabel.LEFT);
+		mainWithTopBar.add(archivedPrescriptions, titleConstraints);
 
-		// add create prescription button to screen
-		GridBagConstraints createConstraints = new GridBagConstraints();
-
-		createConstraints.fill = GridBagConstraints.BOTH;
-		createConstraints.gridx = 1;
-		createConstraints.gridy = 0;
-		createConstraints.gridwidth = 1;
-		createConstraints.anchor = GridBagConstraints.SOUTHEAST;
-		createNewPrescription = new JButton("Add New Prescription");
-		createNewPrescription.setFont(genFont);
-		createNewPrescription.setHorizontalAlignment(JButton.RIGHT);
-		createNewPrescription.setBorder(textBoxBorder);
-		createNewPrescription.setMaximumSize(new Dimension((int) (screenDims.width * 0.1), screenDims.height));
-		mainWithTopBar.add(createNewPrescription, createConstraints);
 
 		// generate inner panels
 		for (int i = 0; i < prescriptionPanels.length; i++) {
-			prescriptionPanels[i] = new JPanel(new GridLayout(2, 1));
+			prescriptionPanels[i] = new JPanel(new GridLayout(1, 1));
 		}
 
 		prescriptionInfo = new JTextArea[drugBrandName.length];
-		editArchive = new JPanel[drugBrandName.length];
-		editPrescription = new JButton[drugBrandName.length];
-		archivePrescription = new JButton[drugBrandName.length];
+		
 
 		for (int i = 0; i < drugBrandName.length; i++) {
-			editPrescription[i] = new JButton("Edit Prescription");
-			archivePrescription[i] = new JButton("Archive Prescription");
-			editPrescription[i].setFont(genFont);
-			archivePrescription[i].setFont(genFont);
-			editPrescription[i].setBorder(textBoxBorder);
-			archivePrescription[i].setBorder(textBoxBorder);
 			prescriptionInfo[i] = new JTextArea();
-			editArchive[i] = new JPanel(new GridLayout(1, 2, (int) (screenDims.width * 0.005), 0));
-			editArchive[i].add(editPrescription[i]);
-			editArchive[i].add(archivePrescription[i]);
+			prescriptionInfo[i].setBackground(Color.white);
 			prescriptionInfo[i].setText(drugBrandName[i] + "\n" + datePrescribed[i] + "\n" + numRefills[i] + "\n"
 					+ quantity[i] + "\n" + dosage[i] + "\n" + instructions[i] + "\n" + prescribedDuration[i]);
 			prescriptionPanels[i].setBorder(simpleLine);
 			prescriptionInfo[i].setEditable(false);
 			prescriptionPanels[i].add(prescriptionInfo[i]);
-			prescriptionPanels[i].add(editArchive[i]);
 		}
 
 		// set height of mainPanel grid
@@ -249,19 +220,19 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		prescriptionConstraints.anchor = GridBagConstraints.NORTH;
 		mainWithTopBar.add(mainScroll, prescriptionConstraints);
 		
-		viewArchived = new JButton("View Archived Prescriptions");
-		viewArchived.setBorder(textBoxBorder);
-		viewArchived.setFont(genFont);
+		viewActive = new JButton("View Active Prescriptions");
+		viewActive.setBorder(textBoxBorder);
+		viewActive.setFont(genFont);
 		
-		GridBagConstraints viewArchivedConstraints = new GridBagConstraints();
+		GridBagConstraints viewActivePrescriptionsConstraints = new GridBagConstraints();
 		
-		viewArchivedConstraints.fill = GridBagConstraints.BOTH;
-		viewArchivedConstraints.gridx = 0;
-		viewArchivedConstraints.gridy = 2;
-		viewArchivedConstraints.gridwidth = 1;
-		viewArchivedConstraints.anchor = GridBagConstraints.WEST;
-		viewArchivedConstraints.insets = new Insets((int) (screenDims.height * 0.01), (int) (screenDims.width * 0.01), 0, (int) (screenDims.width *0.5));
-		mainWithTopBar.add(viewArchived, viewArchivedConstraints);
+		viewActivePrescriptionsConstraints.fill = GridBagConstraints.BOTH;
+		viewActivePrescriptionsConstraints.gridx = 0;
+		viewActivePrescriptionsConstraints.gridy = 2;
+		viewActivePrescriptionsConstraints.gridwidth = 1;
+		viewActivePrescriptionsConstraints.anchor = GridBagConstraints.WEST;
+		viewActivePrescriptionsConstraints.insets = new Insets((int) (screenDims.height * 0.01), (int) (screenDims.width * 0.01), 0, (int) (screenDims.width *0.5));
+		mainWithTopBar.add(viewActive, viewActivePrescriptionsConstraints);
 
 		add(mainWithTopBar);
 	}

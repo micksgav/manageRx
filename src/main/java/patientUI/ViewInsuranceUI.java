@@ -14,7 +14,7 @@ import PatientManagement.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CurrentPrescriptions extends JFrame implements ActionListener {
+public class ViewInsuranceUI extends JFrame implements ActionListener {
 	private JButton openSettings = new JButton();
 	private JButton openPatientManager = new JButton();
 	private JButton openStock = new JButton();
@@ -26,12 +26,11 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 	// private OrderUI order = new OrderUI();
 
 	Patient patient; // patient whose prescriptions are being viewed
-	PatientList patients;
 
 	// panels
 	private JPanel buttonPanel; // header panel containing logo and buttons
 	private JPanel mainPanel; // panel cotaining all prescription information
-	private JPanel[] prescriptionPanels; // panels containing individual prescription info
+	private JPanel[] insurancePanels; // panels containing individual insurance info
 	private JPanel[] editArchive; // panel containing options to edit or archive prescription
 	private JPanel mainWithTopBar; // panel containing mainPanel and patient name, title, and add prescription button
 
@@ -42,15 +41,14 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 	private JButton btnOpenPatientManager; // open patient manager page
 
 	// main buttons
-	private JButton[] editPrescription; // edit a prescription
-	private JButton[] archivePrescription; // archive a prescription
-	private JButton createNewPrescription; // create a new prescription
-	private JButton viewArchived; // view archived prescriptions
+	private JButton[] editInsurance; // edit a prescription
+	private JButton[] deleteInsurance; // archive a prescription
+	private JButton createNewInsurance; // create new insurance
 
 	// text elements
 	private JLabel patientName; // patient name
-	private JTextArea[] prescriptionInfo; // prescription information
-	private JLabel currentPrescriptions = new JLabel("Active Prescriptions"); // title label
+	private JTextArea[] insuranceInfo; // prescription information
+	private JLabel insuranceTitle = new JLabel("Insurance Information"); // title label
 
 	// icons
 	public AppIcon stockIcon = new AppIcon("icons/box.png");// icon for stock
@@ -58,7 +56,7 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public CurrentPrescriptions(String title, Patient patient, PatientList patients) {
+	public ViewInsuranceUI(String title, Patient patient) {
 		FlatLightLaf.setup(); // custom look and feel
 		setTitle(title);
 		
@@ -72,28 +70,13 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		
 		// instantiate variables
 		this.patient = patient;
-		this.patients = patients;
-		String[] drugBrandName = new String[patient.getActivePrescriptions().length()];
-		String[] drugGenName = new String[patient.getActivePrescriptions().length()];
-		String[] datePrescribed = new String[patient.getActivePrescriptions().length()];
-		String[] numRefills = new String[patient.getActivePrescriptions().length()];
-		String[] quantity = new String[patient.getActivePrescriptions().length()];
-		String[] dosage = new String[patient.getActivePrescriptions().length()];
-		String[] instructions = new String[patient.getActivePrescriptions().length()];
-		String[] prescribedDuration = new String[patient.getActivePrescriptions().length()];
-		prescriptionPanels = new JPanel[patient.getActivePrescriptions().length()];
+		String[] insuranceCompany = new String[patient.getInsuranceInformation().size()];
+		String[] insuranceNumber = new String[patient.getInsuranceInformation().size()];
+		insurancePanels = new JPanel[patient.getInsuranceInformation().size()];
 		
-		for (int i = 0; i < drugBrandName.length; i++) {
-			drugBrandName[i] = "Brand Name: " + patient.getActivePrescriptions().atIndex(i).getBrandName();
-			// drugGenName[i] = new JLabel("Generic Name: " +
-			// patient.getActivePrescriptions().atIndex(i).getGenName());
-			datePrescribed[i] = "Date Prescribed: " + patient.getActivePrescriptions().atIndex(i).getDate();
-			numRefills[i] = "Number of Refills: "
-					+ String.valueOf(patient.getActivePrescriptions().atIndex(i).getRefills());
-			quantity[i] = "Quantity: " + String.valueOf(patient.getActivePrescriptions().atIndex(i).getQuantity());
-			dosage[i] = "Dosage: " + String.valueOf(patient.getActivePrescriptions().atIndex(i).getDosage());
-			instructions[i] = "Instructions: " + patient.getActivePrescriptions().atIndex(i).getInstructions();
-			prescribedDuration[i] = "Prescribed Duration: " + patient.getActivePrescriptions().atIndex(i).getDuration();
+		for (int i = 0; i < insuranceCompany.length; i++) {
+			insuranceCompany[i] = "Company: " + patient.getInsuranceInformation().get(i).getCompany();
+			insuranceNumber[i] = "Insurance Number: " + String.valueOf(patient.getInsuranceInformation().get(i).getNumber());
 		}
 
 		// setup all buttons for the header
@@ -172,9 +155,9 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		titleConstraints.gridwidth = 1;
 		titleConstraints.anchor = GridBagConstraints.SOUTH;
 		titleConstraints.weightx = 0.01;
-		currentPrescriptions.setFont(nameFont);
-		currentPrescriptions.setHorizontalAlignment(JLabel.LEFT);
-		mainWithTopBar.add(currentPrescriptions, titleConstraints);
+		insuranceTitle.setFont(nameFont);
+		insuranceTitle.setHorizontalAlignment(JLabel.LEFT);
+		mainWithTopBar.add(insuranceTitle, titleConstraints);
 
 		// add create prescription button to screen
 		GridBagConstraints createConstraints = new GridBagConstraints();
@@ -184,54 +167,53 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 		createConstraints.gridy = 0;
 		createConstraints.gridwidth = 1;
 		createConstraints.anchor = GridBagConstraints.SOUTHEAST;
-		createNewPrescription = new JButton("Add New Prescription");
-		createNewPrescription.setFont(genFont);
-		createNewPrescription.setHorizontalAlignment(JButton.RIGHT);
-		createNewPrescription.setBorder(textBoxBorder);
-		createNewPrescription.setMaximumSize(new Dimension((int) (screenDims.width * 0.1), screenDims.height));
-		mainWithTopBar.add(createNewPrescription, createConstraints);
+		createNewInsurance = new JButton("Add New");
+		createNewInsurance.setFont(genFont);
+		createNewInsurance.setHorizontalAlignment(JButton.RIGHT);
+		createNewInsurance.setBorder(textBoxBorder);
+		createNewInsurance.setMaximumSize(new Dimension((int) (screenDims.width * 0.1), screenDims.height));
+		mainWithTopBar.add(createNewInsurance, createConstraints);
 
 		// generate inner panels
-		for (int i = 0; i < prescriptionPanels.length; i++) {
-			prescriptionPanels[i] = new JPanel(new GridLayout(2, 1));
+		for (int i = 0; i < insurancePanels.length; i++) {
+			insurancePanels[i] = new JPanel(new GridLayout(2, 1));
 		}
 
-		prescriptionInfo = new JTextArea[drugBrandName.length];
-		editArchive = new JPanel[drugBrandName.length];
-		editPrescription = new JButton[drugBrandName.length];
-		archivePrescription = new JButton[drugBrandName.length];
+		insuranceInfo = new JTextArea[insuranceCompany.length];
+		editArchive = new JPanel[insuranceCompany.length];
+		editInsurance = new JButton[insuranceCompany.length];
+		deleteInsurance = new JButton[insuranceCompany.length];
 
-		for (int i = 0; i < drugBrandName.length; i++) {
-			editPrescription[i] = new JButton("Edit Prescription");
-			archivePrescription[i] = new JButton("Archive Prescription");
-			editPrescription[i].setFont(genFont);
-			archivePrescription[i].setFont(genFont);
-			editPrescription[i].setBorder(textBoxBorder);
-			archivePrescription[i].setBorder(textBoxBorder);
-			prescriptionInfo[i] = new JTextArea();
+		for (int i = 0; i < insuranceCompany.length; i++) {
+			editInsurance[i] = new JButton("Archive");
+			deleteInsurance[i] = new JButton("Delete");
+			editInsurance[i].setFont(genFont);
+			deleteInsurance[i].setFont(genFont);
+			editInsurance[i].setBorder(textBoxBorder);
+			deleteInsurance[i].setBorder(textBoxBorder);
+			insuranceInfo[i] = new JTextArea();
 			editArchive[i] = new JPanel(new GridLayout(1, 2, (int) (screenDims.width * 0.005), 0));
-			editArchive[i].add(editPrescription[i]);
-			editArchive[i].add(archivePrescription[i]);
-			prescriptionInfo[i].setText(drugBrandName[i] + "\n" + datePrescribed[i] + "\n" + numRefills[i] + "\n"
-					+ quantity[i] + "\n" + dosage[i] + "\n" + instructions[i] + "\n" + prescribedDuration[i]);
-			prescriptionPanels[i].setBorder(simpleLine);
-			prescriptionInfo[i].setEditable(false);
-			prescriptionPanels[i].add(prescriptionInfo[i]);
-			prescriptionPanels[i].add(editArchive[i]);
+			editArchive[i].add(editInsurance[i]);
+			editArchive[i].add(deleteInsurance[i]);
+			insuranceInfo[i].setText(insuranceCompany[i] + "\n" + insuranceNumber[i]);
+			insurancePanels[i].setBorder(simpleLine);
+			insuranceInfo[i].setEditable(false);
+			insurancePanels[i].add(insuranceInfo[i]);
+			insurancePanels[i].add(editArchive[i]);
 		}
 
 		// set height of mainPanel grid
-		if ((double) drugBrandName.length / 2 - (int) drugBrandName.length / 2 < 0.5) {
-			mainPanel = new JPanel(new GridLayout((int) Math.floor((double) drugBrandName.length / 2), 2,
+		if ((double) insurancePanels.length / 2 - (int) insurancePanels.length / 2 < 0.5) {
+			mainPanel = new JPanel(new GridLayout((int) Math.floor((double) insurancePanels.length / 2), 2,
 					(int) (screenDims.width * 0.01), (int) (screenDims.height * 0.01)));
 		} else {
-			mainPanel = new JPanel(new GridLayout((int) Math.ceil((double) drugBrandName.length / 2), 2,
+			mainPanel = new JPanel(new GridLayout((int) Math.ceil((double) insurancePanels.length / 2), 2,
 					(int) (screenDims.width * 0.01), (int) (screenDims.height * 0.01)));
 		}
 
 		// add inner elements to main panel
-		for (int i = 0; i < prescriptionPanels.length; i++) {
-			mainPanel.add(prescriptionPanels[i]);
+		for (int i = 0; i < insurancePanels.length; i++) {
+			mainPanel.add(insurancePanels[i]);
 		}
 
 		mainPanel.setBorder(textBoxBorder);
@@ -240,28 +222,14 @@ public class CurrentPrescriptions extends JFrame implements ActionListener {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		mainScroll.setMinimumSize(new Dimension((int) (screenDims.width * 0.75), (int) (screenDims.height * 0.75)));
 
-		GridBagConstraints prescriptionConstraints = new GridBagConstraints();
+		GridBagConstraints insuranceConstraints = new GridBagConstraints();
 
-		prescriptionConstraints.fill = GridBagConstraints.BOTH;
-		prescriptionConstraints.gridx = 0;
-		prescriptionConstraints.gridy = 1;
-		prescriptionConstraints.gridwidth = 2;
-		prescriptionConstraints.anchor = GridBagConstraints.NORTH;
-		mainWithTopBar.add(mainScroll, prescriptionConstraints);
-		
-		viewArchived = new JButton("View Archived Prescriptions");
-		viewArchived.setBorder(textBoxBorder);
-		viewArchived.setFont(genFont);
-		
-		GridBagConstraints viewArchivedConstraints = new GridBagConstraints();
-		
-		viewArchivedConstraints.fill = GridBagConstraints.BOTH;
-		viewArchivedConstraints.gridx = 0;
-		viewArchivedConstraints.gridy = 2;
-		viewArchivedConstraints.gridwidth = 1;
-		viewArchivedConstraints.anchor = GridBagConstraints.WEST;
-		viewArchivedConstraints.insets = new Insets((int) (screenDims.height * 0.01), (int) (screenDims.width * 0.01), 0, (int) (screenDims.width *0.5));
-		mainWithTopBar.add(viewArchived, viewArchivedConstraints);
+		insuranceConstraints.fill = GridBagConstraints.BOTH;
+		insuranceConstraints.gridx = 0;
+		insuranceConstraints.gridy = 1;
+		insuranceConstraints.gridwidth = 2;
+		insuranceConstraints.anchor = GridBagConstraints.NORTH;
+		mainWithTopBar.add(mainScroll, insuranceConstraints);
 
 		add(mainWithTopBar);
 	}

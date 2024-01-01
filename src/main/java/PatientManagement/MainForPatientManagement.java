@@ -63,13 +63,8 @@ public class MainForPatientManagement {
 	// search for a patient in the list by name and birthday
 	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthMonth, int birthDay,
 			int birthYear) {
-		LocalDateTime date = LocalDateTime.now();
-		// if (name != null && birthMonth != null && birthDay > 0 && birthYear > 0 &&
-		// birthYear < date.getYear()) {
 		int index = patients.findPatientByBirthday(name, birthMonth, birthDay, birthYear);
 		return index;
-		// }
-
 	}
 
 	// create a list of medical conditions manually before creating a new patient

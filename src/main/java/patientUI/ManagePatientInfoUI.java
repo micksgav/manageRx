@@ -11,6 +11,7 @@ import mainUI.loginUI;
 import mainUI.settingsUI;
 import PatientManagement.*;
 
+import java.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,6 +28,10 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	// private OrderUI order = new OrderUI();
 
 	Patient patient;
+	PatientList patients;
+	
+	String[] insuranceCompanyArray;
+	String[] insuranceNumberArray;
 
 	// panels
 	private JPanel buttonPanel;
@@ -50,6 +55,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	private JButton allMedicalConditions;
 	private JButton allLifestyleHabits;
 	private JButton allAllergies;
+	private JButton prescriptions;
 
 	// text elements
 	private JLabel familyDoc = new JLabel("Family Doctor");
@@ -85,7 +91,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public ManagePatientInfoUI(String title, Patient patient) {
+	public ManagePatientInfoUI(String title, Patient patient, PatientList patients) {
 		FlatLightLaf.setup();
 		setTitle(title);
 		Rectangle screenDims = GraphicsEnvironment.getLocalGraphicsEnvironment().getLocalGraphicsEnvironment()
@@ -95,6 +101,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		this.patient = patient;
+		this.patients = patients;
 		// textFieldPadding = new Insets((int) (screenDims.height *0.15), (int)
 		// (screenDims.width *0.02), (int) (screenDims.height *0.1), (int)
 		// (screenDims.width *0.02));
@@ -172,7 +179,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		leftMain.add(dateOfBirthLabel);
 		leftMain.add(dateOfBirthField);
 
-		healthCardNumField = new JTextField("0000-000-000-AB");
+		healthCardNumField = new JTextField(patient.getHealthCardNumber());
 		healthCardNumField.setEditable(false);
 		healthCardNumField.setBorder(textBoxBorder);
 		healthCardNumLabel.setFont(genFont);
@@ -221,10 +228,15 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		midMain.add(addressLabel);
 		midMain.add(addressField);
 
-		String[] tempArray = { "123 ABC CORP", "DEF Industries" };
-		insuranceCompanyField = new JComboBox(tempArray);
-		// when connecting to backend, use a hashmap to connect company with insurance
-		// number
+		insuranceCompanyArray = new String[patient.getInsuranceInformation().size() +1];
+		insuranceNumberArray = new String[patient.getInsuranceInformation().size() +1];
+		for (int i = 0; i < insuranceCompanyArray.length-1; i++) {
+			insuranceCompanyArray[i] = patient.getInsuranceInformation().get(i).getCompany();
+			insuranceNumberArray[i] = String.valueOf(patient.getInsuranceInformation().get(i).getNumber());
+		}
+		insuranceCompanyField = new JComboBox(insuranceCompanyArray);
+		insuranceCompanyField.addActionListener(this);
+
 
 		insuranceCompanyField.setEditable(false);
 		insuranceCompanyField.setBorder(textBoxBorder);
@@ -239,6 +251,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		insuranceNumberLabel.setFont(genFont);
 		insuranceNumberField.setFont(genFont);
 		insuranceNumberField.setBackground(textBoxFill);
+		insuranceNumberField.setText(insuranceNumberArray[0]);
 		midMain.add(insuranceNumberLabel);
 		midMain.add(insuranceNumberField);
 
@@ -319,7 +332,7 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		additionalInfoButtons.add(allLifestyleHabits);
 		additionalInfoButtons.add(allAllergies);
 
-		additionalNotesArea = new JTextArea("lalalala\nlalalalala\nla");
+		additionalNotesArea = new JTextArea("Medical Conditions:\n" + "Lifestyle habits:\n" + "Allergies/Dietary Restrictions:\n");
 		additionalNotesArea.setBackground(getBackground());
 		additionalNotesArea.setEditable(false);
 		additionalNotesArea.setBorder(textBoxBorder);
@@ -347,8 +360,10 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		bottomButtonsMain = new JPanel(new GridLayout(1, 2, (int) (screenDims.width * 0.05), 0));
 
 		cancel = new JButton("Cancel");
+		cancel.addActionListener(this);
 		cancel.setBorder(textBoxBorder);
 		editRecord = new JButton("Edit Record");
+		editRecord.addActionListener(this);
 		editRecord.setBorder(textBoxBorder);
 		cancel.setFont(genFont);
 		editRecord.setFont(genFont);
@@ -359,13 +374,29 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 
 		buttonConstraints.fill = GridBagConstraints.HORIZONTAL;
 		buttonConstraints.gridx = 2;
-		buttonConstraints.gridy = 3;
+		buttonConstraints.gridy = 4;
 		buttonConstraints.gridheight = 1;
 		buttonConstraints.anchor = GridBagConstraints.NORTH;
 		buttonConstraints.insets = new Insets(0, (int) (screenDims.width * 0.01), 0, (int) (screenDims.width * 0.01));
 		mainPanel.add(bottomButtonsMain, buttonConstraints);
 
 		add(mainPanel, BorderLayout.CENTER);
+		
+		prescriptions = new JButton("View Prescriptions");
+		prescriptions.addActionListener(this);
+		prescriptions.setBorder(textBoxBorder);
+		prescriptions.setFont(genFont);
+		
+		GridBagConstraints prescriptionsConstraints = new GridBagConstraints();
+		
+		prescriptionsConstraints.fill = GridBagConstraints.HORIZONTAL;
+		prescriptionsConstraints.gridx = 0;
+		prescriptionsConstraints.gridy = 2;
+		prescriptionsConstraints.gridheight = 1;
+		prescriptionsConstraints.anchor = GridBagConstraints.SOUTH;
+		prescriptionsConstraints.ipady = (int) (screenDims.height * 0.05);
+		mainPanel.add(prescriptions, prescriptionsConstraints);
+		
 
 	}
 
@@ -382,5 +413,26 @@ public class ManagePatientInfoUI extends JFrame implements ActionListener {
 		if (e.getActionCommand().equals("openPatientManager")) {
 			System.out.println("Patients");
 		}
+		if (e.getActionCommand().equals("Cancel")){
+			SearchForPatientUI openSearch = new SearchForPatientUI("ManageRx", patients);
+			openSearch.setVisible(true);
+			setVisible(false);
+		}
+		if (e.getActionCommand().equals("Edit Record")) {
+			EditPatientInfoUI openEdit = new EditPatientInfoUI("ManageRx", patient, patients);
+			openEdit.setVisible(true);
+			setVisible(false);	
+		}
+		if (e.getActionCommand().equals("View Prescriptions")) {
+			CurrentPrescriptions openPrescriptions = new CurrentPrescriptions("ManageRx", patient, patients);
+			openPrescriptions.setVisible(true);
+			setVisible(false);
+		}
+		for (int i = 0; i < insuranceCompanyArray.length; i++) {
+			if (((String) insuranceCompanyField.getSelectedItem()).equals(insuranceCompanyArray[i])) {
+				insuranceNumberField.setText(insuranceNumberArray[i]);
+			}
+		}
+		
 	}
 }

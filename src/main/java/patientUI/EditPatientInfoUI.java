@@ -30,7 +30,7 @@ import javax.swing.border.LineBorder;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import PatientManagement.Patient;
+import PatientManagement.*;
 import mainUI.loginUI;
 import mainUI.settingsUI;
 import swingHelper.AppIcon;
@@ -47,6 +47,7 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 	// private OrderUI order = new OrderUI();
 
 	Patient patient;
+	PatientList patients;
 
 	// panels
 	private JPanel buttonPanel;
@@ -71,6 +72,7 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 	private JButton allMedicalConditions;
 	private JButton allLifestyleHabits;
 	private JButton allAllergies;
+	private JButton prescriptions;
 
 	// text elements
 	private JLabel familyDoc = new JLabel("Family Doctor");
@@ -99,8 +101,10 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 	private JLabel docAddressLabel = new JLabel("Address");
 	private JTextField docAddressField = new JTextField("123 ABC Rd.");
 	private JLabel patientNameLabel = new JLabel("Name");
+	private JLabel prescriptionsLabel = new JLabel("Prescriptions");
 	private JTextField patientNameField;
 	private Insets textFieldPadding;
+	
 
 	// icons
 	public AppIcon stockIcon = new AppIcon("icons/box.png");// icon for stock
@@ -108,16 +112,18 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public EditPatientInfoUI(String title, Patient patient) {
+	public EditPatientInfoUI(String title, Patient patient, PatientList patients) {
 		FlatLightLaf.setup();
 		setTitle(title);
 		Rectangle screenDims = GraphicsEnvironment.getLocalGraphicsEnvironment().getLocalGraphicsEnvironment()
 				.getMaximumWindowBounds(); // dimensions of screen from https://stackoverflow.com/questions/11570356/jframe-in-full-screen-java
-		//Rectangle screenDims = new Rectangle(1366, 768);
+//		screenDims.width /= 1.5;
+//		screenDims.height /=1.5;
 		setSize(screenDims.width, screenDims.height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		this.patient = patient;
+		this.patients = patients;
 		// textFieldPadding = new Insets((int) (screenDims.height *0.15), (int)
 		// (screenDims.width *0.02), (int) (screenDims.height *0.1), (int)
 		// (screenDims.width *0.02));
@@ -293,23 +299,6 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 		midMain.add(addressLabel);
 		midMain.add(addressField);
 
-		// when connecting to backend, use a hashmap to connect company with insurance
-		// number
-
-//		insuranceCompanyField.setEditable(false);
-//		insuranceCompanyField.setBorder(textBoxBorder);
-//		insuranceCompanyLabel.setFont(genFont);
-//		insuranceCompanyField.setFont(genFont);
-//		midMain.add(insuranceCompanyLabel);
-//		midMain.add(insuranceCompanyField);
-//
-//		insuranceNumberField.setEditable(false);
-//		insuranceNumberField.setBorder(textBoxBorder);
-//		insuranceNumberLabel.setFont(genFont);
-//		insuranceNumberField.setFont(genFont);
-//		midMain.add(insuranceNumberLabel);
-//		midMain.add(insuranceNumberField);
-
 		GridBagConstraints mConstraints = new GridBagConstraints();
 
 		mConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -410,13 +399,37 @@ public class EditPatientInfoUI extends JFrame implements ActionListener {
 
 		buttonConstraints.fill = GridBagConstraints.HORIZONTAL;
 		buttonConstraints.gridx = 2;
-		buttonConstraints.gridy = 3;
+		buttonConstraints.gridy = 4;
 		buttonConstraints.gridheight = 1;
 		buttonConstraints.anchor = GridBagConstraints.NORTH;
 		buttonConstraints.insets = new Insets(0, (int) (screenDims.width * 0.01), 0, (int) (screenDims.width * 0.01));
 		mainPanel.add(bottomButtonsMain, buttonConstraints);
 
 		add(mainPanel, BorderLayout.CENTER);
+		
+		prescriptions = new JButton("Edit Prescriptions");
+		prescriptions.setFont(genFont);
+		prescriptions.setBorder(textBoxBorder);
+		prescriptionsLabel.setFont(nameFont);
+		
+		GridBagConstraints prescriptionsLabelConstraints = new GridBagConstraints();
+		
+		prescriptionsLabelConstraints.fill = GridBagConstraints.BOTH;
+		prescriptionsLabelConstraints.gridx = 0;
+		prescriptionsLabelConstraints.gridy = 3;
+		prescriptionsLabelConstraints.anchor = GridBagConstraints.NORTH;
+		prescriptionsLabelConstraints.insets = new Insets(0, 0, (int) (screenDims.height * 0.01), 0);
+		prescriptionsLabel.setHorizontalAlignment(JLabel.CENTER);
+		mainPanel.add(prescriptionsLabel, prescriptionsLabelConstraints); 
+		
+		GridBagConstraints prescriptionsConstraints = new GridBagConstraints();
+		
+		prescriptionsConstraints.fill = GridBagConstraints.BOTH;
+		prescriptionsConstraints.gridx = 0;
+		prescriptionsConstraints.gridy = 4;
+		prescriptionsConstraints.anchor =GridBagConstraints.SOUTH;
+		mainPanel.add(prescriptions, prescriptionsConstraints);
+		
 
 	}
 
