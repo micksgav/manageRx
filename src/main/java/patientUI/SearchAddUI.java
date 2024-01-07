@@ -26,6 +26,7 @@ public class SearchAddUI extends JFrame implements ActionListener {
 	private JPanel buttonPanel; // header panel
 	private JPanel mainPanel; // panel containing the main buttons
 	private JPanel mainContainer; // panel containing everything but header
+	private JPanel headerButtons;
 
 	// header buttons
 	private JButton btnOpenStock; // open stock page
@@ -163,12 +164,12 @@ public class SearchAddUI extends JFrame implements ActionListener {
 			System.out.println("Patients");
 		}
 		if(e.getActionCommand().equals("Search For Existing Patient")) {
-			SearchForPatientUI openSearch = new SearchForPatientUI("ManageRx", patients);
+			SearchForPatientUI openSearch = new SearchForPatientUI("ManageRx", patient, patients);
 			openSearch.setVisible(true);
 			setVisible(false);
 		}
 		if (e.getActionCommand().equals("Add a New Patient")) {
-			EditPatientInfoUI openCreate = new EditPatientInfoUI("ManageRx", patient, patients);
+			EditPatientInfoUI openCreate = new EditPatientInfoUI("ManageRx", null, patients);
 			openCreate.setVisible(true);
 			setVisible(false);
 		}

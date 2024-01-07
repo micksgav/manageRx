@@ -47,6 +47,43 @@ public class PrescriptionList {
 
 	private Node head; // A pointer to the first node in the linked list.
 						// If the list is empty, the value is null.
+	
+	public Prescription[] toArray() {
+		Prescription[] array = new Prescription[this.length()];
+		Node runner = head;
+		for (int i = 0; runner != null; i ++, runner = runner.link) {
+			array[i] = runner.info;
+		}
+		return array;
+	}
+	
+	public void delete(Prescription prescription) {
+		Prescription[] array = this.toArray();
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == prescription) {
+				array[i] = null;
+			}
+		}
+		head = null;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] != null) {
+			this.insert(array[i]);
+			}
+		}
+	}
+	
+	public void delete(int index) {
+		Node runner = head;
+		if (index == 0 && head.link != null) {
+			head = head.link;
+		}
+		else if (index == 0 && head.link == null) {
+			head = null;
+		}
+		for (int i = 0; i < index-1; i ++, runner = runner.link) {
+		}
+		runner.link = runner.link.link;
+	}
 
 	public String[] returnInfo() {
 		String[] all = new String[this.length()];

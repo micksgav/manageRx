@@ -26,6 +26,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 	// private OrderUI order = new OrderUI();
 
 	Patient patient; // patient whose prescriptions are being viewed
+	PatientList patients;
 
 	// panels
 	private JPanel buttonPanel; // header panel containing logo and buttons
@@ -33,6 +34,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 	private JPanel[] insurancePanels; // panels containing individual insurance info
 	private JPanel[] editArchive; // panel containing options to edit or archive prescription
 	private JPanel mainWithTopBar; // panel containing mainPanel and patient name, title, and add prescription button
+	private JPanel headerButtons;
 
 	// header buttons
 	private JButton btnOpenStock; // open stock page
@@ -44,11 +46,15 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 	private JButton[] editInsurance; // edit a prescription
 	private JButton[] deleteInsurance; // archive a prescription
 	private JButton createNewInsurance; // create new insurance
+	private JButton backButton;
 
 	// text elements
 	private JLabel patientName; // patient name
 	private JTextArea[] insuranceInfo; // prescription information
 	private JLabel insuranceTitle = new JLabel("Insurance Information"); // title label
+	String[] insuranceCompany;
+	String[] insuranceNumber;
+	String[] insuranceNotes;
 
 	// icons
 	public AppIcon stockIcon = new AppIcon("icons/box.png");// icon for stock
@@ -56,7 +62,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 	public AppIcon settingsIcon = new AppIcon("icons/gear.png");// icon for settings
 	public AppIcon patientsIcon = new AppIcon("icons/person.png");// icon for patients
 
-	public ViewInsuranceUI(String title, Patient patient) {
+	public ViewInsuranceUI(String title, Patient patient, PatientList patients) {
 		FlatLightLaf.setup(); // custom look and feel
 		setTitle(title);
 		
@@ -70,13 +76,16 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 		
 		// instantiate variables
 		this.patient = patient;
-		String[] insuranceCompany = new String[patient.getInsuranceInformation().size()];
-		String[] insuranceNumber = new String[patient.getInsuranceInformation().size()];
+		this.patients = patients;
+		insuranceCompany = new String[patient.getInsuranceInformation().size()];
+		insuranceNumber = new String[patient.getInsuranceInformation().size()];
+		insuranceNotes = new String[patient.getInsuranceInformation().size()];
 		insurancePanels = new JPanel[patient.getInsuranceInformation().size()];
 		
 		for (int i = 0; i < insuranceCompany.length; i++) {
 			insuranceCompany[i] = "Company: " + patient.getInsuranceInformation().get(i).getCompany();
 			insuranceNumber[i] = "Insurance Number: " + String.valueOf(patient.getInsuranceInformation().get(i).getNumber());
+			insuranceNotes[i] = "Notes: " + patient.getInsuranceInformation().get(i).getNotes();
 		}
 
 		// setup all buttons for the header
@@ -85,7 +94,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 		settingsIcon = settingsIcon.setScale(0.12);
 		patientsIcon = patientsIcon.setScale(0.12);
 
-		this.buttonPanel = new JPanel(new FlowLayout());
+		this.buttonPanel = new JPanel(new GridBagLayout());
 		this.buttonPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
 		JLabel label = new JLabel("ManageRx");
@@ -96,25 +105,52 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 		btnOpenStock.setIcon(stockIcon);
 		btnOpenStock.setActionCommand("openStock");
 		btnOpenStock.addActionListener(this);
-		this.buttonPanel.add(btnOpenStock, BorderLayout.CENTER);
 
 		btnOpenOrder = new JButton("Order");
 		btnOpenOrder.setIcon(orderIcon);
 		btnOpenOrder.setActionCommand("openOrder");
 		btnOpenOrder.addActionListener(this);
-		this.buttonPanel.add(btnOpenOrder, BorderLayout.CENTER);
 
 		btnOpenSettings = new JButton("Settings");
 		btnOpenSettings.setIcon(settingsIcon);
 		btnOpenSettings.setActionCommand("openSettings");
 		btnOpenSettings.addActionListener(this);
-		this.buttonPanel.add(btnOpenSettings, BorderLayout.CENTER);
 
 		btnOpenPatientManager = new JButton("Patients");
 		btnOpenPatientManager.setIcon(patientsIcon);
 		btnOpenPatientManager.setActionCommand("openPatientManager");
 		btnOpenPatientManager.addActionListener(this);
-		this.buttonPanel.add(btnOpenPatientManager, BorderLayout.CENTER);
+		
+		backButton = new JButton("Back");
+		backButton.addActionListener(this);
+
+		GridBagConstraints backConstraints = new GridBagConstraints();
+
+		backConstraints.gridx = 0;
+		backConstraints.gridy = 0;
+		backConstraints.gridwidth = 1;
+		backConstraints.anchor = GridBagConstraints.WEST;
+		backConstraints.ipadx = (int) (screenDims.width * 0.02);
+		backConstraints.weightx = 0.45;
+		backConstraints.insets = new Insets(0, (int) (screenDims.width * 0.01), 0, 0);
+		this.buttonPanel.add(backButton, backConstraints);
+		
+		headerButtons = new JPanel(new FlowLayout());
+		
+		headerButtons.add(label);
+		headerButtons.add(btnOpenStock);
+		headerButtons.add(btnOpenOrder);
+		headerButtons.add(btnOpenSettings);
+		headerButtons.add(btnOpenPatientManager);
+		
+		GridBagConstraints overallButtonConstraints = new GridBagConstraints();
+		
+		overallButtonConstraints.gridx = 2;
+		overallButtonConstraints.gridy = 0;
+		overallButtonConstraints.gridwidth = 1;
+		overallButtonConstraints.weightx = 0.55;
+		overallButtonConstraints.anchor = GridBagConstraints.WEST;
+		this.buttonPanel.add(headerButtons, overallButtonConstraints);
 
 		add(this.buttonPanel, BorderLayout.NORTH);
 
@@ -135,10 +171,10 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 
 		// add patient name to screen
 		GridBagConstraints nameConstraints = new GridBagConstraints();
-
+		
 		nameConstraints.fill = GridBagConstraints.BOTH;
 		nameConstraints.gridx = 0;
-		nameConstraints.gridy = 0;
+		nameConstraints.gridy = 1;
 		nameConstraints.gridwidth = 2;
 		nameConstraints.anchor = GridBagConstraints.NORTH;
 		patientName = new JLabel(patient.getName());
@@ -151,7 +187,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 
 		titleConstraints.fill = GridBagConstraints.BOTH;
 		titleConstraints.gridx = 0;
-		titleConstraints.gridy = 0;
+		titleConstraints.gridy = 1;
 		titleConstraints.gridwidth = 1;
 		titleConstraints.anchor = GridBagConstraints.SOUTH;
 		titleConstraints.weightx = 0.01;
@@ -164,10 +200,11 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 
 		createConstraints.fill = GridBagConstraints.BOTH;
 		createConstraints.gridx = 1;
-		createConstraints.gridy = 0;
+		createConstraints.gridy = 1;
 		createConstraints.gridwidth = 1;
 		createConstraints.anchor = GridBagConstraints.SOUTHEAST;
 		createNewInsurance = new JButton("Add New");
+		createNewInsurance.addActionListener(this);
 		createNewInsurance.setFont(genFont);
 		createNewInsurance.setHorizontalAlignment(JButton.RIGHT);
 		createNewInsurance.setBorder(textBoxBorder);
@@ -185,8 +222,12 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 		deleteInsurance = new JButton[insuranceCompany.length];
 
 		for (int i = 0; i < insuranceCompany.length; i++) {
-			editInsurance[i] = new JButton("Archive");
+			editInsurance[i] = new JButton("Edit");
+			editInsurance[i].addActionListener(this);
+			editInsurance[i].setActionCommand("edit" + i);
 			deleteInsurance[i] = new JButton("Delete");
+			deleteInsurance[i].addActionListener(this);
+			deleteInsurance[i].setActionCommand("delete" + i);
 			editInsurance[i].setFont(genFont);
 			deleteInsurance[i].setFont(genFont);
 			editInsurance[i].setBorder(textBoxBorder);
@@ -195,7 +236,7 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 			editArchive[i] = new JPanel(new GridLayout(1, 2, (int) (screenDims.width * 0.005), 0));
 			editArchive[i].add(editInsurance[i]);
 			editArchive[i].add(deleteInsurance[i]);
-			insuranceInfo[i].setText(insuranceCompany[i] + "\n" + insuranceNumber[i]);
+			insuranceInfo[i].setText(insuranceCompany[i] + "\n" + insuranceNumber[i] + "\n" + insuranceNotes[i]);
 			insurancePanels[i].setBorder(simpleLine);
 			insuranceInfo[i].setEditable(false);
 			insurancePanels[i].add(insuranceInfo[i]);
@@ -220,15 +261,15 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 		
 		JScrollPane mainScroll = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		mainScroll.setMinimumSize(new Dimension((int) (screenDims.width * 0.75), (int) (screenDims.height * 0.75)));
 
 		GridBagConstraints insuranceConstraints = new GridBagConstraints();
 
 		insuranceConstraints.fill = GridBagConstraints.BOTH;
 		insuranceConstraints.gridx = 0;
-		insuranceConstraints.gridy = 1;
+		insuranceConstraints.gridy = 2;
 		insuranceConstraints.gridwidth = 2;
 		insuranceConstraints.anchor = GridBagConstraints.NORTH;
+		insuranceConstraints.ipady = (int) (screenDims.height * 0.7);
 		mainWithTopBar.add(mainScroll, insuranceConstraints);
 
 		add(mainWithTopBar);
@@ -236,7 +277,69 @@ public class ViewInsuranceUI extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getActionCommand().equals("openStock")) {
+			System.out.println("Stock");
+		}
+		if (e.getActionCommand().equals("openOrder")) {
+			System.out.println("Order");
+		}
+		if (e.getActionCommand().equals("openSettings")) {
+			System.out.println("Settings");
+		}
+		if (e.getActionCommand().equals("openPatientManager")) {
+			SearchAddUI openSearchAdd = new SearchAddUI("ManageRx", patient, patients);
+			openSearchAdd.setVisible(true);
+			setVisible(false);
+		}
+		if (e.getActionCommand().equals("Back")) {
+			EditPatientInfoUI openEdit = new EditPatientInfoUI("ManageRx", patient, patients);
+			openEdit.setVisible(true);
+			setVisible(false);
+		}
+		if (e.getActionCommand().equals("Add New")) {
+			AddNewInsuranceUI openAddNew = new AddNewInsuranceUI("ManageRx", patient, patients);
+			openAddNew.setVisible(true);
+			setVisible(false);
+		}
+		for (int i  = 0; i < insurancePanels.length; i ++) {
+			if (e.getActionCommand().equals("edit" + i)) {
+				insuranceInfo[i].setEditable(true);
+				editInsurance[i].setText("Cancel");
+				editInsurance[i].setActionCommand("cancel" + i);
+				deleteInsurance[i].setText("Save");
+				deleteInsurance[i].setActionCommand("save" + i);
+				// TODO: add cancel and save buttons when this is pressed, as well as updating insurance info
+			}
+			if (e.getActionCommand().equals("delete" + i)) {
+				patient.removeInsurance(i);
+				insurancePanels[i].setVisible(false);
+			}
+			if (deleteInsurance[i].getText().equals("Save")) {
+				if (e.getActionCommand().equals("save" + i)) {
+					String insuranceInfoString = insuranceInfo[i].getText().replaceAll("Company: ", "").replaceAll("Insurance Number: ", "").replaceAll("Notes: ", "").trim();
+					String[] info = insuranceInfoString.split("\n");
+					patient.getInsuranceInformation().get(i).setCompany(info[0]);
+					patient.getInsuranceInformation().get(i).setNumber(Integer.parseInt(info[1]));
+					
+					String notes = "";
+					for (int j = 2; j < info.length; j++) {
+						notes += info[j] + " ";
+					}
+					patient.getInsuranceInformation().get(i).setNotes(notes.trim());
+
+					editInsurance[i].setText("Edit");
+					editInsurance[i].setActionCommand("edit" + i);
+					deleteInsurance[i].setText("Delete");
+					deleteInsurance[i].setActionCommand("archive" + i);
+				}
+				if (e.getActionCommand().equals("cancel" + i)) {
+					editInsurance[i].setText("Edit");
+					editInsurance[i].setActionCommand("edit" + i);
+					deleteInsurance[i].setText("Delete");
+					deleteInsurance[i].setActionCommand("archive" + i);
+				}
+		}
 
 	}
+}
 }
