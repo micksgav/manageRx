@@ -81,25 +81,31 @@ public class PatientList {
 	}
 
 	// find a patient in the list by name and birthday
-	public int findPatientByBirthday(String name, String birthMonth, int birthDay, int birthYear) {
+	public int[] findPatientByBirthday(String name, int birthMonth, int birthDay, int birthYear) {
 		Node runner = head;
 		int i = 0;
+		int[] indexes = new int[this.numRecs()];
+		for (int j = 0; j < indexes.length; j++) {
+			indexes[j] = -1;
+		}
+		int j = 0;
 		for (runner = head; runner != null; runner = runner.link, i++) {
 			if (runner.info.getName().equals(name) && runner.info.getBirthYear() == birthYear
 					&& runner.info.getDateOfBirthDay() == birthDay
-					&& runner.info.getDateOfBirthMonth().toLowerCase().equals(birthMonth.toLowerCase())) {
-				return i;
+					&& runner.info.getDateOfBirthMonth() == birthMonth) {
+				indexes[j] = i;
+				j++;
 			}
 		}
-		return -1;
+		return indexes;
 	}
 
 	// find a patient in the list by name and phone number
-	public int findPatientByPhoneNumber(String name, int phoneNumber) {
+	public int findPatientByPhoneNumber(String name, String phoneNumber) {
 		Node runner = head;
 		int i = 0;
 		for (runner = head; runner != null; runner = runner.link, i++) {
-			if (runner.info.getName().equals(name) && runner.info.getPhoneNumber() == phoneNumber) {
+			if (runner.info.getName().equals(name) && runner.info.getPhoneNumber().equals(phoneNumber)) {
 				return i;
 			}
 		}
@@ -137,9 +143,14 @@ public class PatientList {
 	 */
 	public Patient returnData(int position) {
 		Node runner = head;
+		if (position >= 0) {
 		for (int i = 0; i < position; i++, runner = runner.link) {
 		} // end for
 		return runner.info;
+		}
+		else {
+			return null;
+		}
 	} // end returnData
 
 	/*
@@ -223,7 +234,7 @@ public class PatientList {
 	 * @Return Value: none Data Type: void Dependencies: none Throws/Exceptions:
 	 * none
 	 */
-	public void delete(String deleteItem, int deleteNum) {
+	public void delete(String deleteItem, String deleteNum) {
 
 		if (head == null) {
 			// The list is empty, so it certainly doesn't contain deleteString.
@@ -251,7 +262,7 @@ public class PatientList {
 				runner = runner.link;
 			} // end while
 			if (runner != null && runner.info.getName().equals(deleteItem)
-					&& runner.info.getPhoneNumber() == deleteNum) {
+					&& runner.info.getPhoneNumber().equals(deleteNum)) {
 				// Runner points to the node that is to be deleted.
 				// Remove it by changing the pointer in the previous node.
 				previous.link = runner.link;
