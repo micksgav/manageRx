@@ -1,6 +1,7 @@
-package utilities;
+package apiInteracting;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class getInteractions {
         String ATC = DINtoATC(DIN);
         try {
             BufferedReader br = new BufferedReader(new FileReader("data\\drugs\\interactions\\" + ATC + ".txt"));
-            ArrayList<String[]> interactions = new ArrayList<>();
+            ArrayList<String[]> interactions = new ArrayList<String[]>();
 
             String line;
             while ((line = br.readLine())!= null) {
@@ -50,16 +51,14 @@ public class getInteractions {
         String[][] allInteractions = listInteractions(DIN1);
         String[][] allInteractions2 = listInteractions(DIN2);
 
-        assert allInteractions != null;
-        for (String[] allInteraction : allInteractions) {
-            if (allInteraction[0].compareTo(checkATC) == 0) {
-                return allInteraction;
+        for (int i = 0; i < allInteractions.length; i++) {
+            if (allInteractions[i][0].compareTo(checkATC) == 0) {
+                return allInteractions[i];
             }
         }
-        assert allInteractions2 != null;
-        for (String[] strings : allInteractions2) {
-            if (strings[0].compareTo(checkATC2) == 0) {
-                return strings;
+        for (int i = 0; i < allInteractions2.length; i++) {
+            if (allInteractions2[i][0].compareTo(checkATC2) == 0) {
+                return allInteractions2[i];
             }
         }
         return null;
@@ -72,16 +71,15 @@ public class getInteractions {
 
     public static String[][] arraySearch(String[] DINS) throws IOException {
         boolean add = true;
-        ArrayList<String[]> interactions = new ArrayList<>();
+        ArrayList<String[]> interactions = new ArrayList<String[]>();
         for (int i = 0; i < DINS.length; i++) {
             for (int j = 0; j < DINS.length; j++) {
                 if (j != i){
                     String[] result = search(DINS[i], DINS[j]);
                     if (result!= null){
-                        for (String[] interaction : interactions) {
-                            if (result[2].equals(interaction[2])) {
+                        for (int l = 0; l < interactions.size(); l++) {
+                            if (result[2].equals(interactions.get(l)[2])) {
                                 add = false;
-                                break;
                             }
                         }
                         if (add) interactions.add(result);

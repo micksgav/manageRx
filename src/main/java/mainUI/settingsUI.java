@@ -1,8 +1,5 @@
 package mainUI;
 
-import swingHelper.*;
-import javax.swing.*;
-
 public class settingsUI {
     private JButton lightMode = new JButton();
     private JButton darkMode = new JButton();
@@ -17,7 +14,7 @@ public class settingsUI {
         // Method body goes here
     }
 
-    public void loginToNew(loginUI loginUI) {
+    public void loginToNew(LoginUI loginUI) {
         // Method body goes here
     }
 
