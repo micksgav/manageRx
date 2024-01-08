@@ -1,5 +1,9 @@
 package patientUI;
 
+import java.util.*;
+
+import PatientManagement.*;
+
 public class CreateNewPatientUI {
     private String name = "";
     private int age = 0;
@@ -17,9 +21,9 @@ public class CreateNewPatientUI {
     private FamilyDoctor familyDoctor = new FamilyDoctor();
     private LinkedList<Insurance> insuranceInformation = new LinkedList<>();
     private int numInsurancePlans = 0;
-    private Patient patient = new Patient();
+    //private Patient patient = new Patient();
 
-    private Patient addPatient(String name, int age, String address, String dateOfBirth, LinkedList<Prescription> activePrescriptions, LinkedList<Prescription> pastPrescriptions, int phoneNumber, String email, LinkedList<Integer> cardNum, LinkedList<Integer> cardExp, LinkedList<String> allergiesAndDietary, LinkedList<String> medicalConditions, LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor, LinkedList<Insurance> insuranceInformation, int numInsurancePlans) {
-        //fill here
-    }
+//    private Patient addPatient(String name, int age, String address, String dateOfBirth, LinkedList<Prescription> activePrescriptions, LinkedList<Prescription> pastPrescriptions, int phoneNumber, String email, LinkedList<Integer> cardNum, LinkedList<Integer> cardExp, LinkedList<String> allergiesAndDietary, LinkedList<String> medicalConditions, LinkedList<String> lifestyleHabits, FamilyDoctor familyDoctor, LinkedList<Insurance> insuranceInformation, int numInsurancePlans) {
+//        //fill here
+//    }
 }

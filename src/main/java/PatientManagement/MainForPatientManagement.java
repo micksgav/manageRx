@@ -61,13 +61,12 @@ public class MainForPatientManagement {
 	}
 
 	// search for a patient in the list by name and birthday
-	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthMonth, int birthDay, int birthYear) {
-		LocalDateTime date = LocalDateTime.now();
-		if (name != null && birthMonth != null && birthDay > 0 && birthYear > 0 && birthYear < date.getYear()) {
-			int index = patients.findPatientByBirthday(name, birthMonth, birthDay, birthYear);
-			return index;
-		}
-		return -1;
+
+	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthMonth, int birthDay,
+			int birthYear) {
+		int index = patients.findPatientByBirthday(name, birthMonth, birthDay, birthYear);
+		return index;
+
 	}
 
 	// create a list of medical conditions manually before creating a new patient
@@ -623,9 +622,89 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
-	
-	
+  
+	// print a report of the patient's information to the screen
+	public static void printPatientReport(Scanner scan, PatientList patients) {
+		System.out.println("Enter the name of the patient");
+		String name = scan.nextLine();
+		System.out.println("Enter the birth month of the patient");
+		String birthMonth = scan.nextLine();
+		System.out.println("Enter the birth day of the patient (int day of month)");
+		int birthDay = Integer.parseInt(scan.nextLine());
+		System.out.println("Enter the birth year of the patient");
+		int birthYear = Integer.parseInt(scan.nextLine());
+		int index = searchPatientByNameAndBirthday(name, patients, birthMonth, birthDay, birthYear);
+		if (index >= 0) {
+			System.out.println("General Information\nPatient full name: " + patients.returnData(index).getName()
+					+ "\nPatient date of birth: " + patients.returnData(index).getDateOfBirthMonth() + " "
+					+ patients.returnData(index).getDateOfBirthDay() + ", " + patients.returnData(index).getBirthYear()
+					+ "\nPatient age: " + patients.returnData(index).getAge() + "\nPatient phone number: "
+					+ patients.returnData(index).getPhoneNumber() + "\nPatient email: "
+					+ patients.returnData(index).getEmail() + "\nPatient family doctor: "
+					+ patients.returnData(index).getFamilyDoctorName() + "\nPatient family doctor phone number: "
+					+ patients.returnData(index).getFamilyDoctorNumber() + "\nPatient family doctor address: "
+					+ patients.returnData(index).getFamilyDoctorAddress());
+			
+			String[] prescriptionList = patients.returnData(index).getActivePrescriptions().returnInfo();
+			if (prescriptionList.length > 0) {
+			System.out.println("\nActive Prescriptions\n");
+			for (int i = 0; i < prescriptionList.length; i++){
+				System.out.println(prescriptionList[i]);
+			}
+			}
+			else {
+				System.out.println("No active prescriptions");
+			}
+			
+			String[] pastPrescriptions = patients.returnData(index).getArchivedPrescriptions().returnInfo();
+			if (pastPrescriptions.length > 0) {
+			System.out.println("\nPast Prescriptions\n");
+			for (int i = 0; i < pastPrescriptions.length; i++) {
+				System.out.println(pastPrescriptions[i]);
+			}
+			}
+			else {
+				System.out.println("No past prescriptions");
+			}
+			
+			System.out.println("\nCredit Cards on file\n");
+			
+			for (int j = 0; j < patients.returnData(index).getCreditNum().size(); j++) {
+				System.out.println("Card number: " + patients.returnData(index).getCreditNum().get(j) + "\tExpiry date: " + patients.returnData(index).getCardExpDate().get(j));
+			}
+			
+			System.out.println("\nAllergies and dietary restrictions\n");
+			
+			for (int j = 0; j < patients.returnData(index).getAllergiesAndDietary().size(); j++) {
+				System.out.println(patients.returnData(index).getAllergiesAndDietary().get(j));
+			}
+			
+			System.out.println("\nMedical Conditions\n");
+			
+			for (int j = 0; j < patients.returnData(index).getMedicalConditions().size(); j++) {
+				System.out.println(patients.returnData(index).getMedicalConditions().get(j));
+			}
+			
+			System.out.println("\nLifestyle Habits\n");
+			
+			for (int j = 0; j < patients.returnData(index).getLifestyleHabits().size(); j++) {
+				System.out.println(patients.returnData(index).getLifestyleHabits().get(j));
+			}
+			
+			System.out.println("\nInsurance Information\n");
+			
+			for (int j = 0; j < patients.returnData(index).getInsuranceInformation().size(); j++) {
+				System.out.println("Company: " + patients.returnData(index).getInsuranceInformation().get(j).getCompany() + "\tInsurance number: " + patients.returnData(index).getInsuranceInformation().get(j).getNumber());
+			}
+			
+			
+			
+			
+		} else {
+			System.out.println("Unable to find patient");
+		}
+	}
+
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
