@@ -10,12 +10,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class drugFinder {
+    static final String sep = System.getProperty("file.separator");
 
     //call this method to get the drug information
     //Drug drugName = drugFinder.getDrug(*put DIN here*);
 
     public static Drug getDrug(String DIN) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("data" + sep + "drugs" + sep + "drugData.txt"));
 
         String line;
         String line2;

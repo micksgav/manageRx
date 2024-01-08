@@ -5,13 +5,14 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class findAlternatives {
+    static final String sep = System.getProperty("file.separator");
     //example usage:
 //    String[] test = findAlternative("02513889");
 //    for (int i = 0; i < test.length; i++) System.out.println(test[i]);
     public static String[] findAlternative(String inDIN) {
        try {
            ArrayList<String> alts = new ArrayList<>();
-           BufferedReader br = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
+           BufferedReader br = new BufferedReader(new FileReader("data" + sep + "drugs" + sep + "drugData.txt"));
 
            String line;
            String line2;
@@ -22,7 +23,7 @@ public class findAlternatives {
                    line2 = br.readLine();
                    code = line2.substring(0, line2.indexOf(" "));
                    br.close();
-                   br = new BufferedReader(new FileReader("data\\drugs\\drugData.txt"));
+                   br = new BufferedReader(new FileReader("data" + sep + "drugs" + sep + "drugData.txt"));
                    while ((line = br.readLine()) != null) {
                        line2 = br.readLine();
                        if (line2.substring(0, line2.indexOf(" ")).equals(code)) {
@@ -37,8 +38,7 @@ public class findAlternatives {
            return toReturn;
 
        } catch (Exception e) {
-           //add log logic
-           System.out.println(e.getMessage());
+           logErrors.log(e.getMessage() + " in findAlternative in findAlternatives for DIN " + inDIN);
            return null;
        }
     }
