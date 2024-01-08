@@ -6,6 +6,9 @@ out/
 !**/.idea/
 /target/
 /.idea/
+/pom.xml
+/manageRx.iml
+
 
 ### Eclipse ###
 .apt_generated
