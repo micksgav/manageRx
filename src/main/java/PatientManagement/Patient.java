@@ -11,7 +11,8 @@
 package PatientManagement;
 
 import inventory.*;
-import apiInteracting.*;
+import utilities.getInteractions;
+
 import java.util.*;
 
 public class Patient {
@@ -64,7 +65,7 @@ public class Patient {
 		this.insuranceInformation = insuranceInformation;
 		this.healthCardNum = healthCardNum;
 	}
-
+	
 	public Patient() {
 		familyDoctor = new FamilyDoctor();
 	}
@@ -85,7 +86,6 @@ public class Patient {
 		this.healthCardNum = healthCardNum;
 	}
 	
-
 	public void printPatientInfo() {
 		System.out.println(name + "\n" + age + "\n" + creditNum.toString().replace("[", "").replace("]", "") + "\n" + address + "\n" + activePrescriptions.atIndex(0).getBrandName());
 	}
@@ -181,8 +181,8 @@ public class Patient {
 		activePrescriptions.delete(prescription);
 	}
 
-	public PrescriptionList getAllPrescriptions() {
-		return activePrescriptions;
+	public PrescriptionList getArchivedPrescriptions() {
+		return pastPrescriptions;
 	}
 
 	public String getPhoneNumber() {
@@ -246,6 +246,10 @@ public class Patient {
 	public void removeMedicalCondition(String medicalCondition) {
 		medicalConditions.remove(medicalCondition);
 	}
+	
+	public LinkedList<String> getMedicalConditions() {
+		return medicalConditions;
+	}
 
 	public void addLifestyleHabit(String lifestyleHabit) {
 		lifestyleHabits.add(lifestyleHabit);
@@ -253,6 +257,10 @@ public class Patient {
 
 	public void removeLifestyleHabit(String lifestyleHabit) {
 		lifestyleHabits.remove(lifestyleHabit);
+	}
+	
+	public LinkedList<String> getLifestyleHabits(){
+		return lifestyleHabits;
 	}
 
 	public String getFamilyDoctorName() {
@@ -263,13 +271,11 @@ public class Patient {
 		familyDoctor.setName(docName);
 	}
 
-
 	public String getFamilyDoctorNumber() {
 		return familyDoctor.getPhoneNumber();
 	}
 
 	public void setFamilyDoctorNumber(String number) {
-
 		familyDoctor.setPhoneNumber(number);
 	}
 
@@ -301,7 +307,6 @@ public class Patient {
 	public void newPrescriptionList() {
 		activePrescriptions = new PrescriptionList();
 		pastPrescriptions = new PrescriptionList();
-
 	}
 
 }

@@ -3,15 +3,12 @@
  @Name: DrugStockLinkedList
  @Author           : Christina Wong
  @Creation Date    : December 13, 2023
- @Modified Date	   : December 27, 2023
+ @Modified Date	   : December 23, 2023
    @Description    : 
    
 ***********************************************
 */
 package inventory;
-
-// there are extra print statements for testing that can probably be deleted later
-
 public class DrugStockLinkedList {
 
 	private static class Node {
@@ -19,21 +16,21 @@ public class DrugStockLinkedList {
 		Node next;
 	} // end Node
 	
-	private Node head; // pointer to first node
+	private Node head;
 
 	/** Method Name: find
 	* @Author Kyle McKay
 	* @Date Unknown
 	* @Modified December 15, 2023
-	* @Description This checks if a drug already exists in the inventory.
+	* @Description This .
 	* @Parameters  DrugStock searchDrug, the item that is being searched for
 	* @Returns boolean true if found, false if not found
-	* Dependencies: DrugStock
+	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
 	public boolean find(DrugStock searchDrug) {
-		Node runner; // pointer to traverse list
-		runner = head;
+		Node runner; // A pointer for traversing the list.
+		runner = head; // Start by looking at the head of the list.
 
 		while (runner != null) {
 			if (runner.drugStock.equals(searchDrug))
@@ -49,10 +46,10 @@ public class DrugStockLinkedList {
 	* @Author Christina Wong 
 	* @Date December 15, 2023
 	* @Modified December 15, 2023
-	* @Description This searches the inventory by drug DIN.
+	* @Description This .
 	* @Parameters  String searchDIN, the DIN of the drug to search for 
 	* @Returns boolean true if found, false if not found
-	* Dependencies: DrugStock
+	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
 	public boolean checkStockDIN(String searchDIN) {
@@ -74,10 +71,10 @@ public class DrugStockLinkedList {
 	* @Author Christina Wong 
 	* @Date December 15, 2023
 	* @Modified December 16, 2023
-	* @Description This searches the inventory by drug name.
+	* @Description This .
 	* @Parameters  String searchName, the brand or generic name of the drug to search for 
 	* @Returns boolean true if found, false if not found
-	* Dependencies: DrugStock
+	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
 	public String checkStockName(String searchName) {
@@ -94,14 +91,16 @@ public class DrugStockLinkedList {
 		return "";
 	} // end checkStockName
 	
+	// will have to rewrite print statements to be displayed on UI
+	// how will notification be set up for threshold reached?  email, pop-up box?
 	/** Method Name: printDrugInfo
 	* @Author Christina Wong 
 	* @Date December 16, 2023
 	* @Modified December 16, 2023
-	* @Description This prints the information of a specific drug.
+	* @Description This .
 	* @Parameters  String DINString, DIN of drug being printed
 	* @Returns void
-	* Dependencies: DrugStock
+	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
 	public void printDrugInfo(String DINString) {
@@ -126,17 +125,17 @@ public class DrugStockLinkedList {
 	/** Method Name: insert
 	* @Author Kyle McKay
 	* @Date Unknown
-	* @Modified December 18, 2023
-	* @Description This adds a new drug to the stock, in sequential order based on DIN.
+	* @Modified December 16, 2023
+	* @Description This .
 	* @Parameters  DrugStock insertDrugStock, drug added to linked list
 	* @Returns void
-	* Dependencies: DrugStock
+	* Dependencies: N/A
 	* Throws/Exceptions: N/A
     */
 	public void insert(DrugStock insertDrugStock) {
-		Node newNode; // a node to contain the new item.
+		Node newNode; // A Node to contain the new item.
 		newNode = new Node();
-		newNode.drugStock = insertDrugStock;
+		newNode.drugStock = insertDrugStock; // (N.B. newNode.next is null.)
 
 		if (head == null) {
 			head = newNode;
@@ -162,42 +161,10 @@ public class DrugStockLinkedList {
 		} // end else
 		
 		System.out.println("new node inserted");
-		printDINs(); // mainly for testing purposes - may not need to keep in code?
+		printDINs();
 
 	} // end insert()
 	
-	/** Method Name: fillPrescription
-	* @Author Christina Wong 
-	* @Date December 26, 2023
-	* @Modified December 27, 2023
-	* @Description This adjusts stock amounts when a prescription is filled.
-	* @Parameters  String DIN, DIN of drug for prescription being filled; int amount, quantity of drug prescribed
-	* @Returns void
-	* Dependencies: DrugStock
-	* Throws/Exceptions: N/A
-    */
-	public void fillPrescription(String DIN, int amount) {
-		Node runner;
-		runner = head;
-		while(runner != null) {
-			if(runner.drugStock.getDrugDIN().equals(DIN)) {
-				runner.drugStock.removeFromStock(amount);
-				break;
-			} // end if
-			runner = runner.next;
-		} // end while
-	} // end fillPrescription
-	
-	/** Method Name: newShipment
-	* @Author Christina Wong 
-	* @Date December 22, 2023
-	* @Modified December 24, 2023
-	* @Description This adjusts stock amounts when a new shipment arrives.
-	* @Parameters  String arrivalDIN, DIN of drug that arrived; int newStock, amount of stock that arrives
-	* @Returns void
-	* Dependencies: DrugStock
-	* Throws/Exceptions: N/A
-    */
 	public void newShipment(String arrivalDIN, int newStock) {
 		// if inventory already has some of the drug in stock
 		System.out.println("adding new shipment");
@@ -213,16 +180,6 @@ public class DrugStockLinkedList {
 		} // end while
 	} // end newShipment
 	
-	/** Method Name: printDINs
-	* @Author Christina Wong 
-	* @Date December 18, 2023
-	* @Modified December 19, 2023
-	* @Description This prints the DINs of all drugs currently in stock.
-	* @Parameters  N/A
-	* @Returns void
-	* Dependencies: DrugStock
-	* Throws/Exceptions: N/A
-    */
 	public void printDINs() {
 		Node runner;
 		runner = head;
@@ -232,16 +189,6 @@ public class DrugStockLinkedList {
 		} // end while
 	} // end printDINS
 	
-	/** Method Name: viewStockUsage
-	* @Author Christina Wong 
-	* @Date December 19, 2023
-	* @Modified December 22, 2023
-	* @Description This checks the current inventory for a drug and, if found, prints inventory usage information for a specific drug.
-	* @Parameters  String DIN, DIN of drug to view information on
-	* @Returns void
-	* Dependencies: DrugStock
-	* Throws/Exceptions: error message, if DIN is not found
-    */
 	public void viewStockUsage(String DIN) {
 		System.out.println("Viewing stock usage");
 		Node runner;
@@ -256,7 +203,6 @@ public class DrugStockLinkedList {
 			runner = runner.next;
 		} // end while
 		if(found == false) {
-			// keep this statement, could be a DialogueBox or something else in GUI?
 			System.out.println("Drug not found in inventory");
 		} // end if
 	} // end viewStockUsage

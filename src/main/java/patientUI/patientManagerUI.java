@@ -1,5 +1,8 @@
 package patientUI;
 
+import PatientManagement.*;
+import javax.swing.*;
+
 public class patientManagerUI {
     private JButton newPatient;
     private Patient patient;

@@ -3,7 +3,7 @@
  @Name: AllStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 28, 2023
+ @Modified Date	   : December 23, 2023
    @Description    : 
    
 ***********************************************
@@ -54,8 +54,9 @@ public class AllStock {
 	* Throws/Exceptions: N/A
     */
 	public void orderMore(String drug) {
-		// hopefully this works with the OrderUI? i just set this method up but it's not under my tasks in the trello
-		// drugToOrder, containerToorder, dosage, nuofdrug, num of container, order drug or order container 				
+		// hopefully this works with the OrderUI? may need adjustments
+		// drugToOrder, containerToorder, dosage, nuofdrug, num of container, order drug or order container 
+				
 				
 	} // end orderMore
 	
@@ -105,7 +106,7 @@ public class AllStock {
 	* @Author Christina Wong 
 	* @Date December 15, 2023
 	* @Modified December 16, 2023
-	* @Description This searches the inventory for a certain drug, by DIN.
+	* @Description This .
 	* @Parameters String drugDIN, DIN of drug to find
 	* @Returns void
 	* Dependencies: DrugStockLinkedList
@@ -126,7 +127,7 @@ public class AllStock {
 	* @Author Christina Wong 
 	* @Date December 15, 2023
 	* @Modified December 16, 2023
-	* @Description This searches the inventory for a certain drug, by name.
+	* @Description This .
 	* @Parameters String drugName, the name of the drug to find
 	* @Returns void
 	* Dependencies: DrugStockLinkedList
@@ -147,8 +148,8 @@ public class AllStock {
 	* @Author Christina Wong 
 	* @Date December 16, 2023
 	* @Modified December 16, 2023
-	* @Description This prints the inventory information for a specific drug.
-	* @Parameters String printDrug, the DIN of the drug to print info for
+	* @Description This .
+	* @Parameters String printDrug, the name of the drug to print info for
 	* @Returns void
 	* Dependencies: DrugStockLinkedList
 	* Throws/Exceptions: N/A
@@ -163,107 +164,41 @@ public class AllStock {
 	* @Author Christina Wong 
 	* @Date December 16, 2023
 	* @Modified December 16, 2023
-	* @Description This updates a drug's stock information when a shipment arrives.
+	* @Description This .
 	* @Parameters int newStock, the quantity of the shipment; String arrivalDIN, the DIN of the drug arriving; String nameGen, the generic name of the drug; String nameBrand, the brand name of the drug (could be ""); String classDrug, class of the drug; int dosage, dosage of drug
 	* @Returns void
 	* Dependencies: DrugStockLinkedList
-	* Throws/Exceptions: IOException
+	* Throws/Exceptions: N/A
     */
-	public void shipmentArrival(int newStock, String arrivalDIN, String classDrug) throws IOException {
-		updateStock(newStock, arrivalDIN, classDrug);
-
+	public void shipmentArrival(int newStock, String arrivalDIN, String name, String classDrug) throws IOException {
+		updateStock(newStock, arrivalDIN, name, classDrug);
 	} // end shipmentArrival	
-	
-	/** Method Name: isInteger
-	* @Author Christina Wong 
-	* @Date December 29, 2023
-	* @Modified December 29, 2023
-	* @Description This checks if input was an integer.
-	* @Parameters String num, the user's input
-	* @Returns boolean true if num is an integer, false if num is not an integer
-	* Dependencies: Integer
-	* Throws/Exceptions: NumberFormatException
-    */
-	public static boolean isInteger(String num)
-	{
-		if (num == null)
-		{
-			return false;
-		} // end if
-		try
-		{
-			int checkInt = Integer.parseInt(num);
-		} catch (NumberFormatException nfe)
-		{
-			// input was not an integer
-			return false;
-		} // end try catch
-		return true;
-	} //end isInteger method
 	
 	/** Method Name: updateStock
 	* @Author Christina Wong 
 	* @Date December 16, 2023
 	* @Modified December 17, 2023
-	* @Description When a shipment arrives, the current inventory is checked to see if the drug is in stock and either updates the stock information or adds a new stock of drug.
+	* @Description This .
 	* @Parameters int newStock, the quantity of the shipment; String arrivalDIN, the DIN of the drug arriving; String nameGen, the generic name of the drug; String nameBrand, the brand name of the drug (could be ""); String classDrug, class of the drug; int dosage, dosage of drug
 	* @Returns void
-	* Dependencies: DrugStock, Drug, isInteger
+	* Dependencies: DrugStock, Drug
 	* Throws/Exceptions: N/A
     */
-	public void updateStock(int newStock, String arrivalDIN, String classDrug) throws IOException{
+	public void updateStock(int newStock, String arrivalDIN, String name, String classDrug) throws IOException{
 		boolean isStocked = drugsList.checkStockDIN(arrivalDIN);
-		boolean isValid = false;
 		if(isStocked == false) { 		// if this is the inventory's first shipment of the drug
 			// update to interact with setThresholdButton in StockUI
 			System.out.println("Enter threshold:");
-			// will have to be revised to work with swing
-			String newThreshold;
-			while(isValid == false) {
-				newThreshold = setThresholdNum.getText().trim(); // should work with input in the setThresholdNum JTextField
-				// line used for console testing:  int newThreshold = Integer.parseInt(ui.nextLine()); 
-				if(isInteger(newThreshold)) {
-					isValid = true;
-					DrugStock newDrugStock = new DrugStock(arrivalDIN, 0, Integer.parseInt(newThreshold));	
-					drugsList.insert(newDrugStock);
-				} // end if
-				else {
-					// JOptionPane.showMessageDialog(frame, "Threshold must be an integer","ERROR", JOptionPane.WARNING_MESSAGE); // frame is the name of the frame	
-				} // end else
-			} // end while
-
+			int newThreshold = Integer.parseInt(ui.nextLine()); // "" should be the input in the setThresholdNum JTextField
+			DrugStock newDrugStock = new DrugStock(arrivalDIN, 0, newThreshold);	
+			
+			drugsList.insert(newDrugStock);
 		} // end if
 		
 		drugsList.newShipment(arrivalDIN, newStock);
 		
 	} // end updateStock
 	
-	// must be called in Patient in method addActivePrescription
-	// should be called in whichever method in Prescription or Patient is called to fill refills
-	/** Method Name: fillPrescription
-	* @Author Christina Wong 
-	* @Date December 26, 2023
-	* @Modified December 26, 2023
-	* @Description This updates a drug's stock information when a prescription is filled.
-	* @Parameters  String DIN, DIN of drug for prescription being filled; int fillAmount, amount of drug prescribed
-	* @Returns void
-	* Dependencies: DrugStockLinkedList
-	* Throws/Exceptions: N/A
-    */
-	public void fillPrescription(String DIN, int fillAmount) {
-		drugsList.fillPrescription(DIN, fillAmount);
-	} // end fillPrescription
-	
-	/** Method Name: viewUsage
-	* @Author Christina Wong 
-	* @Date December 19, 2023
-	* @Modified December 19, 2023
-	* @Description This prints inventory usage information for a specific drug.
-	* @Parameters  String DIN, DIN of drug to check the inventory for.
-	* @Returns void
-	* Dependencies: DrugStockLinkedList
-	* Throws/Exceptions: N/A
-    */
 	public void viewUsage(String DIN) {
 		drugsList.viewStockUsage(DIN);
 	} // end viewUsage

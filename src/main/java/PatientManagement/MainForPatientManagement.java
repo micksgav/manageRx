@@ -10,7 +10,7 @@
 package PatientManagement;
 
 import inventory.*;
-import apiInteracting.*;
+
 import java.util.*;
 import java.time.*;
 
@@ -19,7 +19,7 @@ public class MainForPatientManagement {
 	public static PrescriptionList addListOfPrescriptions() {
 		PrescriptionList list = new PrescriptionList();
 		String[] random = { "random", "random2" };
-		Drug drug = new Drug("ibuprofen", "Advil", null, 200, random, "01933558");
+		Drug drug = new Drug();
 		Prescription script = new Prescription(drug, random, "December 15, 2023", 3, 25, drug.getDrugDosage(), "lalala",
 				"6 months");
 		list.insert(script);
@@ -61,12 +61,10 @@ public class MainForPatientManagement {
 	}
 
 	// search for a patient in the list by name and birthday
-
 	public static int searchPatientByNameAndBirthday(String name, PatientList patients, String birthMonth, int birthDay,
 			int birthYear) {
 		int index = patients.findPatientByBirthday(name, birthMonth, birthDay, birthYear);
 		return index;
-
 	}
 
 	// create a list of medical conditions manually before creating a new patient
@@ -364,8 +362,6 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
-
 
 	// remove a prescription from a patient's active prescriptions
 	public static void ArchivePrescription(Scanner scan, PatientList patients) {
@@ -388,7 +384,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// add a new credit card to patient file
 	public static void addCreditCard(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -412,7 +408,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// remove a credit card from patient file
 	public static void removeCreditCard(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -427,16 +423,16 @@ public class MainForPatientManagement {
 		long creditNum = 0L;
 		int creditExp = 0;
 		if (index >= 0) {
-		System.out.println("Enter the credit card number of the card you would like to remove");
-		creditNum = Long.parseLong(scan.nextLine());
-		System.out.println("Enter the expiry date");
-		creditExp = Integer.parseInt(scan.nextLine());
-		patients.returnData(index).removeCard(creditNum, creditExp);
+			System.out.println("Enter the credit card number of the card you would like to remove");
+			creditNum = Long.parseLong(scan.nextLine());
+			System.out.println("Enter the expiry date");
+			creditExp = Integer.parseInt(scan.nextLine());
+			patients.returnData(index).removeCard(creditNum, creditExp);
 		} else {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// add a new allergy or dietary restriction
 	public static void addAllergy(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -455,8 +451,9 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
-	// remove an allergy or dietary restriction -- will probably be clicking a button so putting the exact string in isn't important
+
+	// remove an allergy or dietary restriction -- will probably be clicking a
+	// button so putting the exact string in isn't important
 	public static void removeAllergy(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
 		String name = scan.nextLine();
@@ -474,7 +471,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// add a medical condition
 	public static void addCondition(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -493,7 +490,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// remove a medical condition
 	public static void removeCondition(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -512,7 +509,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// add a lifestyle habit
 	public static void addLifestyleHabit(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -531,7 +528,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// remove a lifestyle habit
 	public static void removeLifestyleHabit(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -550,7 +547,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// change family doctor
 	public static void updateFamilyDoctor(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -577,7 +574,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// add new insurance info
 	public static void newInsurance(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -601,7 +598,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-	
+
 	// remove insurance info
 	public static void removeInsurance(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -622,7 +619,7 @@ public class MainForPatientManagement {
 			System.out.println("Unable to find patient");
 		}
 	}
-  
+
 	// print a report of the patient's information to the screen
 	public static void printPatientReport(Scanner scan, PatientList patients) {
 		System.out.println("Enter the name of the patient");
@@ -705,7 +702,6 @@ public class MainForPatientManagement {
 		}
 	}
 
-
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Date date = new Date();
@@ -713,18 +709,12 @@ public class MainForPatientManagement {
 		PatientList patients = new PatientList();
 
 		PrescriptionList addListOfPrescriptions = addListOfPrescriptions();
+		FamilyDoctor doc = new FamilyDoctor("Joe Mama", "123 Address Street", 5191234566L);
 		createPatient("John", 17, "413 ABC Street", "March", 3, 2006, addListOfPrescriptions, addListOfPrescriptions,
-				1234567890, "jbbbb@gmail.com", 1234567890123456L, 1224, null, null, null, null, null, patients);
+				1234567890, "jbbbb@gmail.com", 1234567890123456L, 1224, null, null, null, doc, null, patients);
 		// addListOfPrescriptions.setHead(null);
 		// patients.returnData(0).printPatientInfo();
-
-		int index = searchPatientByNameAndPhoneNumber("John", patients, patients.returnData(0).getPhoneNumber());
-
-		if (index == -1) {
-			System.out.println("Patient not found");
-		} else {
-			patients.returnData(index).printPatientInfo();
-		}
+		printPatientReport(scan, patients);
 
 		scan.close();
 	}

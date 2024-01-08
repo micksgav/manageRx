@@ -108,16 +108,6 @@ public class Drug {
 		DIN = drugDIN;
 	} // end setDIN
 
-	/** Method Name: checkInteractions
-	* @Author Christina Wong
-	* @Date December 18, 2023
-	* @Modified December 22, 2023
-	* @Description This compares the current Drug object with another to check for and print any interactions.
-	* @Parameters  Drug drug2, the second drug to compare to the current drug for drug-drug interactions
-	* @Returns void
-	* Dependencies: Drug, getInteractions
-	* Throws/Exceptions: IOException
-    */
 	public void checkInteractions(Drug drug2) throws IOException {
 		String din2 = drug2.getDIN();
 		String[] interactions = getInteractions.search(this.DIN, din2);

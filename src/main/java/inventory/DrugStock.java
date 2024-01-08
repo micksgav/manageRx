@@ -3,7 +3,7 @@
  @Name: DrugStock
  @Author           : Christina Wong
  @Creation Date    : December 12, 2023
- @Modified Date	   : December 29, 2023
+ @Modified Date	   : December 23, 2023
    @Description    : 
    
 ***********************************************
@@ -16,7 +16,7 @@ public class DrugStock {
 	private Drug drug; // drug
 	private int numInStock; // current stock of drug
 	private int stockThreshold; // when the drug's threshold is reached, alert is sent
-	private String[][] stockChanges = new String[31][3]; // array of the past month (31 days) of stock changes
+	private String[][] stockChanges = new String[31][3];
 	Scanner ui = new Scanner(System.in);
 	
 	public DrugStock(String DIN, int inStock, int threshold) throws IOException {
@@ -71,7 +71,7 @@ public class DrugStock {
 	/** Method Name: removeFromStock
 	* @Author Christina Wong 
 	* @Date December 12, 2023
-	* @Modified December 28, 2023
+	* @Modified December 23, 2023
 	* @Description This subtracts a filled prescription from the total stock of the drug.
 	* @Parameters  int filled, the amount of of this drug removed from the stock to fill a prescription 
 	* @Returns void
@@ -81,27 +81,7 @@ public class DrugStock {
 	public void removeFromStock(int filled) {
 		this.numInStock -= filled;
 		changeInStock("Prescription filled:", filled);
-		checkThreshold();		
 	} // end removeFromStock
-	
-	/** Method Name: checkThreshold
-	* @Author Christina Wong 
-	* @Date December 28, 2023
-	* @Modified December 29, 2023
-	* @Description This subtracts a filled prescription from the total stock of the drug.
-	* @Parameters  N/A
-	* @Returns void
-	* Dependencies: N/A
-	* Throws/Exceptions: N/A
-    */
-	public void checkThreshold() {
-		if(numInStock < stockThreshold) {
-			// JOptionPane.showMessageDialog(frame, "Stock is below threshold.\nCurrent stock: " + this.numInStock + "\nThreshold: " + this.stockThreshold,"Threshold Alert", JOptionPane.ERROR_MESSAGE); // frame is the name of the frame
-		} // end if
-		else if(numInStock == stockThreshold) {
-			// JOptionPane.showMessageDialog(frame, "Stock is at threshold.\nCurrent stock: " + this.numInStock,"Threshold Warning", JOptionPane.WARNING_MESSAGE); // frame is the name of the frame	
-		} // end else if
-	} // end checkThreshold
 	
 	/** Method Name: addToStock
 	* @Author Christina Wong 
@@ -149,8 +129,8 @@ public class DrugStock {
 	* @Author Christina Wong 
 	* @Date December 18, 2023
 	* @Modified December 20, 2023
-	* @Description This adds a stock change to the array containing the past month (31 days) of changes.
-	* @Parameters  String change, the type of stock change (prescription filled or shipment arrival); int amount, the amount of stock added or removed
+	* @Description This .
+	* @Parameters  int added, the amount of this drug added to the current stock
 	* @Returns void
 	* Dependencies: N/A
 	* Throws/Exceptions: N/A
@@ -184,6 +164,7 @@ public class DrugStock {
 			stockChanges[date][0] = changeDate;
 			stockChanges[date][1] = change;
 			stockChanges[date][2] = String.valueOf(amount);
+			
 		} // end else
 	} // end changeInStock
 	
@@ -192,7 +173,7 @@ public class DrugStock {
 	* @Author Christina Wong 
 	* @Date December 18, 2023
 	* @Modified December 20, 2023
-	* @Description This prints the usage of this drug's stock over the past month, including shipment arrivals and prescription dispensing.
+	* @Description This .
 	* @Parameters  N/A
 	* @Returns void
 	* Dependencies: N/A

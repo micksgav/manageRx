@@ -1,7 +1,5 @@
 package PatientManagement;
 
-
-
 /**
  ***********************************************
  * @Author : Kyle McKay, modified by John Brown
@@ -10,7 +8,6 @@ package PatientManagement;
  * @Description: This program is a StringList object with various methods to edit a linked list containing Strings as the payload
  ***********************************************
  */
-
 
 /**
  * An object of type StringList represents a list of strings. Methods are
@@ -106,19 +103,19 @@ public class PrescriptionList {
 		}
 		return null;
 	}
-	
+
 	public Prescription atIndex(int i) {
 		Node runner = head;
 		for (int k = 0; k < i; runner = runner.link, k++) {
-			
+
 		}
 		return runner.info;
 	}
-	
+
 	public int length() {
 		int counter = 0;
 		for (Node runner = head; runner != null; runner = runner.link) {
-			counter ++;
+			counter++;
 		}
 		return counter;
 	}
@@ -317,4 +314,3 @@ public class PrescriptionList {
 	} // end insert()
 
 } // end StringList
-

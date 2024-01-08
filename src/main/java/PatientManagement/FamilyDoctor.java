@@ -13,7 +13,6 @@ package PatientManagement;
 public class FamilyDoctor {
 	private String name; // family doctor name
 	private String address; // family doctor address
-
 	private String phoneNumber; // family doctor phone number
 	
 	public FamilyDoctor(String name, String address, String phoneNumber) {
@@ -25,7 +24,6 @@ public class FamilyDoctor {
 	public FamilyDoctor() {
 		
 	}
-
 
 	public String getName() {
 		return name;
@@ -48,7 +46,6 @@ public class FamilyDoctor {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-
 		this.phoneNumber = phoneNumber;
 	}
 }
