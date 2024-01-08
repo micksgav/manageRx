@@ -1,4 +1,4 @@
-package utilities;
+package inventory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

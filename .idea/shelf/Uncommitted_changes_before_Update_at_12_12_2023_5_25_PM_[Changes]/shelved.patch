@@ -1,0 +1,35 @@
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision 8a94023cb3777a9630bdeb1a5d56f729da7cf6ef)
++++ /dev/null	(revision 8a94023cb3777a9630bdeb1a5d56f729da7cf6ef)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/manageRx.iml" filepath="$PROJECT_DIR$/.idea/manageRx.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: manageRx.iml
+===================================================================
+diff --git a/manageRx.iml b/manageRx.iml
+deleted file mode 100644
+--- a/manageRx.iml	(revision 8a94023cb3777a9630bdeb1a5d56f729da7cf6ef)
++++ /dev/null	(revision 8a94023cb3777a9630bdeb1a5d56f729da7cf6ef)
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
